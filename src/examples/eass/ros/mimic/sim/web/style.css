@@ -1,0 +1,14 @@
+
+canvas{
+    border: 1px solid black;
+}
+
+#simulator{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+button{
+    margin: 1%;
+}

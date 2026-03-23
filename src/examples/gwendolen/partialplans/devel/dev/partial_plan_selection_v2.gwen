@@ -1,0 +1,248 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+
+
+
+plan_annotations(at(l1),[
+                plan_annotation(at(l1),1, [at(l1),before(l1,l3),before(l1,l5),before(l3,l5)]),
+                plan_annotation(at(l1),2, [at(l1), before(l1,l3), before(l1,l5), before(l3,l5)]),
+                plan_annotation(at(l1),3, [at(l1), before(l3,l5)])
+                ])
+                
+plans(at(l1),[ 
+        plan(at(l1),1, [move_to(l1)]),
+        plan(at(l1),2, [move_to(l2), move_to(l1)]),
+        plan(at(l1),3, [move_to(l2), move_to(l3), move_to(l4), move_to(l5), move_to(l1)])
+    ])
+    
+    
+plan_annotations(at(l3),[
+                plan_annotation(at(l3),1, [at(l3), before(l1,l3), before(l1,l5)]),
+                plan_annotation(at(l3),2, [at(l3), before(l1,l3), before(l1,l5), before(l3,l5)])
+                ])
+                
+plans(at(l3),[ 
+        plan(at(l3),1, [move_to(l5), move_to(l4), move_to(l3)]),
+        plan(at(l3),2, [move_to(l2), move_to(l3)])
+    ])
+    
+plan_annotations(at(l5), [
+                plan_annotation(at(l5),1, [at(l5), before(l1,l3),before(l3,l5) ,before(l1,l5) ]),
+                plan_annotation(at(l5),2, [at(l5), before(l1,l3),before(l1,l5),before(l3,l5)])
+    ])
+    
+plans(at(l5),[ 
+        plan(at(l5),1, [move_to(l4), move_to(l5)]),
+        plan(at(l5),2, [move_to(l2), move_to(l1), move_to(l5)])
+    ])
+    
+initial_specification([at(l1),at(l3),at(l5), before(l1,l3), before(l1,l5), before(l3,l5)])
+
+
+:Reasoning Rules:
+
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+get_plans_for_spec(S,[],[]);
+
+get_plans_for_spec(S, [plan_annotation(X,Ind,HP) | TP], [plan_annotation(X,Ind,HP) | Res]) :-
+	ismember(S,HP),
+	get_plans_for_spec(S,TP,Res);  
+	
+get_plans_for_spec(S,[plan_annotation(X,Ind,HP) | TP], Res) :-
+	get_plans_for_spec(S,TP,Res);
+	
+check_plans_for_spec(L,[],L);
+check_plans_for_spec(L,NL,NL);
+
+get_plans_for_spec(S,L,PlanSet) :-
+	get_plans_for_spec(S,L,Res),
+	check_plans_for_spec(L,Res,PlanSet);
+
+
+get_plans_for_speclist([],Plans,Plans);	
+ 
+get_plans_for_speclist([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	check_plans_for_spec(Plans,PlanSet,NewPlanSet),
+	get_plans_for_speclist(T,NewPlanSet,PossiblePlans);
+
+
+get_plan_list_for_speclist([],[],[]);
+
+get_plan_list_for_speclist([Spec|T],Plans,Spec):-
+	plan_annotations(Spec,Plans);
+	
+get_plan_list_for_speclist([Spec | TSpec], Plans, ResSpec):-
+	get_plan_list_for_speclist(TSpec,Plans,ResSpec);	
+
+plan(PlanType,Id,Ind,Plan) :- plans(PlanType,L), ismember(plan(PlanType,Id,Plan),L);
+
+get_firstplan_index_from_planset([plan_annotation(X,Ind,Plan)| T], X,Ind,Plan);
+
+
+can_remove_at(X):- visited(X);
+
+can_remove_before(X1,X2):-  visited(X1) , ~ visited(X2) ;
+
+can_remove(at(X)):-
+	can_remove_at(X);
+	
+can_remove(before(X1,X2)):-
+	can_remove_before(X1,X2);
+
+
+
+get_updated_specification([],[]); 
+
+get_updated_specification([OldSH|OldST], NewS):-
+	satisfied(OldSH),
+	get_updated_specification(OldST,NewS);
+	
+get_updated_specification([OldSH | OldST], [OldSH | NewS]):-
+	get_updated_specification(OldST,NewS);
+	
+plan_executed(PlanType,PlanId,IndInPlan,[]);
+
+is_empty([]);
+
+
+:Initial Goals:
+
+satisfy_spec[achieve]
+
+
+
+:Plans:
+
+
++!satisfy_spec[achieve] : {
+		B initial_specification(S), B get_updated_specification(S,[FS|T]), B is_empty([FS|T])} <- print("All done"), +satisfy_spec;
+		
++!satisfy_spec[achieve] : {
+		B initial_specification(S), B get_updated_specification(S,[FS|T]), ~B is_empty([FS|T])} <- print("Updated Spec"), print(FS),print("Processing spec list"), +!process_spec_list[perform];
+
+
+
++!process_spec_list[perform] : 
+	{B initial_specification([H|T]), B can_remove(H), ~B satisfied(H)} <- 
+		+satisfied(H), print("Satisfied"), print(H),+remaining_spec(T), +!process_spec_list(T)[perform]; 
+	
++!process_spec_list[perform] : 
+	{B initial_specification([H|T]), ~B can_remove(H), ~B satisfied(H)} <- 
+		 print("Not Satisfied"), print(H),+remaining_spec(T), +!process_spec_list(T)[perform]; 
+
++!process_spec_list([]) [perform] : 
+	{B remaining_spec([])} <-
+	 print("Processed all specs"), -remaining_spec([]), +!get_plan[perform];
+
+		 
++!process_spec_list[perform] : 
+	{B initial_specification([H|T]), B can_remove(H), B satisfied(H)} <- 
+		print(H),print("Already satisfied"),+remaining_spec(T), +!process_spec_list(T)[perform]; 
+	
++!process_spec_list[perform] : 
+	{B initial_specification([H|T]), ~B can_remove(H), B satisfied(H)} <- 
+		 print(H),print("Already satisfied"),+remaining_spec(T), +!process_spec_list(T)[perform]; 
+
++!process_spec_list([H|T]) [perform] : 
+	{B remaining_spec([H | T]), B can_remove(H), ~B satisfied(H)} <-
+	 +satisfied(H), print("Satisfied"), print(H), +remaining_spec(T), -remaining_spec([H|T]), +!process_spec_list(T)[perform];
+	 
++!process_spec_list([H|T]) [perform] : 
+	{B remaining_spec([H | T]), ~B can_remove(H), ~B satisfied(H)} <-
+	  print("Not Satisfied"), print(H), +remaining_spec(T), -remaining_spec([H|T]), +!process_spec_list(T)[perform];
+
++!process_spec_list([H|T]) [perform] : 
+	{B remaining_spec([H | T]), B can_remove(H), B satisfied(H)} <-
+	  print("Already Satisfied"), print(H), +remaining_spec(T), -remaining_spec([H|T]), +!process_spec_list(T)[perform];
+	 
++!process_spec_list([H|T]) [perform] : 
+	{B remaining_spec([H | T]), ~B can_remove(H), B satisfied(H)} <-
+	  print("Already Satisfied"), print(H), +remaining_spec(T), -remaining_spec([H|T]), +!process_spec_list(T)[perform];
+	  
+
++!get_plan [perform]: {
+	B initial_specification(S), 
+	B get_updated_specification(S,[])
+
+	} <-
+	print("Updated spec list is empty so mission accomplished"),
+	+satisfy_spec
+	;
+
++!get_plan [perform]: {
+	B initial_specification(S), 
+	B get_updated_specification(S,US), 
+	B get_plan_list_for_speclist(US,Plans,FirstSpec), 
+	B get_plans_for_speclist(US,Plans,ValidPlans),
+	B get_firstplan_index_from_planset(ValidPlans,FirstSpec,Index,Plan)
+
+	} <-
+	print("Updated spec list"), print(US), print("First spec with plan"),
+	 print(FirstSpec), print("Plans"), print(Plans), print("Valid Plans"), print(ValidPlans)
+	 ,print("Index"),print(Index), print("Plan"), print(Plan),
+	 +!achieve_plan(FirstSpec,Index,0) [achieve]
+	;
+
+
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													B plan_executed(PlanType,PlanId,IndInPlan,[]),
+														B plan(PlanType,PlanId,IndInPlan,[])
+														} <-
+													-plan(PlanType,PlanId,IndInPlan,[]),
+													 +achieve_plan(PlanType,PlanId,IndInPlan),
+													 print("Achieved full plan for"), print(PlanType);
+													 
+													 
+	
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													~B plan_executed(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+														B plan(PlanType,PlanId,IndInPlan,[move_to(X) | T])
+												} <- 
+													
+													print(" Moving "),
+													move_to(X), 
+													+achieve_plan(PlanType,PlanId,IndInPlan),
+													sum(IndInPlan,1,Z), 
+													print("Updated Index"),
+													
+													-plan(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													print(IndInPlan),
+													print(Z),
+													print(T),
+													print("Removed plan belief "),
+													+plan(PlanType,PlanId,Z,T), 
+													print("Added new plan belief"),
+													
+													+!achieve_plan(PlanType,PlanId,Z)[achieve];
+													
+													
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													~B plan_executed(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													B plan(PlanType,PlanId,IndInPlan,[print(X) | T])} <- 
+													
+													print(X), 
+													+achieve_plan(PlanType,PlanId,IndInPlan),
+													sum(IndInPlan,1,Z), 
+												
+													-plan(PlanType,PlanId,IndInPlan,[print(X) | T]),
+													+plan(PlanType,PlanId,Z,T), 
+													
+													+!achieve_plan(PlanType,PlanId,Z)[achieve];
+													
+														
++at(X) : {True} <- +visited(X),print("reached"), print(X);
+													 

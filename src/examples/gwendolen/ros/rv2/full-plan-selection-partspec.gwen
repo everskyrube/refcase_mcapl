@@ -1,0 +1,180 @@
+
+GWENDOLEN
+
+:name: mrsdurani
+
+:Initial Beliefs:
+
+location(door)
+location(bigtankfront)
+location(bigtankside)
+location(tank1top)
+location(tank1right)
+location(tank1bottom)
+location(tank2top)
+location(tank2left)
+location(tank2bottom)
+location(tankset)
+location(pipes)
+location(dangerroom)
+location(stairs)
+
+location(entrance)
+location(dangerroomside)
+location(dangerroomsideend)
+
+
+
+location_coordinate(door,-8.18,-3.16,0.0)
+location_coordinate(bigtankfront,-4.07,-7.24,0.0)
+location_coordinate(bigtankside,-7.25,-5.26,0.0)
+location_coordinate(tank1top,-0.49,-3.51,0.0)
+location_coordinate(tank1right,2.30,-1.93,0.0)
+location_coordinate(tank1bottom,5.48,-3.48,0.0)
+location_coordinate(tank2top,-0.47,-6.52,0.0)
+location_coordinate(tank2left,1.98,-7.88,0.0)
+location_coordinate(tank2bottom,5.36,-6.31,0.0)
+location_coordinate(tankset,6.80,-5.69,0.0)
+location_coordinate(pipes,7.79,-2.67,0.0)
+location_coordinate(dangerroom,1.30,2.20,0.0)
+location_coordinate(stairs,2.94,8.56,0.0)
+
+location_coordinate(entrance,-7.83, -0.57, 0.0)
+location_coordinate(dangerroomside,-0.56, 0.3, 0.0)
+location_coordinate(dangerroomsideend,4.20, 0.34,0.0)
+
+
+
+plan_annotations(fullplan,[
+	
+	plan_annotation(fullplan,1,
+	[visit(tank1top),visit(pipes),visit(bigtankfront)
+	]),
+	
+	plan_annotation(fullplan,3,
+	[visit(tank1top),visit(pipes),visit(bigtankfront),before(pipes,bigtankfront)
+	])
+	
+	])
+	
+plans(fullplan, [
+	plan(fullplan,2,[visit(pipes),visit(dangerroomside),visit(bigtankfront),visit(tank1top)]),
+	plan(fullplan,1,[visit(pipes),visit(bigtankfront),visit(tank1top)]),
+	plan(fullplan,3,[visit(pipes),visit(bigtankfront)])
+	])
+
+specification([visit(tank1top),
+	visit(pipes),visit(bigtankfront),
+	before(pipes,bigtankfront), before(bigtankfront,tank1top)])
+
+
+:Reasoning Rules:
+
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+remove_last_from_list([X],[]);
+
+remove_last_from_list([H|T],[H | NewL]) :-
+	remove_last_from_list(T,NewL);
+
+
+plan_matches_spec([],Plan_annotation);
+plan_matches_spec([H_spec | T_spec], Plan_annotation):-
+	ismember(H_spec, Plan_annotation),
+	plan_matches_spec(T_spec,Plan_annotation);
+	
+
+planlist_spec_match(Spec,[plan_annotation(PlanId,Index,Plan) | T],Index):-
+	plan_matches_spec(Spec,Plan);
+	
+planlist_spec_match(Spec,[plan_annotation(PlanId,Index,Plan) | T], PIndex):-
+	planlist_spec_match(Spec,T,PIndex);	
+
+
+iterative_spec_match(S,PlanId,Plan_annots,Index,S):-
+	planlist_spec_match(S,Plan_annots,Index);
+	
+iterative_spec_match(S,PlanId,Plan_annots,Index,UpdatedSpec):-
+	remove_last_from_list(S,UpdatedSpec1),
+	iterative_spec_match(UpdatedSpec1,PlandId,Plan_annots,Index,UpdatedSpec);
+
+plan(Id,Ind,Plan) :- plans(fullplan,L), ismember(plan(fullplan,Id,Plan),L);
+
+iterative_match(X,Index,UpdatedSpec):-
+	plan_annotations(X,L),
+	specification(S),
+	iterative_spec_match(S,X,L,Index,UpdatedSpec);
+	
+
+:Initial Goals:
+
+
+
+satisfy_spec [achieve]
+
+:Plans:
+
+
++!satisfy_spec [achieve] : 
+	{ B iterative_match(fullplan,Index,US)} <- 
+				append("plan ",Index,C),
+				append(C," matches spec ", D),
+				append(D,US,E),
+				print(E),
+				+!achieve_plan(Index,0)[achieve],
+				+satisfy_spec;
+			
+				
++!achieve_plan(Id,Ind) [achieve] : {B plan(Id,Ind,[])} <- +achieve_plan(Id,Ind), +satisfy_spec;
+
++!achieve_plan(Id,Ind) [achieve] : {B plan(Id,Ind,[visit(X) | T])} <- +!visit(X)[achieve], sum(Ind,1,Z), +plan(Id,Z,T), +achieve_plan(Id,Ind),+!achieve_plan(Id,Z)[achieve];
++!achieve_plan(Id,Ind) [achieve] : {B plan(Id,Ind,[print(X) | T])} <- print(X), sum(Ind,1,Z), +plan(Id,Z,T), +achieve_plan(Id,Ind),+!achieve_plan(Id,Z)[achieve];
+
+
++!visit(A) [achieve] : {~B visited(A),  ~B going(B), ~B failedtovisit(A), B location_coordinate(A,X,Y,Z)} <-
+						 +.lock, append("Moving to ",A,C),print(C),+going(A), move(X,Y,0.0), -.lock; 
+
+
++!visit(A) [achieve] : {B visited(A)} <- do_nothing;
++!visit(A) [achieve] : {B going(B), ~B visited(A)} <- do_nothing;
++!visit(A) [achieve] : {B failedtovisit(A)} <- append("Previously failed to visit location ",A,C),
+					 print(C); 
++at(A) : {B location(A)} <- append("at" ,A,C), print(C);
+
++movebase_result(Id,3) : {B going(A)} <- 
+							+.lock,
+							-going(A),
+							+visit(A),
+							+visited(A),
+							append("Visited ",A,C), 
+							print(C),
+							-.lock;
+							
++movebase_result(Id,2) : {B going(A)} <- 
+							+.lock,
+							-going(A),
+							+failedtovisit(A),
+							+visit(A),
+							append("Failed to visit preempted ",A,C), 
+							print(C),
+							-.lock;
+							
++movebase_result(Id,4) : {B going(A)} <- 
+							+.lock,
+							-going(A),
+							+failedtovisit(A),
+							+visit(A),
+							append("Failed to visit aborted ",A,C), 
+							print(C),
+							-.lock;
+							
++movebase_result(Id,5) : {B going(A)} <- 
+							+.lock,
+							-going(A),
+							+failedtovisit(A),
+							+visit(A),
+							append("Failed to visit rejected ",A,C), 
+							print(C),
+							-.lock;

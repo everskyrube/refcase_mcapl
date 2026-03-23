@@ -1,0 +1,466 @@
+GWENDOLEN
+// so we are going to pipes
+// and we want to avoid areas of high radiation
+// where high is 100 ish
+
+:name: jackal
+
+:Initial Beliefs:
+
+//locations
+
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+
+
+//extras
+//just to count the locations
+location_count(0)
+at(l1)
+
+//to record movement
+move_history([])
+
+//plans
+//plans([
+//  plan(goal,src,index,actions,annotations)
+//])
+
+plans([
+    plan(visit(l1),at(l0),1,[move_to(l1)],[visit(l1),avoid(l5)]),
+    plan(visit(l2),at(l0),1,[move_to(l2)],[visit(l2),avoid(l5)]),
+    plan(visit(l3),at(l0),1,[move_to(l3)],[visit(l3),avoid(l5)]),
+    plan(visit(l1), at(l2),2,[move_to(l1)],[visit(l1),avoid(l5)]),
+    plan(visit(l2),at(l1),2,[move_to(l2)],[visit(l2),avoid(l5)]),
+    plan(visit(l3),at(l2),2,[move_to(l3)],[visit(l3),avoid(l5)]),
+    plan(visit(l2),at(l1),3,[move_to(l3),move_to(l2)],[visit(l3),avoid(l5)])
+])
+
+//specifications
+
+specification("Required",[before(l3,l4),visit(l1),visit(l2),visit(l3)])
+specification("Preferred",[avoid(l5),before(l1,l2),before(l2,l3)])
+
+
+:Reasoning Rules:
+
+//the basics
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+
+append([], X, X);
+append([ H | T], X , [ H | W ]) :-
+	append(T,X,W);
+
+remove_from_list(Elem,[],[]);
+remove_from_list(Elem,[Elem|L],L);
+remove_from_list(Elem,[NotElem | L],[NotElem | NL]):-
+	remove_from_list(Elem,L,NL);
+
+remove_list_from_list([],L,L);
+remove_list_from_list([ToRemoveH | ToRemoveT ],L,NL):-
+	remove_from_list(ToRemoveH,L,NL1),
+	remove_list_from_list(ToRemoveT,NL1,NL);
+
+
+replaceFirst(_,_, [],[]);
+replaceFirst(O,R,[O|T],[R|T]);
+replaceFirst(O,R,[H|T],[H|T2]) :-
+			dif(H,O),
+			replaceFirst(O,R,T,T2);
+
+//combining the required and preferred specs
+combined_specifications(CSpecs):-
+	specification("Required",RSpec),
+	specification("Preferred",PSpec),
+	append(RSpec,PSpec,CSpecs);
+
+//checking if a spec is satisfied
+satisfied(before(Per,Loc)):-
+	visited(Per,Tp),
+	visited(Loc,Tl),
+	[Tp < Tl];
+
+satisfied(before(Per,Loc)):-
+	visited(Per,Tp),
+	~visited(Loc,Tl);
+
+//satisfied(before(Loc,Per)):-
+//	visited(Loc,Tl),
+//	visited(Per,Tp),
+//	[Tl < Tp];
+
+satisfied(visit(Per)):-
+	visited(Per,Tp);
+
+satisfied_avoid(avoid(Per)):-
+	~visited(Per,Tp);
+
+//removing satisfied specs from list
+filter_satisfied_specs([],[]);
+filter_satisfied_specs([OrigSpecsH | OrigSpecsT], FiltSpecs):-
+	satisfied(OrigSpecsH),
+	filter_satisfied_specs(OrigSpecsT,FiltSpecs);
+filter_satisfied_specs([OrigSpecsH | OrigSpecsT], [OrigSpecsH | FiltSpecs]):-
+	filter_satisfied_specs(OrigSpecsT,FiltSpecs);
+
+//listing satisfied and unsatisfied specs
+break_specs_satisfied_otherwise([],[],[]);
+break_specs_satisfied_otherwise([OrigSpecsH | OrigSpecsT], [OrigSpecsH | OtherSatSpecs], Otherwise):-
+	satisfied(OrigSpecsH),
+	break_specs_satisfied_otherwise(OrigSpecsT,OtherSatSpecs,Otherwise);
+break_specs_satisfied_otherwise([OrigSpecsH | OrigSpecsT],  OtherSatSpecs, [OrigSpecsH | Otherwise]):-
+	break_specs_satisfied_otherwise(OrigSpecsT,OtherSatSpecs,Otherwise);
+
+
+//when we're all done we'll only have avoid specs
+//so we can check if all we're left with is avoid specs
+//and just say we're done
+avoid_specs_only([]);
+avoid_specs_only([avoid(X) | T]):-
+	avoid_specs_only(T);
+
+//checking if a spec is violated
+//have to avoid a location
+violated(Per,avoid(Per));
+
+//if we were to visit per before loc
+//and we've already visited loc
+//and we haven't visited per
+//then we're going to violate this
+violated(Per,before(Per,Loc)):-
+	visited(Loc,Tloc),
+	~visited(Per,Tper);
+//if we have visited per before then
+//we're not likely to violate the spec
+
+//if we were to visit loc before per
+//and we haven't visited loc
+//then we'll violate this
+violated(Per,before(Loc,Per)):-
+	~visited(Loc,Tloc);
+
+violated_before(before(Loc1,Loc2)):-
+    ~visited(Loc1,Tloc1),
+    visited(Loc2,TLoc2);
+
+
+
+//getting all violated specs
+violated_specifications(Per,[],[]);
+
+violated_specifications(Per,[OrigSpecsH | OrigSpecsT],[OrigSpecsH | ViolSpecT]):-
+	//so we get all the violated specifications
+	violated(Per,OrigSpecsH),
+	violated_specifications(Per,OrigSpecsT,ViolSpecT);
+
+violated_specifications(Per,[OrigSpecsH | OrigSpecsT], ViolSpecT):-
+	violated_specifications(Per,OrigSpecsT,ViolSpecT);
+
+//find the first spec we have a plan for
+first_spec_with_plan([],[],[]);
+
+first_spec_with_plan([H | T],H,AllPlans):-
+	plans(H,AllPlans);
+
+first_spec_with_plan([H | T],Spec,Res):-
+	first_spec_with_plan(T,Spec,Res);
+
+//remove all specs from list that have plans except specified spec
+has_plans(Spec):-
+	plans(Spec,Plans);
+
+remove_plan_specs([],[],[]);
+remove_plan_specs([HSL | TSL],OtherSpecs,[HSL | PlanSpecs] ):-
+	has_plans(HSL),
+	remove_plan_specs(TSL,OtherSpecs,PlanSpecs);
+remove_plan_specs([HSL | TSL],[HSL | OtherSpecs],PlanSpecs ):-
+	remove_plan_specs(TSL,OtherSpecs,PlanSpecs);
+
+//find the first spec that has a plan and return that list of plans
+first_spec_with_plan(Spec,AllSpecPlans):-
+
+	updated_specifications("Required",RSpec),
+	updated_specifications("Preferred",PSpec),
+	//combine these
+	append(RSpec,PSpec,CSpec),
+
+	//find the first spec we have a plan for
+	first_spec_with_plan(CSpec,Spec,AllSpecPlans);
+
+//get a required spec without any of the specs we have plans for
+//spec - is the spec the planset is for (see first spec with plan)
+//NewRNoPlanSpec is the updated req spec
+//NewRPlanSpec is the list of all the removed specs from req spec
+//we need the above for pspec_modified
+rspec_with_no_otherplanspecs(Spec,NewRNoPlanSpec,NewRPlanSpec):-
+
+	updated_specifications("Required",RSpec),
+	remove_plan_specs(RSpec,RNoPlanSpec,RPlanSpec),
+	remove_from_list(Spec,RPlanSpec,NewRPlanSpec),
+	append([Spec],RNoPlanSpec,NewRNoPlanSpec);
+
+//get an updated preferred spec
+//the input is the list of specs from rspec we removed
+//cuz we had plans for them
+//weakening spec is the spec we get by tacking things on
+//and essentially not caring
+pspec_modified(NewRPlanSpec,WeakeningSpec):-
+
+	updated_specifications("Preferred",PSpec),
+	remove_plan_specs(PSpec,PNoPlanSpec,PPlanSpec),
+	append(PNoPlanSpec,PPlanSpec,NewPPlanSpec),
+	append(NewPPlanSpec,NewRPlanSpec,WeakeningSpec);
+
+//helper stuff for plans
+get_plans_for_spec(S,[],[]);
+
+get_plans_for_spec(S, [plan(Goal,X,Ind,Actions,HP) | TP], [plan(Goal,X,Ind,Actions,HP) | Res]) :-
+	ismember(S,HP),
+	get_plans_for_spec(S,TP,Res);
+
+get_plans_for_spec(S,[plan(Goal,X,Ind,Actions,HP) | TP], Res) :-
+	get_plans_for_spec(S,TP,Res);
+
+//getting plans without weakening
+get_plans_for_speclist_no_weakening([],Plans,Plans);
+
+get_plans_for_speclist_no_weakening([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	get_plans_for_speclist_no_weakening(T,PlanSet,PossiblePlans);
+
+//more helper things
+check_plans_for_spec(L,[],L);
+check_plans_for_spec(L,NL,NL);
+
+//getting plans with weakening
+//create_specifications_for_plan(Goal,NotGoalsList,Preferred,GoalsList,SpecsForPlan):-
+get_plans_for_speclist_weakening_wrapper(NotGoalsList,Preferred,Plans,PossiblePlans):-
+    append(NotGoalsList,Preferred,SpecsForPlans),
+    get_plans_for_speclist_weakening(SpecsForPlans,Plans,PossiblePlans);
+
+get_plans_for_speclist_weakening([],Plans,Plans);
+
+get_plans_for_speclist_weakening([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	check_plans_for_spec(Plans,PlanSet,NewPlanSet),
+	get_plans_for_speclist_weakening(T,NewPlanSet,PossiblePlans);
+
+////getting plans with weakening
+//get_plans_for_speclist_weakening([],Plans,Plans);
+//
+//get_plans_for_speclist_weakening([H|T],Plans,PossiblePlans):-
+//	get_plans_for_spec(H,Plans,PlanSet),
+//	check_plans_for_spec(Plans,PlanSet,NewPlanSet),
+//	get_plans_for_speclist_weakening(T,NewPlanSet,PossiblePlans);
+
+
+//finding a plan
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,
+			PlanAnnots,[plan(Goal,CurrentLoc,PlanIndex,PlanActions,PlanAnnots) | T]);
+
+
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,[H | T]):-
+	plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,T);
+
+plan_exists(Goal,Source,PlanIndex,PlanActions,PlanAnnots):-
+	plans(Goal,L),
+	plan_exists(Source,Goal,PlanIndex,PlanActions,PlanAnnots,L);
+
+
+check_length(L,Len):-
+	length(L,Len);
+
+//updating plans
+//
+updated_plans(PlanIndex,L,NewPlanAnnots,NewL):-
+	replaceFirst(plan(Goal,Source,PlanIndex,PlanActions,PlanAnnots),plan(Goal,Source,PlanIndex,PlanActions,NewPlanAnnots),L,NewL);
+
+//% a function that returns all plans with the same destination
+  plan_exists_from(Loc,[],[]);
+  plan_exists_from(Loc,[plan(Goal,at(Loc),Index,Actions,Annotations)|T],
+                                  [plan(Goal,at(Loc),Index,Actions,Annotations)|PlanSet]):-
+                                  plan_exists_from(Loc,T,PlanSet);
+  plan_exists_from(Loc,[H|T],PlanSet):-
+                                  plan_exists_from(Loc,T,PlanSet);
+
+
+  get_plans_for_goal(Goal,[],[]);
+  get_plans_for_goal(Goal,[plan(Goal,at(Loc),Index,Actions,Annotations)|T],
+                                  [plan(Goal,at(Loc),Index,Actions,Annotations)|PlanSet]):-
+                                  get_plans_for_goal(Goal,T,PlanSet);
+  get_plans_for_goal(Goal,[H|T],PlanSet):-
+                                  get_plans_for_goal(Goal,T,PlanSet);
+
+dif(X,Y):- ~[X == Y];
+//dif(Loc1,Loc2);
+
+check_before([],before(Loc1,Loc2));
+check_before([move_to(Loc1)|T],before(Loc1,Loc2)):- dif(Loc1,Loc2);
+//            check_before_after(T,before(Loc1,Loc2));
+check_before([move_to(Loc2)|T],before(Loc1,Loc2)):- dif(Loc1,Loc2),false;
+check_before([move_to(Loc)|T],before(Loc1,Loc2)):-
+            dif(Loc,Loc2),
+            dif(Loc,Loc1),
+            check_before(T,before(Loc1,Loc2));
+
+//check_before_after([],before(Loc1,Loc2));
+//check_before_after([move_to(Loc2)|T],before(Loc1,Loc2));
+//check_before_after([move_to(Loc)|T],before(Loc1,Loc2)):-
+//            dif(Loc,Loc2),
+//            dif(Loc,Loc1),
+//            check_before_after(T,before(Loc1,Loc2));
+
+//%so now we want to annotate a plan
+//%given a plan P we go over it to check before
+//%if it returns true we add the annotation to it
+annotate_plan_with_before(plan(Goal,Dest,Index,Actions,Annots),before(Loc1,Loc2) ):-
+    check_before(Actions,before(Loc1,Loc2));
+
+
+//so you have a plan and the annotations list
+// you just go over each before and annotate it
+// hmmm so we just need a reasoning rule
+annotate_plan_with_befores(Plan,[],[]);
+annotate_plan_with_befores(Plan,[HBSpecs | TBSpecs],[HBSpecs | UAnnots]):-
+    annotate_plan_with_before(Plan,HBSpecs),
+    annotate_plan_with_befores(Plan,TBSpecs,UAnnots);
+annotate_plan_with_befores(Plan,[HBSpecs | TBSpecs], UAnnots):-
+    annotate_plan_with_befores(Plan,TBSpecs,UAnnots);
+
+annotate_plans_with_befores([],BSpecs,[]);
+annotate_plans_with_befores([plan(Goal,Dest,Index,Actions,Annots) | TPlans],BSpecs,[plan(Goal,Dest,Index,Actions,NewAnnots) | NewPlans]):-
+    annotate_plan_with_befores(plan(Goal,Dest,Index,Actions,Annots),BSpecs,AddAnnots),
+    append(Annots,AddAnnots,NewAnnots),
+    annotate_plans_with_befores(TPlans,BSpecs,NewPlans);
+
+
+
+//getting a list of all befores
+//basically we have a list of specs and we just check if each element is a before
+//and if it is we add it to our list
+befores_list([],[]);
+befores_list([before(Loc1,Loc2) | TCSpecs],BSpecs):-
+    violated_before(before(Loc1,Loc2)),
+//        print("Violated before"),
+    befores_list(TCSpecs,BSpecs);
+befores_list([before(Loc1,Loc2) | TCSpecs],BSpecs):-
+    satisfied(before(Loc1,Loc2)),
+    befores_list(TCSpecs,BSpecs);
+befores_list([before(Loc1,Loc2) | TCSpecs],[before(Loc1,Loc2) | BSpecs]):-
+    befores_list(TCSpecs,BSpecs);
+befores_list([HCSpecs | TCSpecs],BSpecs):-
+    befores_list(TCSpecs,BSpecs);
+
+//so you get the goals list one time
+//then you can add it as a belief so you dont
+//need it
+get_plan_goals_list([],[]);
+get_plan_goals_list([plan(Goal,Source,Index,Actions,Annots) | TPlans], GoalsList):-
+    get_plan_goals_list(TPlans,GoalsList),
+    ismember(Goal,GoalsList);
+get_plan_goals_list([plan(Goal,Source,Index,Actions,Annots) | TPlans], [Goal |GoalsList]):-
+    get_plan_goals_list(TPlans,GoalsList);
+
+//you get the nongoals list one time
+//so you can just add it as a belief too
+break_required_specs_into_goals_and_not_goals([],GoalsList,[]);
+break_required_specs_into_goals_and_not_goals([HSpec | TSpec],GoalsList,NotGoalsList):-
+    ismember(HSpec,GoalsList),
+    break_required_specs_into_goals_and_not_goals(TSpec,GoalsList,NotGoalsList);
+break_required_specs_into_goals_and_not_goals([HSpec | TSpec],GoalsList,[HSpec | NotGoalsList]):-
+    break_required_specs_into_goals_and_not_goals(TSpec,GoalsList,NotGoalsList);
+
+//finally for each plan
+//we want to be able to remove the goal from the list
+//create a new list [goal, notgoals, preferred, goals]
+create_specifications_for_plan(Goal,NotGoalsList,Preferred,GoalsList,SpecsForPlan):-
+    remove_from_list(Goal,GoalsList,MinusGoalsList),
+    append([Goal],NotGoalsList,TempList),
+    append(TempList,Preferred,TempList2),
+    append(TempList2,MinusGoalsList,SpecsForPlan);
+
+:Initial Goals:
+
+//say_hello [perform]
+//get_plans_from(l0)[perform]
+//get_befores_list[perform]
+set_up_initial_beliefs[perform]
+:Plans:
+
+//+!say_hello [perform] : {True} <- print(hello);
++!set_up_initial_beliefs[perform]: {B plans(AllPlans), B get_plan_goals_list(AllPlans,GoalsList),
+                                    B specification("Required",RSpec), B break_required_specs_into_goals_and_not_goals(RSpec,GoalsList,NonGoalsList)
+                                    } <-
+                                    print("Goals list"),
+                                    print(GoalsList),
+                                    print("Non goals list"),
+                                    print(NonGoalsList),
+                                    +goalslist(GoalsList),
+                                    +nongoalslist(NonGoalsList),
+                                    +!get_plans[perform];
+//                                    +!test_belief_addition[perform];
+
++!test_belief_addition[perform]: {B goalslist(G), B nongoalslist(Ng)} <-
+                                    print("Checking beliefs"),
+                                    print(G),
+                                    print(Ng);
++!get_plans[perform]: {B at(Loc)} <- +!get_plans_from(Loc)[perform];
++!get_plans_from(Loc)[perform] : {B location(Loc),
+                                  B plans(AllPlans),
+                                  B plan_exists_from(Loc,AllPlans,LocPlans)
+                                  }
+                                  <-
+                                  +!appendPrint("Seems like there are plans from ",Loc)[perform],
+                                  print(LocPlans),
+                                  +!get_befores_list(LocPlans)[perform];
+
++!get_befores_list(LocPlans)[perform] : {B combined_specifications(CSpecs),
+                               B befores_list(CSpecs,BSpecs) }
+                               <-
+                               print("Before specs list"),
+                               print(BSpecs),
+                               +!check_before_annots(LocPlans,BSpecs)[perform];
+
++!check_before_annots([],BSpecs)[perform] : { True
+                                        }
+                                      <-
+                                     print("All done")
+                                      ;
++!check_before_annots(LocPlans,BSpecs)[perform] : { B annotate_plans_with_befores(LocPlans,BSpecs,NewPlans)
+,B combined_specifications(CSpecs)
+                                        }
+                                      <-
+                                      print("Checking annots"),
+                                      print(LocPlans),
+                                      print("Updated annots"),
+                                      print(NewPlans)
+//                                      , print("Combined specs"),
+//                                                                               print(CSpecs)
+
+                                      ,
+                                      +!find_valid_plans(NewPlans)[perform]
+                                      ;
++!find_valid_plans(NewPlans)[perform] : {B specification("Preferred",PSpecs),
+                                        B nongoalslist(Ng),
+                                        B get_plans_for_speclist_weakening_wrapper(Ng,PSpecs,NewPlans,ChosenPlans)
+                                        }  <-
+                                        print("Combined specs"),
+                                        print(Ng),
+                                        print(PSpecs)
+                                        ,
+                                        print("ChosenPlans"),
+                                        print(ChosenPlans)
+                                        ;
+
++!appendPrint(PString,PVar)[perform] : {True} <-
+							 +.lock,
+							 toString(PVar,PVarS),
+							 append(PString,PVarS,PrintV),
+							print(PrintV),
+							-.lock;

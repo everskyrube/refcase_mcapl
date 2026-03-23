@@ -1,0 +1,70 @@
+EASS
+
+:abstraction: jackal
+
+:Initial Beliefs:
+
+location_coordinate(middle,5,5,0)
+location_coordinate(end,9,9,0)
+location_coordinate(door,0,9,0)
+
+:Initial Goals:
+
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
+
++started: {True} <-
+    assert_shared(start);
+
++! move(Loc) [perform]: {B location_coordinate(Loc,X,Y,Z)} <- assert_shared(going(Loc)), move(X,Y,Z);
++! inspect [perform]: {True} <- inspect;
+
++movebase_result(Id, 3): {B going(L1) } <- print("was going to ",L1), remove_shared(going(L1)), assert_shared(moved(L1)), print("added belief for moved ",L1);
+//+movebase_result(Id,3) : { B going(door) } <-print("Wait for decontamination to proceed."), do_nothing;
++movebase_result(Id,3) : { ~B going(L) } <- print("was not going anywhere so removing movebase result"),-movebase_result(Id, 3);
++movebase_result(Id,2) : { B going(Location) } <- print("Movement to location ",Location," ended with failure.");
+
++!decontaminate[perform] : {~B going(door)} <- print("Robot is in high radiation zone move to the door for decontamination procedures."), +!move(door)[perform];
+
+
+
+
+:name: jackal
+
+:Initial Beliefs:
+location(middle)
+location(end)
+location(door)
+
+
+next_location(middle,end)
+next_location(end,door)
+
+:Reasoning Rules:
+
+:Initial Goals:
+
+dummy[perform]
+
+:Plans:
+
++!dummy[perform]: {True} <- print("Dummy"),printstate;
++start:{True} <- +!inspect(middle)[perform];
++!inspect(Location) [perform] : { ~B danger_red, ~B danger_orange, ~B going(door) }
+<-  perf(move(Location));
+
++moved(L1): {  B next_location(L1, L2) } <-
+    remove_shared(moved(L1)),
+    			perf(inspect),
+//    						key_press,
+    						+!inspect(L2) [perform];
+
+
++danger_red : {~B going(door)} <- print("Robot is in red radiation zone "), perf(decontaminate);
+
++danger_orange : {~B going(door)} <- print("Robot is in orange radiation zone "), perf(decontaminate);

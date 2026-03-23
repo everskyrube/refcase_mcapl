@@ -1,0 +1,12 @@
+mas.file = /src/examples/gwendolen/ros/rv_test/simple-visit.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.ros.rv_test.RosEnv
+
+log.info = ail.mas.DefaultEnvironment
+//log.fine = ail.semantics.operationalrules
+
+log.format = brief
+
+//log.fine = ail.semantics.AILAgent
+//log.finer = ail.syntax.EvaluationAndRuleBaseIterator

@@ -1,0 +1,14 @@
+mas.file = /src/examples/gwendolen/ros/relplan/plan_and_stop_near.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.ros.relplan.RosEnvAtPercept
+
+log.warning = ail.mas.DefaultEnvironment
+//log.fine = ail.semantics.AILAgent
+//log.warning = ail.semantics.AILAgent
+//log.warning = ail.semantics.operationalrules
+//log.warning = ajpf.MCAPLAgent
+log.format = brief
+
+
+//log.finer = ail.syntax.EvaluationAndRuleBaseIterator

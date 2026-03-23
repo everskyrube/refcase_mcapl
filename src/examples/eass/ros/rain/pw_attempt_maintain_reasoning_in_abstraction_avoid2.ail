@@ -1,0 +1,13 @@
+mas.file = /src/examples/eass/ros/rain/pw_attempt_maintain_reasoning_in_abstraction_avoid2.gwen
+mas.builder = eass.EASSMASBuilder
+
+env = eass.ros.rain.AtNearEnv
+
+log.fine = ail.mas.DefaultEnvironment //useful for debugging when you get info - tells you about abstraction agent too
+log.fine = ail.semantics.operationalrules
+log.fine = ajpf.MCAPLAgent //userful for debugging - I forgot for what
+log.fine = ail.semantics.AILAgent
+log.fine = ail.syntax.EvaluationAndRuleBaseIterator
+log.fine = eass.mas.DefaultEASSEnvironment
+
+log.format = brief

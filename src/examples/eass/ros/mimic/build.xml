@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Gridworld" default="compile">
+
+    <property name="name" value="gridworld"/>
+    <!--    <property environment="env"/>-->
+    <property name="src.dir" value="sim"/>
+    <property name="web.dir" value="${src.dir}/web" />
+    <property name="build.dir" location="${web.dir}/WEB-INF/classes"/>
+    <property name="jetty.lib.dir" location="/Users/user/mcapl/lib/jetty/lib"/>
+    <property name="dist.dir" location="dist"/>
+    <property name="deploy.path" location="webapps"/>
+
+    <path id="compile.classpath">
+        <fileset dir="${jetty.lib.dir}"/>
+    </path>
+    <path id="run.classpath">
+        <pathelement path="${build.dir}"/>
+        <fileset dir="${jetty.lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}"
+               includeantruntime="false">
+            <classpath refid="compile.classpath"/>
+        </javac>
+        <echo>Compilation completed</echo>
+    </target>
+
+    <target name="archive" depends="compile">
+        <war destfile="${dist.dir}/${name}.war" needxmlfile="false">
+            <fileset dir="${web.dir}"/>
+        </war>
+        <echo>Archive created</echo>
+    </target>
+
+    <target name="clean" depends="init">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+        <echo>Cleaning completed</echo>
+    </target>
+
+    <target name="deploy" depends="archive">
+        <copy file="${dist.dir}/${name}.war" overwrite="true"
+              todir="${deploy.path}"/>
+        <echo>Archive deployed</echo>
+    </target>
+    <target name="run" depends="compile">
+        <echo>Running the program</echo>
+        <java classname="eass.ros.mimic.sim.sever.JettyWebSocketClient"
+              classpathref="run.classpath"/>
+    </target>
+
+</project>

@@ -1,0 +1,83 @@
+GWENDOLEN
+
+:name: jackal
+
+:Initial Beliefs:
+location(door)
+location(bigtankfront)
+location(bigtankside)
+location(tank1top)
+location(tank1right)
+location(tank1bottom)
+location(tank2top)
+location(tank2left)
+location(tank2bottom)
+location(tankset)
+location(pipes)
+location(dangerroom)
+location(stairs)
+
+location(entrance)
+location(dangerroomside)
+location(dangerroomsideend)
+
+
+
+location_coordinate(door,-8.18,-3.16,0.0)
+location_coordinate(bigtankfront,-4.07,-7.24,0.0)
+location_coordinate(bigtankside,-7.25,-5.26,0.0)
+location_coordinate(tank1top,-0.49,-3.51,0.0)
+location_coordinate(tank1right,2.30,-1.93,0.0)
+location_coordinate(tank1bottom,5.48,-3.48,0.0)
+location_coordinate(tank2top,-0.47,-6.52,0.0)
+location_coordinate(tank2left,1.98,-7.88,0.0)
+location_coordinate(tank2bottom,5.36,-6.31,0.0)
+location_coordinate(tankset,6.80,-5.69,0.0)
+location_coordinate(pipes,7.79,-2.67,0.0)
+location_coordinate(dangerroom,1.30,2.20,0.0)
+location_coordinate(stairs,2.94,8.56,0.0)
+
+location_coordinate(entrance,-7.83, -0.57, 0.0)
+location_coordinate(dangerroomside,-0.56, 0.52, 0.0)
+location_coordinate(dangerroomsideend,4.20, 0.34,0.0)
+
+
+
+
+
+:Reasoning Rules:
+
+visit_entrance :- print(reasoned),location(entrance), visited(entrance), print(done);
+
+:Initial Goals:
+
+visit_entrance [achieve]
+
+
+:Plans:
+
++!visit_entrance[achieve] : {~B going(L1), B location_coordinate(entrance,X,Y,Z), ~B visited(entrance) } <- +!visit(entrance)[perform];
++!visit(Location) [perform] : { ~B going(L1), B location_coordinate(Location,X,Y,Z) } 
+<- +.lock,print("Moving to"), print(Location), +going(Location), move(X,Y,0.0), -.lock;
+
++visited(Location) : {True} <- print("I believe I visited a location"), print(Location); 
+
+
++movebase_result(Id,3) : { B going(L1) } <- 
+						+.lock,
+						-going(L1), 
+						print("Movement to location "),
+						print(L1),
+						print(" ended with success."),
+						+visited(L1),
+						-.lock;
+						
++movebase_result(Id,2) : {B going(L1) } <-
+						+.lock,
+						-going(L1), 
+						print("Movement to location "),
+						print(L1),
+						print("failed."),
+						+failed(L1),
+						-.lock;
+						

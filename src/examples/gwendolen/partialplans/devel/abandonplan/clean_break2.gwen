@@ -1,0 +1,199 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+location(l6)
+
+location_count(0)
+
+
+move_history([])
+
+//plans
+plans(visit(l1),[ 
+        plan(at(l0),1, [move_to(l1)], [at(l1),before(l1,l3),before(l1,l5),before(l3,l5), avoid(l6)]),
+        plan(at(l0),2, [move_to(l2), move_to(l1)], [at(l1),before(l1,l3),before(l1,l5),before(l3,l5), avoid(l6)]),
+        plan(at(l0),3, [move_to(l2), move_to(l3), move_to(l4), move_to(l5), move_to(l1)], [at(l1), before(l3,l5), avoid(l6)])
+    ])
+    
+                
+plans(visit(l3),[ 
+        plan(at(l1),1, [ move_to(l4), move_to(l5), move_to(l3)],[at(l3), at(l5), before(l1,l3), before(l1,l5), before(l3,l5),avoid(l6)]),
+        plan(at(l1),2, [move_to(l2), move_to(l3)], [at(l3), before(l1,l3), before(l1,l5), before(l3,l5), avoid(l6)])
+    ])
+
+plans(visit(l5),[ 
+        plan(at(l3),1, [move_to(l4), move_to(l5)], [at(l5), before(l1,l3),before(l3,l5) ,before(l1,l5), avoid(l6)]),
+        plan(at(l3),2, [move_to(l2), move_to(l1), move_to(l5)], [at(l5), before(l1,l3),before(l1,l5),before(l3,l5), avoid(l6)])
+    ])
+    
+required_specification([at(l1)])
+preferred_specification([before(l1,l3),avoid(l6)])
+
+:Reasoning Rules:
+//the basics
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+append([], X, X);
+append([ H | T], X , [ H | W ]) :- 
+	append(T,X,W);
+
+//finding a plan 
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,[plan(CurrentLoc,PlanIndex,PlanActions,PlanAnnots) | T]);
+
+
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,[H | T]):-
+	plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,T);
+	
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots):-
+	plans(Goal,L),
+	plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,L);
+
+
+/** 
+//checking if spec satisfied 
+satisfied(before(X,Y)):-
+	visited(X,Tx),
+	visited(Y,Ty),
+	[Tx < Ty];
+
+satisfied(before(X,Y)):-
+	visited(X,Tx),
+	~visited(Y,Ty);
+	
+satisfied(before(X,Y)):-
+	~visited(X,Tx),
+	~visited(Y,Ty);
+	
+satisfied(visit(X)):-
+	visited(X,Tx);
+	
+satisfied(avoid(X)):-
+	~visited(X,Tx);
+	
+//part satisfied 
+part_satisfied(before(X,Y)):-
+	visited(X,Tx),
+	~visited(Y,Ty);
+
+part_satisfied(before(X,Y)):-
+	visited(X,Tx),
+	visited(Y,Ty),
+	[Tx < Ty];
+
+part_satisfied(visit(X)):-
+	visited(X,Tx);
+**/
+
+//checking if percept violates spec
+violated(Percept,avoid(Percept));
+
+violated(Percept,before(Percept,X):-
+	visited(X,Tx),
+	~visited(Percept,Tp);
+	
+violated(Percept,before(X,Percept):-
+	~visited(X,Tx);
+
+//getting list of violated specs	
+specifications_violated(NearPercept,[],[]);
+
+specifications_violated(NearPercept,[HSpec | TSpec],[HSpec | Res]):-
+	violated(NearPercept,HSpec),
+	any_specification_violated(NearPercept,TSpec,Res);
+
+specifications_violated(NearPercept,[HSpec | TSpec], Res):-
+	any_specification_violated(NearPercept,TSpec,Res);	
+
+full_spec_list(FSL):-
+	required(RS),
+	preferred(PS),
+	append(RS,PS,FSL);
+		
+:Initial Goals:
+//goals
+
+visit(l3)[achieve]
+
+
+:Plans:
+
+
+//find the plan
++!visit(X)[achieve]: {B at(Y), B plan_exists(at(Y),visit(X),PlanIndex,PlanActions,PlanAnnots)} <- 
+					print("Plan exists"),
+					+current_plan(visit(X),PlanIndex),
+					+!printPlan(visit(X),PlanIndex,PlanActions,PlanAnnots)[perform],
+					+!performActions(PlanActions)[perform]; 
+	
+	
++!visit(X)[achieve]: {B at(Y), ~B plan_exists(at(Y),visit(X),PlanIndex,PlanActions,PlanAnnots)} <- 
+					print("No plan found"),
+					+visit(X); 				 
+
+
+//achieve the plan 
++!performActions([])[perform]: {B current_plan(Goal,PI)} <-
+				print("All actions performed"), 
+				-current_plan(Goal,PI),
+				+visit(X);
+				
++!performActions([move_to(Loc)|T])[perform]: {B current_plan(Goal,PI)} <- 
+				+!appendPrint("Moving to ",Loc)[perform],
+				move_to(Loc),
+				+!updateMH(move_to(Loc))[perform],
+				+!performActions(T)[perform];
+
++!updateMH(Move)[perform] : {B move_history(MH)} <- 
+							+!appendPrint("Move history ",MH)[perform],
+							+!appendPrint("Adding current move ",Move)[perform],
+							-move_history(MH),
+							+move_history([Move | MH]),
+							+!appendPrint("Updated Move history ",[Move | MH])[perform];
+//percept things 
++at(X): {B location_count(LC)} <-
+								sum(LC,1,NewLC),
+								-location_count(LC),
+								+visited(X,NewLC),
+								+location_count(NewLC),
+								+!appendPrint("At ",X)[perform];
+								
++near(X): {B full_spec_list(FSL), B specifications_violated(X,FSL,[])} <- 
+								+!appendPrint("Near ",X)[perform],
+								print("No specifications violated");
+								
++near(X): {B full_spec_list(FSL), B specifications_violated(X,FSL,SVL)} <- 
+								+!appendPrint("Near ",X)[perform],
+								+!appendPrint("Specifications violated ",SVL)[perform];
+																					
+//print actions							
++!appendPrint(PString,PVar)[perform] : {True} <- 
+							 +.lock,
+							 toString(PVar,PVarS),
+							 append(PString,PVarS,PrintV),
+							print(PrintV),
+							-.lock;
+							
++!printPlan(Goal,PlanIndex,PlanActions,PlanAnnots)[perform]: {True} <-
+	toString(Goal,PG),
+	toString(PlanIndex,PIS),
+					toString(PlanActions,PAS),
+					toString(PlanAnnots,PAnS),
+					append(" Index ",PIS,P1),
+					append(" Actions ",PAS,P2),
+					append(" Annotations ",PAnS, P3), 
+					append(P1,P2,PP1),
+					append(PP1,P3,PP2),
+					append(PG," ",PPG),
+					append(PPG,PP2,PP3),
+					print(PP3);

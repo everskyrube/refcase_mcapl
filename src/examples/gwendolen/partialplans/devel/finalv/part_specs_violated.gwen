@@ -1,0 +1,163 @@
+GWENDOLEN
+
+// in this part we test 
+// which specifications are violated 
+// we have a set of visited beliefs 
+// we have a plan 
+// we see a percept 
+// and then we simply see if specs are violated 
+
+
+:name: planexecutorA
+
+:Initial Beliefs:
+
+visited(l0,0)
+//visited(l1,1)
+visited(l4,2)
+//just to count the locations
+location_count(3)
+current_plan(at(l3),1)
+
+//to record movement
+move_history([move_to(l4),move_to(l1),move_to(l0)])
+
+//plans
+//plans(Goal/destination, [
+//				plan(source, index, actions, annotations )...])
+
+plans(visit(l1),[ 
+        plan(at(l0),1, [move_to(l1)], [at(l1),before(l1,l3),before(l1,l5),before(l3,l5), avoid(l6)]),
+        plan(at(l0),2, [move_to(l2), move_to(l1)], [at(l1),before(l1,l3),before(l1,l5),before(l3,l5), avoid(l6)]),
+        plan(at(l0),3, [move_to(l2), move_to(l3), move_to(l4), move_to(l5), move_to(l1)], [at(l1), before(l3,l5), avoid(l6)])
+    ])
+    
+                
+plans(visit(l3),[ 
+        plan(at(l1),1, [ move_to(l4), move_to(l5), move_to(l3)],[at(l3), at(l5), before(l1,l3), before(l1,l5), before(l3,l5),avoid(l6)]),
+        plan(at(l1),2, [move_to(l2), move_to(l3)], [at(l3), before(l1,l3), before(l1,l5), before(l3,l5), avoid(l6)])
+    ])
+
+plans(visit(l5),[ 
+        plan(at(l3),1, [move_to(l4), move_to(l5)], [at(l5), before(l1,l3),before(l3,l5) ,before(l1,l5), avoid(l6)]),
+        plan(at(l3),2, [move_to(l2), move_to(l1), move_to(l5)], [at(l5), before(l1,l3),before(l1,l5),before(l3,l5), avoid(l6)])
+    ])
+
+required_specification([at(l1),at(l3),at(l5)])
+preferred_specification([before(l1,l3),before(l1,l5),before(l3,l5),avoid(l6)])
+
+:Reasoning Rules:
+//the basics
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+append([], X, X);
+append([ H | T], X , [ H | W ]) :- 
+	append(T,X,W);
+
+remove_from_list(Elem,[],[]);
+remove_from_list(Elem,[Elem|L],L);
+remove_from_list(Elem,[NotElem | L],[NotElem | NL]):-
+	remove_from_list(Elem,L,NL);
+
+remove_list_from_list([],L,L);	
+remove_list_from_list([ToRemoveH | ToRemoveT ],L,NL):-
+	remove_from_list(ToRemoveH,L,NL1),
+	remove_list_from_list(ToRemoveT,NL1,NL); 
+
+
+replaceFirst(_,_, [],[]);
+replaceFirst(O,R,[O|T],[R|T]);
+replaceFirst(O,R,[H|T],[H|T2]) :- 
+			dif(H,O),
+			replaceFirst(O,R,T,T2);
+
+//combining the required and preferred specs
+combined_specifications(CSpecs):-
+	required_specification(RSpec),
+	preferred_specification(PSpec),
+	append(RSpec,PSpec,CSpecs);
+
+//checking if a spec is violated 
+//have to avoid a location
+violated(Per,avoid(Per));
+
+//if we were to visit per before loc
+//and we've already visited loc
+//and we haven't visited per 
+//then we're going to violate this
+violated(Per,before(Per,Loc)):-
+	visited(Loc,Tloc),
+	~visited(Per,Tper);
+//if we have visited per before then
+//we're not likely to violate the spec 
+
+//if we were to visit loc before per 
+//and we haven't visited loc 
+//then we'll violate this 
+violated(Per,before(Loc,Per)):-
+	~visited(Loc,Tloc);
+	
+	
+
+//getting all violated specs
+violated_specifications(Per,[],[]);
+	
+violated_specifications(Per,[OrigSpecsH | OrigSpecsT],[OrigSpecsH | ViolSpecT]):-
+	//so we get all the violated specifications 
+	violated(Per,OrigSpecsH),
+	violated_specifications(Per,OrigSpecsT,ViolSpecT);
+	
+violated_specifications(Per,[OrigSpecsH | OrigSpecsT], ViolSpecT):-
+	violated_specifications(Per,OrigSpecsT,ViolSpecT);
+		
+	
+:Initial Goals:
+
+test[perform]
+
+:Plans:
++!test[perform]: {B combined_specifications(CSpecs)}
+				<-
+				+!appendPrint("Combined specs ",CSpecs)[perform],
+				+!get_violations(CSpecs)[perform];
+				
++!get_violations(OrigSpec)[perform]: {B violated_specifications(l3,OrigSpec,VSpecs)}
+						<-
+						+!appendPrint("Violated specs ",VSpecs)[perform];
+						
++!printMH(PrefixText)[perform] : {B move_history(MH)} 
+							<-
+							append(PrefixText," MH ", Text),	
+							+!appendPrint(Text,MH)[perform];						
++!appendPrint(PString,PVar)[perform] : {True} <- 
+							 +.lock,
+							 toString(PVar,PVarS),
+							 append(PString,PVarS,PrintV),
+							print(PrintV),
+							-.lock;
+							
++!printPlan(Goal,Source,PlanIndex,PlanActions,PlanAnnots)[perform]: {True} <-
+	+.lock,
+	toString(Goal,PG),
+	toString(PlanIndex,PIS),
+					toString(PlanActions,PAS),
+					toString(PlanAnnots,PAnS),
+					toString(Source,SrcS),
+					append(" Index ",PIS,P1),
+					append(" Actions ",PAS,P2),
+					append(" Annotations ",PAnS, P3), 
+					append(" Source ", SrcS,P4),
+					
+					append(P1,P2,PP1),
+					append(PP1,P3,PP2),
+					append(PG," ",PPG),
+					append(PPG,P4,PP4),
+					append(PP4,PP2,PP3),
+					print(PP3),
+					-.lock;						
+									
+									
+									
+									

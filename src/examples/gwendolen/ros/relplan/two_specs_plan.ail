@@ -1,0 +1,13 @@
+mas.file = /src/examples/gwendolen/ros/relplan/two_specs_plan.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.ros.relplan.RosEnv
+
+log.info = ail.mas.DefaultEnvironment
+log.fine = ail.semantics.AILAgent
+log.fine = ail.semantics.operationalrules
+log.warning = ajpf.MCAPLAgent
+log.format = brief
+
+//log.fine = ail.semantics.AILAgent
+//log.finer = ail.syntax.EvaluationAndRuleBaseIterator

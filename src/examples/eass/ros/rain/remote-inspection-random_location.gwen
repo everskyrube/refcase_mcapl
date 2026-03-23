@@ -1,0 +1,42 @@
+EASS
+
+:abstraction: jackal
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
+
++started: {True} <-
+    assert_shared(start);
+
++! move(X,Y,Z) [perform]: {True} <- move(X,Y,Z);
++! inspect [perform]: {True} <- inspect;
+
++movebase_result(Id, 3): {B going(L1) } <- remove_shared(going(L1));
+
+
+:name: jackal
+
+:Initial Beliefs:
+location(random)
+
+:Reasoning Rules:
+
+:Initial Goals:
+
+inspect(random) [perform]
+
+:Plans:
+//+start: {True} <- +!inspect(random)[perform];
++!inspect(Location) [perform] : { True } 
+<- get_random_coordinates(X, Y), assert_shared(going(Location)), perf(move(X,Y,0.0));
+
+-going(L1): {True} <- perf(inspect);

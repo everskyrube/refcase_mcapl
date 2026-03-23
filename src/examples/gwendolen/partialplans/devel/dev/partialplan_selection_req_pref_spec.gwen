@@ -1,0 +1,305 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+
+number_of_locations_visited(0)
+
+plan_annotations(at(l1),[
+                plan_annotation(at(l1),1, [at(l1),before(l1,l3),before(l1,l5),before(l3,l5)]),
+                plan_annotation(at(l1),2, [at(l1), before(l1,l3), before(l1,l5), before(l3,l5)]),
+                plan_annotation(at(l1),3, [at(l1), before(l3,l5)])
+                ])
+                
+plans(at(l1),[ 
+        plan(at(l1),1, [move_to(l1)]),
+        plan(at(l1),2, [move_to(l2), move_to(l1)]),
+        plan(at(l1),3, [move_to(l2), move_to(l3), move_to(l4), move_to(l5), move_to(l1)])
+    ])
+    
+    
+plan_annotations(at(l3),[
+                plan_annotation(at(l3),1, [at(l3), at(l5), before(l1,l3), before(l1,l5)]),
+                plan_annotation(at(l3),2, [at(l3), before(l1,l3), before(l1,l5), before(l3,l5)])
+                ])
+                
+plans(at(l3),[ 
+        plan(at(l3),1, [move_to(l5), move_to(l4), move_to(l3)]),
+        plan(at(l3),2, [move_to(l2), move_to(l3)])
+    ])
+    
+plan_annotations(at(l5), [
+                plan_annotation(at(l5),1, [at(l5), before(l1,l3),before(l3,l5) ,before(l1,l5) ]),
+                plan_annotation(at(l5),2, [at(l5), before(l1,l3),before(l1,l5),before(l3,l5)])
+    ])
+    
+plans(at(l5),[ 
+        plan(at(l5),1, [move_to(l4), move_to(l5)]),
+        plan(at(l5),2, [move_to(l2), move_to(l1), move_to(l5)])
+    ])
+    
+required_specification([at(l1),at(l3),at(l5)])
+preferred_specification([before(l1,l3), before(l1,l5), before(l3,l5)])
+
+:Reasoning Rules:
+
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+append([], X, X);
+append([ H | T], X , [ H | W ]) :- 
+	append(T,X,W);
+	
+initial_specification(S):-
+	required_specification(RSpec),
+	preferred_specification(PSpec),
+	append(RSpec,PSpec,S);
+	
+get_plans_for_spec(S,[],[]);
+
+get_plans_for_spec(S, [plan_annotation(X,Ind,HP) | TP], [plan_annotation(X,Ind,HP) | Res]) :-
+	ismember(S,HP),
+	get_plans_for_spec(S,TP,Res);  
+	
+get_plans_for_spec(S,[plan_annotation(X,Ind,HP) | TP], Res) :-
+	get_plans_for_spec(S,TP,Res);
+	
+check_plans_for_spec(L,[],L);
+check_plans_for_spec(L,NL,NL);
+
+get_plans_for_spec(S,L,PlanSet) :-
+	get_plans_for_spec(S,L,PlanSet);
+
+
+get_plans_for_speclist_weakening([],Plans,Plans);	
+ 
+get_plans_for_speclist_weakening([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	check_plans_for_spec(Plans,PlanSet,NewPlanSet),
+	get_plans_for_speclist_weakening(T,NewPlanSet,PossiblePlans);
+
+get_plans_for_speclist_no_weakening([],Plans,Plans);	
+ 
+get_plans_for_speclist_no_weakening([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	get_plans_for_speclist_no_weakening(T,PlanSet,PossiblePlans);
+
+
+
+get_plan_list_for_speclist([],[],[]);
+
+get_plan_list_for_speclist([Spec|T],Plans,Spec):-
+	plan_annotations(Spec,Plans);
+	
+get_plan_list_for_speclist([Spec | TSpec], Plans, ResSpec):-
+	get_plan_list_for_speclist(TSpec,Plans,ResSpec);	
+
+plan(PlanType,Id,Ind,Plan) :- plans(PlanType,L), ismember(plan(PlanType,Id,Plan),L);
+
+get_firstplan_index_from_planset([plan_annotation(X,Ind,Plan)| T], X,Ind,Plan);
+
+
+can_remove_at(X):- visited(X);
+
+can_remove_before(X1,X2):-  visited(X1) , ~ visited(X2) ;
+
+can_remove(at(X)):-
+	can_remove_at(X);
+	
+can_remove(before(X1,X2)):-
+	can_remove_before(X1,X2);
+
+
+satisfied(at(X)):-
+	visited(X,Y);
+	
+	
+satisfied(before(X,Y)):-
+	visited(X,Tx),
+	~ visited(Y,Ty);
+
+satisfied(before(X,Y)):-
+	visited(X,Tx),
+	visited(Y,Ty),
+	Tx < Ty;	
+
+
+get_updated_specification([],[]); 
+
+get_updated_specification([OldSH|OldST], NewS):-
+	satisfied(OldSH),
+	get_updated_specification(OldST,NewS);
+	
+get_updated_specification([OldSH | OldST], [OldSH | NewS]):-
+	get_updated_specification(OldST,NewS);
+	
+plan_executed(PlanType,PlanId,IndInPlan,[]);
+
+is_empty([]);
+
+is_goal(at(X)); 
+
+is_constraint(before(X1,X2)); 
+is_constraint(avoid(X));
+
+
+
+revise_specification_for_goals(Specification,PlanSpec,RevSpec):-
+	revise_specification_for_goals(Specification,PlanSpec,RevisedSpecStart,RevisedSpecEnd),
+	append(RevisedSpecStart,RevisedSpecEnd,RevSpec);
+	
+
+revise_specification_for_goals([],PlanSpec,[],[]);
+
+revise_specification_for_goals([PlanSpec | TSpec],PlanSpec,[PlanSpec | RevSpecStart],RevSpecEnd):-
+	revise_specification_for_goals(TSpec,PlanSpec,RevSpecStart,RevSpecEnd);
+
+revise_specification_for_goals([HSpec | TSpec], PlanSpec, RevSpecStart,[HSpec | RevSpecEnd] ):-
+	is_goal(HSpec),
+	revise_specification_for_goals(TSpec,PlanSpec,RevSpecStart,RevSpecEnd);
+	
+revise_specification_for_goals([HSpec | TSpec], PlanSpec, [HSpec | RevSpecStart], RevSpecEnd ):-
+	is_constraint(HSpec),
+	revise_specification_for_goals(TSpec,PlanSpec,RevSpecStart,RevSpecEnd);
+	
+
+
+can_remove_goal(X):-
+	is_goal(X),
+	plan_annotations(X,L);
+	
+remove_specs(FSpec,[],[],[]);
+
+remove_specs(FSpec,[FSpec | TSpecs], [FSpec | UReqSpec], UExSpec):-
+	remove_specs(FSpec,TSpecs,UReqSpec,UExSpec);
+
+remove_specs(FSpec,[HSpec | TSpecs], UReqSpec,[HSpec | UExSpec]):-	
+	can_remove_goal(HSpec),
+	remove_specs(FSpec,TSpecs,UReqSpec,UExSpec);
+
+remove_specs(FSpec,[HSpec | TSpecs], [HSpec | UReqSpec],UExSpec):-
+	remove_specs(FSpec,TSpecs,UReqSpec,UExSpec);
+		
+get_first_applicable_plan(FirstSpec,PlanIndex,PlanAnnots):-
+	required_specification(RSpec),
+	preferred_specification(PSpec),
+	initial_specification(WholeSpec),
+	
+	get_updated_specification(RSpec,URSpec),
+	get_updated_specification(PSpec,UPSpec),
+	get_updated_specification(WholeSpec,UWholeSpec),
+	
+	get_plan_list_for_speclist(UWholeSpec,AllPlans,FirstSpec),
+	
+	remove_specs(FirstSpec,URSpec,URSpecExGoals,URSpecGoals),
+	get_plans_for_speclist_no_weakening(URSpecExGoals,AllPlans,StrongValidPlans),
+	
+	append(URSpecGoals,UPSpec,UPSpecPlusRGoals),
+	revise_specification_for_goals(UPSpecPlusRGoals,FirstSpec,RevisedPrefSpec),
+	get_plans_for_speclist_weakening(RevisedPrefSpec,StrongValidPlans,ValidPlans),
+	get_firstplan_index_from_planset(ValidPlans,FirstSpec,PlanIndex,PlanAnnots);
+	
+
+
+	
+
+:Initial Goals:
+
+satisfy_spec [achieve]
+
+
+
+:Plans:
+
+
+
++!satisfy_spec[achieve] : {
+		B initial_specification(S), B get_updated_specification(S,[FS|T]), B is_empty([FS|T])} <-
+		 print("All done"), +satisfy_spec;
+		
++!satisfy_spec[achieve] : {
+		 B required_specification(RS), 
+		B get_updated_specification(RS,[FS|T]), ~B is_empty([FS|T])} <- print("Original spec"), print(RS),
+		 print("Updated Spec"), print(FS),print("Tail"), print(T),print("Processing spec list"), +!get_plan[perform];
+
+
+
++!get_plan [perform]: {
+	B initial_specification(S), 
+	B get_updated_specification(S,[])
+
+	} <-
+	print("Updated spec list is empty so mission accomplished"),
+	+satisfy_spec
+	;
+
++!get_plan [perform]: {
+	B initial_specification(S), 
+	B get_updated_specification(S,US),
+	B get_first_applicable_plan(FirstSpec,Index,Plan)
+
+	} <-
+	print(RS),
+	print(Plans), print(ValidPlans),
+	 print("Index"),print(Index), print("Plan"), print(Plan),
+	 +!achieve_plan(FirstSpec,Index,0) [achieve]
+	;
+
+
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													B plan_executed(PlanType,PlanId,IndInPlan,[]),
+														B plan(PlanType,PlanId,IndInPlan,[])
+														} <-
+													-plan(PlanType,PlanId,IndInPlan,[]),
+													 +achieve_plan(PlanType,PlanId,IndInPlan),
+													 print("Achieved full plan for"), print(PlanType);
+													 
+													 
+	
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													~B plan_executed(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+														B plan(PlanType,PlanId,IndInPlan,[move_to(X) | T])
+												} <- 
+													
+													print(" Moving "),
+													move_to(X), 
+													+achieve_plan(PlanType,PlanId,IndInPlan),
+													sum(IndInPlan,1,Z), 
+													print("Updated Index"),
+													
+													-plan(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													print(IndInPlan),
+													print(Z),
+													print(T),
+													print("Removed plan belief "),
+													+plan(PlanType,PlanId,Z,T), 
+													print("Added new plan belief"),
+													
+													+!achieve_plan(PlanType,PlanId,Z)[achieve];
+													
+													
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													~B plan_executed(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													B plan(PlanType,PlanId,IndInPlan,[print(X) | T])} <- 
+													
+													print(X), 
+													+achieve_plan(PlanType,PlanId,IndInPlan),
+													sum(IndInPlan,1,Z), 
+												
+													-plan(PlanType,PlanId,IndInPlan,[print(X) | T]),
+													+plan(PlanType,PlanId,Z,T), 
+													
+													+!achieve_plan(PlanType,PlanId,Z)[achieve];
+													
+														
++at(X) : {B number_of_locations_visited(Y)} <- sum(Y,1,Z),+visited(X,Z), -number_of_locations_visited(Y), +number_of_locations_visited(Z),print("reached"), print(X);
+													 

@@ -1,0 +1,780 @@
+GWENDOLEN
+// so we are going to pipes 
+// and we want to avoid areas of high radiation 
+// where high is 100 ish 
+
+:name: jackal
+
+:Initial Beliefs:
+
+//locations
+location(door)
+location(drumside)
+location(drumfront)
+location(t1top)
+location(t1right)
+location(t1bottom)
+location(t2top)
+location(t2left)
+location(t2bottom)
+location(tankset)
+location(pipes)
+location(room)
+location(stairs)
+location(entrance)
+location(roomwall)
+location(roomentrance)
+location(roomback)
+location(iP1)
+location(iP2)
+location(farwall)
+location(iP3)
+
+//location coordinates
+location_coordinate(door,-8.180,-3.160,0.000)
+location_coordinate(drumside,-4.070,-7.240,0.000)
+location_coordinate(drumfront,-7.250,-5.260,0.000)
+location_coordinate(t1top,-0.490,-3.510,0.000)
+location_coordinate(t1right,2.300,-1.930,0.000)
+location_coordinate(t1bottom,5.480,-3.480,0.000)
+location_coordinate(t2top,-0.470,-6.520,0.000)
+location_coordinate(t2left,1.980,-7.880,0.000)
+location_coordinate(t2bottom,5.360,-6.310,0.000)
+location_coordinate(tankset,6.800,-5.690,0.000)
+location_coordinate(pipes,7.790,-2.670,0.000)
+location_coordinate(room,1.300,2.200,0.000)
+location_coordinate(stairs,2.940,8.560,0.000)
+location_coordinate(entrance,-7.825,-0.573,0.00)
+location_coordinate(roomwall,-0.557,0.516,0.00)
+location_coordinate(roomentrance,4.197,0.337,0.00)
+location_coordinate(roomback,4.948,4.055,0.000)
+location_coordinate(iP1,-2.198,-4.939,0.000)
+location_coordinate(iP2,-5.970,3.861,0.000)
+location_coordinate(farwall,7.746,3.835,0.000)
+location_coordinate(iP3,1.870,-0.516,0.000)
+
+
+//extras
+//just to count the locations
+location_count(0)
+
+
+//to record movement
+move_history([])
+
+//plans
+//plans(Goal/destination, [
+//				plan(source, index, actions, annotations )...])
+
+plans(visit(pipes), [
+	
+	
+	plan(at(door),3,[move_to(entrance),move_to(t2left),move_to(pipes)],[visit(pipes),avoid(danger_orange)]),
+	plan(at(door),1,[move_to(entrance),move_to(iP3),move_to(pipes)], [visit(pipes),avoid(danger_orange)]),
+	plan(at(door),2,[move_to(entrance),move_to(iP2),move_to(stairs),move_to(farwall),move_to(pipes)],[visit(pipes),avoid(danger_orange)])
+	])
+
+//plans()
+
+//specifications
+//specification("Required",[visit(tank1right),visit(pipes)])
+//specification("Preferred",[before(tank1right,pipes),avoid(tank2top)])
+specification("Required",[visit(pipes)])
+specification("Preferred",[avoid(danger_orange)])
+
+
+:Reasoning Rules:
+
+//the basics
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+append([], X, X);
+append([ H | T], X , [ H | W ]) :- 
+	append(T,X,W);
+
+remove_from_list(Elem,[],[]);
+remove_from_list(Elem,[Elem|L],L);
+remove_from_list(Elem,[NotElem | L],[NotElem | NL]):-
+	remove_from_list(Elem,L,NL);
+
+remove_list_from_list([],L,L);	
+remove_list_from_list([ToRemoveH | ToRemoveT ],L,NL):-
+	remove_from_list(ToRemoveH,L,NL1),
+	remove_list_from_list(ToRemoveT,NL1,NL); 
+
+
+replaceFirst(_,_, [],[]);
+replaceFirst(O,R,[O|T],[R|T]);
+replaceFirst(O,R,[H|T],[H|T2]) :- 
+			dif(H,O),
+			replaceFirst(O,R,T,T2);
+
+//combining the required and preferred specs
+combined_specifications(CSpecs):-
+	specification("Required",RSpec),
+	specification("Preferred",PSpec),
+	append(RSpec,PSpec,CSpecs);
+
+//checking if a spec is satisfied 
+satisfied(before(Per,Loc)):-
+	visited(Per,Tp),
+	visited(Loc,Tl),
+	[Tp < Tl];
+	
+satisfied(before(Per,Loc)):-
+	visited(Per,Tp),
+	~visited(Loc,Tl);
+		
+satisfied(before(Loc,Per)):-
+	visited(Loc,Tl),
+	visited(Per,Tp),
+	[Tl < Tp];
+	
+satisfied(visit(Per)):-
+	visited(Per,Tp);
+	
+satisfied_avoid(avoid(Per)):-
+	~visited(Per,Tp);
+	
+//removing satisfied specs from list 
+filter_satisfied_specs([],[]);
+filter_satisfied_specs([OrigSpecsH | OrigSpecsT], FiltSpecs):-
+	satisfied(OrigSpecsH),
+	filter_satisfied_specs(OrigSpecsT,FiltSpecs);
+filter_satisfied_specs([OrigSpecsH | OrigSpecsT], [OrigSpecsH | FiltSpecs]):-
+	filter_satisfied_specs(OrigSpecsT,FiltSpecs);
+
+//listing satisfied and unsatisfied specs 
+break_specs_satisfied_otherwise([],[],[]);
+break_specs_satisfied_otherwise([OrigSpecsH | OrigSpecsT], [OrigSpecsH | OtherSatSpecs], Otherwise):-
+	satisfied(OrigSpecsH),
+	break_specs_satisfied_otherwise(OrigSpecsT,OtherSatSpecs,Otherwise);
+break_specs_satisfied_otherwise([OrigSpecsH | OrigSpecsT],  OtherSatSpecs, [OrigSpecsH | Otherwise]):-
+	break_specs_satisfied_otherwise(OrigSpecsT,OtherSatSpecs,Otherwise);
+
+	
+//when we're all done we'll only have avoid specs 
+//so we can check if all we're left with is avoid specs 
+//and just say we're done 
+avoid_specs_only([]);
+avoid_specs_only([avoid(X) | T]):-
+	avoid_specs_only(T);
+
+//checking if a spec is violated 
+//have to avoid a location
+violated(Per,avoid(Per));
+
+//if we were to visit per before loc
+//and we've already visited loc
+//and we haven't visited per 
+//then we're going to violate this
+violated(Per,before(Per,Loc)):-
+	visited(Loc,Tloc),
+	~visited(Per,Tper);
+//if we have visited per before then
+//we're not likely to violate the spec 
+
+//if we were to visit loc before per 
+//and we haven't visited loc 
+//then we'll violate this 
+violated(Per,before(Loc,Per)):-
+	~visited(Loc,Tloc);
+	
+	
+
+//getting all violated specs
+violated_specifications(Per,[],[]);
+	
+violated_specifications(Per,[OrigSpecsH | OrigSpecsT],[OrigSpecsH | ViolSpecT]):-
+	//so we get all the violated specifications 
+	violated(Per,OrigSpecsH),
+	violated_specifications(Per,OrigSpecsT,ViolSpecT);
+	
+violated_specifications(Per,[OrigSpecsH | OrigSpecsT], ViolSpecT):-
+	violated_specifications(Per,OrigSpecsT,ViolSpecT);
+
+//find the first spec we have a plan for 
+first_spec_with_plan([],[],[]);
+
+first_spec_with_plan([H | T],H,AllPlans):-
+	plans(H,AllPlans);
+
+first_spec_with_plan([H | T],Spec,Res):-
+	first_spec_with_plan(T,Spec,Res);
+	
+//remove all specs from list that have plans except specified spec 
+has_plans(Spec):-
+	plans(Spec,Plans);
+
+remove_plan_specs([],[],[]);
+remove_plan_specs([HSL | TSL],OtherSpecs,[HSL | PlanSpecs] ):-
+	has_plans(HSL),
+	remove_plan_specs(TSL,OtherSpecs,PlanSpecs);
+remove_plan_specs([HSL | TSL],[HSL | OtherSpecs],PlanSpecs ):-
+	remove_plan_specs(TSL,OtherSpecs,PlanSpecs);
+
+//find the first spec that has a plan and return that list of plans
+first_spec_with_plan(Spec,AllSpecPlans):-
+
+	updated_specifications("Required",RSpec),
+	updated_specifications("Preferred",PSpec),
+	//combine these 
+	append(RSpec,PSpec,CSpec),
+	
+	//find the first spec we have a plan for 
+	first_spec_with_plan(CSpec,Spec,AllSpecPlans);
+
+//get a required spec without any of the specs we have plans for 
+//spec - is the spec the planset is for (see first spec with plan)
+//NewRNoPlanSpec is the updated req spec 
+//NewRPlanSpec is the list of all the removed specs from req spec 
+//we need the above for pspec_modified
+rspec_with_no_otherplanspecs(Spec,NewRNoPlanSpec,NewRPlanSpec):-
+
+	updated_specifications("Required",RSpec),
+	remove_plan_specs(RSpec,RNoPlanSpec,RPlanSpec),
+	remove_from_list(Spec,RPlanSpec,NewRPlanSpec),
+	append([Spec],RNoPlanSpec,NewRNoPlanSpec);
+
+//get an updated preferred spec
+//the input is the list of specs from rspec we removed 
+//cuz we had plans for them 
+//weakening spec is the spec we get by tacking things on 
+//and essentially not caring 
+pspec_modified(NewRPlanSpec,WeakeningSpec):-
+
+	updated_specifications("Preferred",PSpec),
+	remove_plan_specs(PSpec,PNoPlanSpec,PPlanSpec),
+	append(PNoPlanSpec,PPlanSpec,NewPPlanSpec),
+	append(NewPPlanSpec,NewRPlanSpec,WeakeningSpec);
+
+//helper stuff for plans 
+get_plans_for_spec(S,[],[]);
+
+get_plans_for_spec(S, [plan(X,Ind,Actions,HP) | TP], [plan(X,Ind,Actions,HP) | Res]) :-
+	ismember(S,HP),
+	get_plans_for_spec(S,TP,Res);  
+	
+get_plans_for_spec(S,[plan(X,Ind,Actions,HP) | TP], Res) :-
+	get_plans_for_spec(S,TP,Res);
+
+//getting plans without weakening 	
+get_plans_for_speclist_no_weakening([],Plans,Plans);	
+ 
+get_plans_for_speclist_no_weakening([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	get_plans_for_speclist_no_weakening(T,PlanSet,PossiblePlans);
+
+//more helper things 
+check_plans_for_spec(L,[],L);
+check_plans_for_spec(L,NL,NL);
+
+//getting plans with weakening 
+get_plans_for_speclist_weakening([],Plans,Plans);	
+ 
+get_plans_for_speclist_weakening([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	check_plans_for_spec(Plans,PlanSet,NewPlanSet),
+	get_plans_for_speclist_weakening(T,NewPlanSet,PossiblePlans);
+			
+
+//finding a plan 
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,
+			PlanAnnots,[plan(CurrentLoc,PlanIndex,PlanActions,PlanAnnots) | T]);
+
+
+plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,[H | T]):-
+	plan_exists(CurrentLoc,Goal,PlanIndex,PlanActions,PlanAnnots,T);
+	
+plan_exists(Goal,Source,PlanIndex,PlanActions,PlanAnnots):-
+	plans(Goal,L),
+	plan_exists(Source,Goal,PlanIndex,PlanActions,PlanAnnots,L);
+
+
+check_length(L,Len):-
+	length(L,Len);
+	
+//updating plans 
+//
+updated_plans(PlanIndex,L,NewPlanAnnots,NewL):-
+	replaceFirst(plan(Source,PlanIndex,PlanActions,PlanAnnots),plan(Source,PlanIndex,PlanActions,NewPlanAnnots),L,NewL);
+	
+
+:Initial Goals:
+
+//doAction(move_to(tank1top))[perform]
+findplan[perform]
+
+:Plans:
+
++!findplan[perform]: {True} <-
+				print("finding plan"),
+				+!update_specs[perform],
+				+!get_first_spec_plans[perform];
+				
++!get_first_spec_plans[perform]: {B first_spec_with_plan(Spec,AllSpecPlans)} <-
+					+!appendPrint("Found plan for ", Spec)[perform],
+					+!appendPrint("Plan set all plans", AllSpecPlans)[perform],
+					
+					+!find_plans_no_weakening(Spec,AllSpecPlans)[perform];
+					
+					
++!find_plans_no_weakening(Spec,AllSpecPlans)[perform] : {B rspec_with_no_otherplanspecs(Spec,NewRNoPlanSpec,NewRPlanSpec),
+														B get_plans_for_speclist_no_weakening(NewRNoPlanSpec,AllSpecPlans,FixedPlans)}
+											 <- 
+											 +!appendPrint("Updated required spec ",NewRNoPlanSpec)[perform],
+											 +!appendPrint("Removed specs ",NewRPlanSpec)[perform],
+											 +!appendPrint("We got some plans no weakening",FixedPlans)[perform],
+											 +!find_plans_weakening(Spec,NewRPlanSpec,FixedPlans)[perform]; 	
+											 
++!find_plans_weakening(Goal,NewRPlanSpec,SpecPlans)[perform]: {B pspec_modified(NewRPlanSpec,WeakeningSpec),
+														  B get_plans_for_speclist_weakening(WeakeningSpec,SpecPlans,WeakenedPlans)} 
+											<-
+											+!appendPrint("Removed specs from req ",NewRPlanSpec)[perform],
+											+!appendPrint("Weakening spec ", WeakeningSpec)[perform],
+											+!appendPrint("Weakend plans ",WeakenedPlans)[perform],
+											+!select_first_plan(Goal,WeakenedPlans)[perform];
+
++!select_first_plan([],[]) [perform] : {True} <- print("Goal and plans are empty"), print("Either all specs are achieved"),
+											print("Or something strange happened"),
+											+!get_satisfied_otherwise_specs[perform],
+											done;				
+											
+																		
++!select_first_plan(Goal,[plan(Source,Index,Actions,Annotations) |T])[perform] : {True} <- 
+											print("Got plan"),
+											+!printPlan(Goal,Source,Index,Actions,Annotations)[perform],
+											+!achieve_plan(Goal,Index)[achieve];	
+
++!get_satisfied_otherwise_specs[perform]: {B combined_specifications(CSpecs),
+											B break_specs_satisfied_otherwise(CSpecs,SatSpecs,Other), 
+											B avoid_specs_only(Other)}
+											<-
+											+!appendPrint("Original list ",CSpecs)[perform],
+											+!appendPrint("Satisfied ",SatSpecs)[perform],
+											+!appendPrint("Not satisfied but only avoid",Other)[perform];
+
++!get_satisfied_otherwise_specs[perform]: {B combined_specifications(CSpecs),
+											B break_specs_satisfied_otherwise(CSpecs,SatSpecs,Other), 
+											~B avoid_specs_only(Other)}
+											<-
+											+!appendPrint("Original list ",CSpecs)[perform],
+											+!appendPrint("Satisfied ",SatSpecs)[perform],
+											+!appendPrint("Not satisfied ",Other)[perform];
+														
++!update_specs[perform]: {True} 
+					<- 
+					+!update_specs("Required")[perform],
+					+!update_specs("Preferred")[perform];
+									
++!update_specs(Type)[perform]: {~B updated_specifications(Type,SpecList), B specification(Type,RSpec)}
+				<- +!update_specs(Type,RSpec)[perform];
+				
++!update_specs(Type)[perform]: {B updated_specifications(Type,SpecList)}
+				<- +!update_specs(Type,SpecList)[perform];
+								
++!update_specs(Type,SpecList)[perform]: {
+									 B filter_satisfied_specs(SpecList,FiltSpecList)}
+						<-
+						+!appendPrint("Spec Type ",Type)[perform],
+						+!appendPrint("Old ",SpecList)[perform],
+						+!appendPrint("New ",FiltSpecList)[perform],
+						-updated_specifications(Type,SpecList),
+						+updated_specifications(Type,FiltSpecList)
+						;
+						
+//+!stop_plan(tank1top)[perform]: {True} 
+//					<- 
+//					print("Stopping plan"),
+//					//-!achieve_plan(Goal,Index)[achieve];
+//					+!stop_plan[achieve];
+					
+					
+//+!stop_plan(Loc)[perform]: {True} 
+//					<- print("Not stopping the plan");
+
+					
++!stop_moving_now[perform]: {B moving} <-
+						+.lock,
+						cancel_goal,
+						+cancelled_goal,
+						+cancelled_goal_not_done,
+						print("Sent goal cancel request"),
+						-.lock;
+
+-!stop_plan[achieve]: {True} <- print("dropping stop plan"), debug;
++!stop_plan[achieve]: {B current_plan(Goal,Index,PA),
+						~B moving,
+						~B moving_back,
+						B cancelled_goal} 
+					<- 
+					
+					+moving_back,
+					+stop_plan,
+					print("Stopping plan not moving"),
+					-!achieve_plan(Goal,Index)[achieve],
+					-current_plan(Goal,Index,PA),
+					+!move_back[achieve];
+						
++!stop_plan[achieve]: {B current_plan(Goal,Index,PA),
+						~B moving,
+						~B moving_back,
+						~B cancelled_goal} 
+					<- 
+					
+					+moving_back,
+					+stop_plan,
+					print("Stopping plan not moving"),
+					-!achieve_plan(Goal,Index)[achieve],
+					-current_plan(Goal,Index,PA),
+					+!move_back[achieve];
+					
++!stop_plan[achieve]: { ~B current_plan(Goal,Index,PA),
+						~B moving_back,
+						~B moving,
+						~B cancelled_goal} 
+					<- 
+				
+					+moving_back,
+					+stop_plan,
+					print("Stopping plan not moving"),
+					+!move_back[achieve];
+											
++!stop_plan[achieve]: { B current_plan(Goal,Index,PA),
+						B moving,
+					   ~B moving_back,
+					   ~B cancelled_goal} 
+					<- 
+					+!stop_moving_now[perform];
+					
++!stop_plan[achieve]: { B moving_back,
+						B moving} 
+					<- 
+				//	+!stop_moving_now;
+					do_nothing;
+				//	+!stop_moving[perform],
+				//	print("Stopping plan"),
+				//	-!achieve_plan(Goal,Index)[achieve],
+				//	-current_plan(Goal,Index,PA),
+				//	+!move_back[achieve];
+					
+//-!achieve_plan(Goal,Index)[achieve]: {True} <- -current_plan(Goal,Index),
+//												print("Plan stopped");		
+
++!achieve_plan(Goal,Index)[achieve]: {B moving} <- do_nothing;																			
++!achieve_plan(Goal,Index)[achieve]: {~B current_plan(Goal,Index,PlanActions),
+									B plan_exists(Goal,Source,Index,Actions,Annots),
+									~B moving,
+									~B moving_back
+											} 
+									<-
+									print("Achieving new plan"),
+									+current_plan(Goal,Index,Actions),
+									+.lock,
+									+!reset_move_history[perform],
+									+!update_move_history[perform],
+									-.lock,
+									+!printPlan(Goal,Source,Index,Actions,Annots)[perform],
+									+!doActions[perform];
+
+
++!achieve_plan(Goal,Index)[achieve]: {B current_plan(Goal,Index,[]),
+										~B moving,
+										~B moving_back	} 
+									<-
+									print("Achieved current plan"),
+									+achieve_plan(Goal,Index),
+									-current_plan(Goal,Index,[]),
+									+!update_move_history[perform],
+									+!appendPrint("Achieved Plan for ",Goal)[perform],
+									+!findplan[perform];
+									
++!achieve_plan(Goal,Index)[achieve]: {B current_plan(Goal,Index,PlanActions),
+										~B moving,
+										~B moving_back	} 
+									<-
+									print("Achieving plan"),
+									+!update_move_history[perform],
+									+!doActions[perform];
+
++!move_back[achieve]:{B move_history([FAct|TActs]),
+					  ~B move_back_list(MBL),
+					  ~B moving} 
+					  <-
+					  
+					//  +!stop_moving[perform],
+						print("Moving back"),
+					  +move_back_list([FAct|TActs]),
+					  +!doMoveBackActions[perform];
+
+
+
++!move_back[achieve]:{B move_back_list([]),
+					~B moving
+					  } 
+					  <-
+					  print("Moved back"),
+					  -move_back_list([]),
+					  -cancelled_goal,
+					  +move_back,
+					  -moving_back,
+					  +!findplan[perform]
+					  ;
+
++!move_back[achieve]:{B move_back_list([FAct|TActs]),
+					~B moving
+					  } 
+					  <-
+					  print("Moving back"),
+					  +!doMoveBackActions[perform];
+					  
++!move_back[achieve]:{B moving} <- do_nothing;
+					  
++!doMoveBackActions[perform]: {B move_back_list([FAct|TActs]) }
+					<-
+					+!doAction(FAct)[perform],
+					-move_back_list([FAct|TActs]),
+					+move_back_list(TActs)
+					;
+					
++!doActions[perform]: {B current_plan(Goal,Index,[FirstAction|ActionsTail])}
+					<-
+					+!doAction(FirstAction)[perform],
+					-current_plan(Goal,Index,[FirstAction|ActionsTail]),
+					+current_plan(Goal,Index,ActionsTail)
+					;
+					
+
+					
++!doAction(move_to(Loc))[perform]: {~B going(L1), 
+									~B moving, 
+									~B at(Loc), 
+									B location_coordinate(Loc,X,Y,Z)}
+							<- 
+							+!appendPrint("moving to ",Loc)[perform],
+							+going(Loc),
+							+moving,
+							move(X,Y,Z);
+							//move_to(Loc);
+							
++!doAction(move_to(Loc))[perform]: {B at(Loc)}
+							<- 
+							print("Already at location");
+							
++!doneMove(Loc)[perform]: {B moving, B going(Loc)}
+							<-
+							-going(Loc),
+							print("done move"),
+						//	+doAction(move_to(Loc)),
+							-moving;
+
++!reset_move_history[perform]: {B move_history(MH)} <- -move_history(MH),+move_history([]);														
++!update_move_history[perform] : {~B at(Loc), B move_history(MH)} 
+							<- 
+							print("isnt anywhere");
+							
++!update_move_history[perform] : {B at(Loc), B move_history(MH)} 
+							<- 
+							+!visitedLoc(Loc)[perform],
+							+!printMH("Before update ")[perform],
+							-move_history(MH),
+							+move_history([move_to(Loc) | MH]),
+							+!printMH("After update ")[perform];
+							
++movebase_result(Id,3) : { B moving, B going(Loc) } <- 
+						 
+						print("Movement to location "),
+						print(Loc),
+						print(" ended with success."),
+							+!appendPrint("movebase id ",Id)[perform],
+						+!move_cleanup[perform];
+
++movebase_result(Id,0) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal is pending");
+
+
++movebase_result(Id,2) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal has been cancelled so just clean up"),
+						+!move_cleanup[perform];
+
++movebase_result(Id,1) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal is being processed");
+
++movebase_result(Id,4) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal has been aborted the robot got stuck so just clean up"),
+						+!move_cleanup[perform];
+
++movebase_result(Id,5) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal has been rejected bad goal so just clean up"),
+						+!move_cleanup[perform];
+
++movebase_result(Id,6) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal received a cancel request");
+						
++movebase_result(Id,7) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal received a cancel request");	
+						
++movebase_result(Id,8) : { B moving, B going(Loc) } <- 
+						+!appendPrint("moving to ",Loc)[perform],
+						+!appendPrint("movebase id ",Id)[perform],
+						print("The goal has been recalled so just clean up"),
+						+!move_cleanup[perform];											
+//+movebase_result(Id,MBRes) : { B moving, B going(Loc) } <- 
+//						 
+//						print("Unable to get to location "),
+//						print(Loc),
+//						print(" error code "),
+//						print(MBRes),
+//						print(" but will just assume we got there"),
+//						+!move_cleanup[perform];
+
++!move_cleanup[perform]: {B moving, B going(Loc), B cancelled_goal_not_done } <-
+						+.lock,
+						print(" we did not visit the location because we cancelled the goal in time"), 
+						-cancelled_goal_not_done,
+						+!doneMove(Loc)[perform],
+						
+						-.lock;					
++!move_cleanup[perform]: {B moving, B going(Loc), ~B cancelled_goal_not_done } <-
+						+.lock,
+						print(" but will just assume we got there"),
+						+!visitedLoc(Loc)[perform],
+						+!doneMove(Loc)[perform],
+						-.lock;
+					//	+!stop_plan(Loc)[perform];	
+
++!move_cleanup[perform]: {~B moving, ~B going(Loc) } <- print("move clean up called for no reason");
+																	
+//+movebase_result(Id,MBRes) : {True} <- +!appendPrint("Move base result id ",MBRes)[perform];
+															
++at(Loc): {True} <- 
+			+.lock,
+			+!appendPrint("at ",Loc)[perform],
+			-.lock;			
+			
+						
++!visitedLoc(Loc)[perform] : {B location_count(C), ~B visited(Loc,C)}
+						<-
+						+visited(Loc,C),
+						-location_count(C),
+						sum(C,1,NewC),
+						+location_count(NewC);
+						
+//+near(Loc): {True} <- +.lock, +!appendPrint("near ",Loc)[perform], -.lock;
+//
++near(Loc): {B combined_specifications(CSpecs) } <- 
+					+.lock,
+					+!appendPrint("Original Specs ",CSpecs)[perform],
+					+!appendPrint("Near ", Loc)[perform],
+					+!get_violations(Loc,CSpecs)[perform],
+					-.lock;						
+
+
+//+!get_violations(Loc,OrigSpec)[perform]: {B violated_specifications(Loc,OrigSpec,[]),
+//									 B current_plan(Goal,PlanIndex,PActions)}
+//						<-
+//						print("no violations so far");
+						
++!get_violations(Loc,OrigSpec)[perform]: {B violated_specifications(Loc,OrigSpec,VSpecs),
+									 B current_plan(Goal,PlanIndex,PActions)}
+						<-
+						+!appendPrint("Violated specs ",VSpecs)[perform],
+						+!appendPrint("Current plan goal",Goal)[perform],
+						+!appendPrint("Current plan index", PlanIndex)[perform],
+						+!update_annotations(Goal,PlanIndex,VSpecs)[perform];
+						
+
++!update_annotations(Goal,PlanIndex,[])[perform]: {True} <-
+						print("no violations so far");
+						
++!update_annotations(Goal,PlanIndex,ViolatedSpecs)[perform]: {
+							B plan_exists(Goal,Source,PlanIndex,PlanActions,PlanAnnots),
+							B remove_list_from_list(ViolatedSpecs,PlanAnnots, NewPlanAnnots)} 
+						<-
+						// we believe this plan exists 
+						+.lock,
+						+!update_plans(Goal,PlanIndex,NewPlanAnnots)[perform],
+							+!stop_plan[achieve],
+						+!appendPrint("Violated list ",ViolatedSpecs)[perform],
+						+!appendPrint("Old annotations ",PlanAnnots)[perform],
+						+!appendPrint("Updated annots ",NewPlanAnnots)[perform],
+						
+						-.lock;
+						
++!update_plans(Goal,PlanIndex,NewPlanAnnots)[perform]: { B plans(Goal,L),
+							B updated_plans(PlanIndex,L,NewPlanAnnots,NewL)}
+							<-
+							+.lock,
+							//drop the old plans belief 
+							-plans(Goal,L), 
+							print("Dropped old plans"),
+							print(L),
+							//add in the new one 
+							+plans(Goal,NewL),
+							print("Added new ones"),
+							print(NewL),
+							-.lock
+							;		
+
+
+						
++!printMH(PrefixText)[perform] : {B move_history(MH)} 
+							<-
+							append(PrefixText," MH ", Text),	
+							+!appendPrint(Text,MH)[perform];						
++!appendPrint(PString,PVar)[perform] : {True} <- 
+							 +.lock,
+							 toString(PVar,PVarS),
+							 append(PString,PVarS,PrintV),
+							print(PrintV),
+							-.lock;
+							
++!printPlan(Goal,Source,PlanIndex,PlanActions,PlanAnnots)[perform]: {True} <-
+	+.lock,
+	toString(Goal,PG),
+	toString(PlanIndex,PIS),
+					toString(PlanActions,PAS),
+					toString(PlanAnnots,PAnS),
+					toString(Source,SrcS),
+					append(" Index ",PIS,P1),
+					append(" Actions ",PAS,P2),
+					append(" Annotations ",PAnS, P3), 
+					append(" Source ", SrcS,P4),
+					
+					append(P1,P2,PP1),
+					append(PP1,P3,PP2),
+					append(PG," ",PPG),
+					append(PPG,P4,PP4),
+					append(PP4,PP2,PP3),
+					print(PP3),
+					-.lock;						
+								
+
+
++danger_red:{True} <- print("RAYD"); 
++danger_orange:{B combined_specifications(CSpecs)} <- print("ORANGE"),
+					+.lock,
+					+!appendPrint("Original Specs ",CSpecs)[perform],
+					+print("Danger Orange "),
+					+!get_violations(danger_orange,CSpecs)[perform],
+					-.lock;						
+
+
+
+

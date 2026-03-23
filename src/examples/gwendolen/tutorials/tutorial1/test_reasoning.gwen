@@ -1,0 +1,24 @@
+
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+loc(a)
+loc(b)
+
+
+:Reasoning Rules:
+
+visit_a :- loc(a), visited(a);
+
+:Initial Goals:
+
+visit_a [achieve]
+
+:Plans:
+
++!visit_a [achieve] : {True} <- +!visit(a)[perform];
+
++!visit(A) [perform] : {~B visited(A)} <- print("visited a"), +visited(A); 

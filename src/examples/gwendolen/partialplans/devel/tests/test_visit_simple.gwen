@@ -1,0 +1,26 @@
+
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+loc(a)
+loc(b)
+loc(c)
+loc(d)
+
+:Reasoning Rules:
+
+
+
+:Initial Goals:
+
+visit(a) [achieve]
+visit(b) [achieve]
+visit(c) [achieve]
+
+:Plans:
+
++!visit(A) [achieve] : {B loc(A), ~B visited(A), ~B visiting(C)} <- 
+				+.lock, +visiting(A), print("visited"), print(A), +visit(A), -visiting(A), +visited(A), -.lock; 

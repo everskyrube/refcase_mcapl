@@ -1,0 +1,12 @@
+mas.file = /src/examples/eass/ros/fumic/agent/pw_attempt_maintain_reasoning_in_abstraction_avoid_cleanup_halfway_avoid.gwen
+mas.builder = eass.EASSMASBuilder
+
+env = eass.ros.fumic.GridworldEnvironmentMaintain
+
+log.info = ail.mas.DefaultEnvironment //useful for debugging when you get info - tells you about abstraction agent too
+
+log.info = ail.semantics.AILAgent
+log.info = ail.syntax.EvaluationAndRuleBaseIterator
+
+
+log.format = brief

@@ -1,0 +1,31 @@
+
+GWENDOLEN
+
+:name: mrshaldi
+
+:Initial Beliefs:
+
+loc(a)
+loc(b)
+loc(c)
+loc(d)
+
+order(a,b)
+free(c)
+free(d)
+
+
+:Initial Goals:
+
+visit(a) [achieve]
+visit(b) [achieve]
+
+:Plans:
+
+
++!visit(L2) [achieve] : {B loc(L1), B loc(L2), B order(L1,L2), B visited(L1)} <- +.lock, print("visited"), print(L2), +visited(L2),+visit(L2), -.lock; 
++!visit(L2) [achieve] : {B loc(L1), B loc(L2), B order(L1,L2), ~B visited(L1)} <- do_nothing;
++!visit(L1) [achieve] : {B loc(L1), B loc(L2), B order(L1,L2), ~B visited(L1)} <- +.lock, print("visited"), print(L1), +visited(L1),+visit(L1), -.lock;
++!visit(L1) [achieve] : {B loc(L1), B free(L1), ~B visited(L1)} <- +.lock, print("visited"), print(L1), +visited(L1),+visit(L1), -.lock;
++!visit(L2) [achieve] : {B loc(L1), B free(L1),B visited(L1)} <- do_nothing;
++!visit(L1) [achieve] : {B loc(L1), B loc(L2), B order(L1,L2), B visited(L1)} <- do_nothing;

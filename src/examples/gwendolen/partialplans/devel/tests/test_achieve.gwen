@@ -1,0 +1,21 @@
+
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+loc(a)
+loc(b)
+
+
+:Initial Goals:
+
+visit(a) [achieve]
+
+:Plans:
+
+
++!visit(A) [achieve] : {~B saw(A)} <- +.lock, print("visited a"), move(A), +saw(A), -.lock; 
++!visit(A) [achieve] : {B saw(A)} <- print(done);
++thing(X,1) : {B saw(A)} <- +.lock, print("saw a"), +visit(A), -.lock;

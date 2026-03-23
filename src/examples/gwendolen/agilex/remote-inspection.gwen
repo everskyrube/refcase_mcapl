@@ -1,0 +1,55 @@
+GWENDOLEN
+
+:name: agilex_agent
+
+:Initial Beliefs:
+state(monitoring)
+
+:Initial Goals:
+
+:Plans:
++geofence_violation: {True} <-
+    print("WARNING TOO CLOSE"),
+    entry_stop,
+    -state(monitoring),
+    +state(enforced_stop);
+
++safe_halt_req: {B state(monitoring)} <-
+    print("SAFE HALT WAS REQUESTED ... WAITING FOR THE SRAS TO REACT"),
+    +!check_safe_halt[perform],
+    +tick,
+    first_tick_action,
+    -state(monitoring),
+    +state(wait_for_halt);
+
++tick: {G check_safe_halt[perform], ~B seen_tick, B state(wait_for_halt)} <-
+    +seen_tick,
+    print("FIRST TICK");
+
++seen_tick: {G check_safe_halt[perform], ~B halt_observed, B state(wait_for_halt)} <-
+    print("SECOND PING AND SAFE HALT NOT ACHIEVED"),
+    entry_stop,
+    -state(wait_for_halt),
+    +state(enforced_stop),
+    -!check_safe_halt[perform],
+    -seen_tick;
+
++halt_observed: {G check_safe_halt[perform], B state(wait_for_halt)} <-
+    print("SAFE HALT ACHIEVED SUCCESSFULLY"),
+    -state(wait_for_halt),
+    +state(safe_halt_active),
+    -!check_safe_halt[perform],
+    -seen_tick;
+
+
+
+
+
+
+
+
+
+
+
+
+

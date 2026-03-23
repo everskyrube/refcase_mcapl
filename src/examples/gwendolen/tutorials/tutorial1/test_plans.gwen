@@ -1,0 +1,92 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+
+
+plan_annotations(fullplan,[
+	
+	plan_annotation(fullplan,2,[at(l1),at(l2),at(l4),before(l2,l4),before(l1,l4)]),
+	plan_annotation(fullplan,1,[at(l1),at(l2),at(l4),before(l1,l2),before(l2,l4),before(l1,l4)])
+	])
+	
+plans(fullplan, [
+	plan(fullplan,1,[move_to(l1),move_to(l2),move_to(l3),move_to(l4)]),
+	plan(fullplan,2,[move_to(l2),move_to(l1),move_to(l5),move_to(l4)]) ])
+
+specification([at(l1),at(l2),at(l4),before(l1,l2),before(l1,l4),before(l2,l4)])
+
+
+:Reasoning Rules:
+
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+remove_last_from_list([X],[]);
+
+remove_last_from_list([H|T],[H | NewL]) :-
+	remove_last_from_list(T,NewL);
+	
+
+plan_matches_spec([],Plan_annotation);
+plan_matches_spec([H_spec | T_spec], Plan_annotation):-
+	ismember(H_spec, Plan_annotation),
+	plan_matches_spec(T_spec,Plan_annotation);
+	
+
+planlist_spec_match(Spec,[plan_annotation(PlanId,Index,Plan) | T],Index):-
+	plan_matches_spec(Spec,Plan);
+	
+planlist_spec_match(Spec,[plan_annotation(PlanId,Index,Plan) | T], PIndex):-
+	planlist_spec_match(Spec,T,PIndex);
+
+iterative_spec_match(S,PlanId,Plan_annots,Index,S):-
+	planlist_spec_match(S,Plan_annots,Index);
+	
+iterative_spec_match(S,PlanId,Plan_annots,Index,UpdatedSpec):-
+	remove_last_from_list(S,UpdatedSpec1),
+	iterative_spec_match(UpdatedSpec1,Plan_annots,Index,UpdatedSpec);
+
+	
+iterative_match(X,Index,UpdatedSpec):-
+	plan_annotations(X,L),
+	specification(S),
+	iterative_spec_match(S,X,L,Index,UpdatedSpec);
+	
+plan(Id,Ind,Plan) :- plan(fullplan,L), ismember(plan(Id,Ind,Plan),L);
+	
+
+
+:Initial Goals:
+
+satisfy_spec [achieve]
+
+
+:Plans:
+
++!satisfy_spec [achieve] : {B specification(L), B iterative_spec_match(L,PlanId,Plan_annots,Ind,SatisfiableSpec) } <- 
+				print(SatisfiableSpec),
+				print(PlanId),
+				print(Ind),
+				+!achieve_plan(PlanId,Ind)[achieve];
+				
+				
++!achieve_plan(Id,Ind) [achieve] : {B plan(Id,Ind,[])} <- +achieve_plan(Id,Ind), +satisfy_spec;
+
++!achieve_plan(Id,Ind) [achieve] : {B plan(Id,Ind,[move_to(X) | T])} <- move_to(X), sum(Ind,1,Z), +plan(Id,Z,T), +achieve_plan(Id,Ind),+!achieve_plan(Id,Z)[achieve];
++!achieve_plan(Id,Ind) [achieve] : {B plan(Id,Ind,[print(X) | T])} <- print(X), sum(Ind,1,Z), +plan(Id,Z,T), +achieve_plan(Id,Ind),+!achieve_plan(Id,Z)[achieve];
+
+
++at(X) : {True} <- print("at"), print(X);
+
+
+

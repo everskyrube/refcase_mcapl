@@ -1,0 +1,268 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+
+
+
+plan_annotations(at(l1),[
+                plan_annotation(at(l1),1, [at(l1),before(l1,l3),before(l1,l5),before(l3,l5)]),
+                plan_annotation(at(l1),2, [at(l1), before(l1,l3), before(l1,l5), before(l3,l5)]),
+                plan_annotation(at(l1),3, [at(l1), before(l3,l5)])
+                ])
+                
+plans(at(l1),[ 
+        plan(at(l1),1, [move_to(l1)]),
+        plan(at(l1),2, [move_to(l2), move_to(l1)]),
+        plan(at(l1),3, [move_to(l2), move_to(l3), move_to(l4), move_to(l5), move_to(l1)])
+    ])
+    
+    
+plan_annotations(at(l3),[
+                plan_annotation(at(l3),1, [at(l3), at(l5), before(l1,l3), before(l1,l5)]),
+                plan_annotation(at(l3),2, [at(l3), before(l1,l3), before(l1,l5), before(l3,l5)])
+                ])
+                
+plans(at(l3),[ 
+        plan(at(l3),1, [move_to(l5), move_to(l4), move_to(l3)]),
+        plan(at(l3),2, [move_to(l2), move_to(l3)])
+    ])
+    
+plan_annotations(at(l5), [
+                plan_annotation(at(l5),1, [at(l5), before(l1,l3),before(l3,l5) ,before(l1,l5) ]),
+                plan_annotation(at(l5),2, [at(l5), before(l1,l3),before(l1,l5),before(l3,l5)])
+    ])
+    
+plans(at(l5),[ 
+        plan(at(l5),1, [move_to(l4), move_to(l5)]),
+        plan(at(l5),2, [move_to(l2), move_to(l1), move_to(l5)])
+    ])
+    
+initial_specification([at(l1),at(l3),at(l5), before(l1,l3), before(l1,l5), before(l3,l5)])
+
+
+:Reasoning Rules:
+
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+get_plans_for_spec(S,[],[]);
+
+get_plans_for_spec(S, [plan_annotation(X,Ind,HP) | TP], [plan_annotation(X,Ind,HP) | Res]) :-
+	ismember(S,HP),
+	get_plans_for_spec(S,TP,Res);  
+	
+get_plans_for_spec(S,[plan_annotation(X,Ind,HP) | TP], Res) :-
+	get_plans_for_spec(S,TP,Res);
+	
+check_plans_for_spec(L,[],L);
+check_plans_for_spec(L,NL,NL);
+
+get_plans_for_spec(S,L,PlanSet) :-
+	get_plans_for_spec(S,L,Res),
+	check_plans_for_spec(L,Res,PlanSet);
+
+
+get_plans_for_speclist([],Plans,Plans);	
+ 
+get_plans_for_speclist([H|T],Plans,PossiblePlans):-
+	get_plans_for_spec(H,Plans,PlanSet),
+	check_plans_for_spec(Plans,PlanSet,NewPlanSet),
+	get_plans_for_speclist(T,NewPlanSet,PossiblePlans);
+
+
+get_plan_list_for_speclist([H|T],Plans,H):-
+	plan_annotations(H,Plans);
+	
+get_plan_list_for_speclist([],[],[]);
+
+get_plan_list_for_speclist([H | T], Plans, Res):-
+	get_plan_list_for_speclist(T,Plans,Res);	
+
+plan(PlanType,Id,Ind,Plan) :- plans(PlanType,L), ismember(plan(PlanType,Id,Plan),L);
+
+get_firstplan_index_from_planset([plan_annotation(X,Ind,Plan)| T], X,Ind,Plan);
+
+
+
+
+can_remove_at(X):- visited(X);
+
+can_remove_before(X1,X2):-  visited(X1) , ~ visited(X2) ;
+
+get_updated_spec([],[]);
+
+get_updated_spec([at(X)], []):-
+	can_remove_at(X);
+	
+get_updated_spec([before(X1,X2)], []):-
+	can_remove_before(X1,X2);
+	
+get_updated_spec([at(X)|T],Res):-
+	can_remove_at(X),
+	get_updated_spec(T,Res);
+	
+get_updated_spec([before(X1,X2) | T], Res):-
+	can_remove_before(X1,X2),
+	get_updated_spec(T,Res);
+
+get_updated_spec([H |T], [H | Res]):-
+	get_updated_spec(T,Res);
+	
+all_satisfied([]);
+
+plan_executed(PlanType,PlanId,IndInPlan,[]);
+
+specification(ISpec,[H|T],H):-
+	get_updated_spec(ISpec,[H|T]);
+
+:Initial Goals:
+
+satisfy_spec [achieve]
+
+
+:Plans:
+
+
++!satisfy_spec [achieve] : 
+	{ 
+	B specification(S),
+	B all_satisfied(S)
+	  } <- 
+	 print("All satisfied"),
+	 +satisfy_spec;
+	 
++!satisfy_spec [achieve] :
+	{
+	B specification(S),
+	~B all_satisfied(S),
+	B specification(S,US),
+	B all_satisfied(US)
+	}
+	<- 
+	 print("All satisfied"),
+	 +satisfy_spec;
++!satisfy_spec [achieve] :
+	{
+	B specification(S),
+	~ B all_satisfied(S),
+	B specification(S,US),
+	~ B all_satisfied(US)
+	}
+	<- 
+	 print("Current Specification "),
+				print(S),
+				-specification(S),
+				print("Updated Specification"),
+				print(US),
+				+specification(US),
+				+!execute_plan[perform];
+	 	 
++!satisfy_spec [achieve] : 
+	{ 
+	B initial_specification(IS),
+	B specification(IS,US),
+   ~ B all_satisfied(US)
+   
+	  } <- 
+	  print("Initial Specification "),
+				print(IS),
+				-specification(S),
+				print("Updated Specification"),
+				print(US),
+				+specification(US),
+				+!execute_plan[perform];
+				
+				
++!execute_plan [perform] :
+	{ 
+	B specification(S),
+	B get_plan_list_for_speclist(S,Plans,Spec),
+	B get_plans_for_speclist(S,Plans,PlanSet),
+	B get_firstplan_index_from_planset(PlanSet, Spec,Ind,Plan)
+	} 
+		<- 
+		print(" Found plan for "),
+		print(Spec),
+		print("Plan Label "),
+		print(X),
+		print("Plan Index "),
+		print(Ind),
+		print("Plan annotations"),
+		print(Plan),
+		print("Adding achieve plan with 0"),
+		+!achieve_plan(X,Ind,0) [achieve]
+		;
+			
+
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													B plan_executed(PlanType,PlanId,IndInPlan,[]),
+														B plan(PlanType,PlanId,IndInPlan,[])
+														} <-
+													
+													 +achieve_plan(PlanType,PlanId,IndInPlan),
+													 print("Achieved full plan for"), print(PlanType);
+													 
+													 
+	
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													~B plan_executed(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+														B plan(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													B specification(S), B get_updated_spec(S,US), 
+													~B all_satisfied(US)} <- 
+													
+													print(" Moving "),
+													move_to(X), 
+													+achieve_plan(PlanType,PlanId,IndInPlan),
+													sum(IndInPlan,1,Z), 
+													print("Updated Index"),
+													
+													-plan(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													print(IndInPlan),
+													print(Z),
+													print(T),
+													print("Removed plan belief "),
+													+plan(PlanType,PlanId,Z,T), 
+													print("Added new plan belief"),
+													
+													+!achieve_plan(PlanType,PlanId,Z)[achieve];
+													
+													
++!achieve_plan(PlanType,PlanId,IndInPlan) [achieve] : {
+													~B plan_executed(PlanType,PlanId,IndInPlan,[move_to(X) | T]),
+													B plan(PlanType,PlanId,IndInPlan,[print(X) | T]),
+													B specification(S), B get_updated_spec(S,US), ~B all_satisfied(US)} <- 
+													
+													print(X), 
+													+achieve_plan(PlanType,PlanId,IndInPlan),
+													sum(IndInPlan,1,Z), 
+												
+													-plan(PlanType,PlanId,IndInPlan,[print(X) | T]),
+													+plan(PlanType,PlanId,Z,T), 
+													
+													+!achieve_plan(PlanType,PlanId,Z)[achieve];
+													
+														
+
+													 
+													 
+
+
++all_satisfied(X): {True} <- print("All satisfied");
+
+
+
++at(X) : {True} <- +visited(X),print("reached"), print(X);
+
++plan(PlanType,PlanId,IndInPlan,X): {True} <- print("Adding plan to belief "), print(PlanType),
+								print(PlanId), print(IndInPlan), print(X), print("done a"); 
+			

@@ -1,0 +1,19 @@
+
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+loc(a)
+loc(b)
+
+
+:Initial Goals:
+
+visit(a) [achieve]
+
+:Plans:
+
+
++!visit(A) [achieve] : {True} <- print("visited a"), +visit(A); 

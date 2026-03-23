@@ -1,0 +1,72 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+
+required_specification([at(l1)])
+preferred_specification([before(l1,l3),avoid(l6)])
+
+:Reasoning Rules:
+//the basics
+ismember(H, [H | T]);
+ismember(H, [X | T]) :-
+	ismember(H,T);
+	
+append([], X, X);
+append([ H | T], X , [ H | W ]) :- 
+	append(T,X,W);
+
+
+
+//checking if percept violates spec
+violated(Percept,avoid(Percept));
+
+violated(Percept,before(Percept,X)):-
+	visited(X,Tx),
+	~visited(Percept,Tp);
+	
+violated(Percept,before(X,Percept)):-
+	~visited(X,Tx);
+
+//getting list of violated specs	
+specifications_violated(NearPercept,[],[]);
+
+specifications_violated(NearPercept,[HSpec | TSpec],[HSpec | Res]):-
+	violated(NearPercept,HSpec),
+	specifications_violated(NearPercept,TSpec,Res);
+
+specifications_violated(NearPercept,[HSpec | TSpec], Res):-
+	specifications_violated(NearPercept,TSpec,Res);	
+
+is_empty([],[]);
+		
+:Initial Goals:
+//goals
+
+test(l2)[perform]
+
+
+:Plans:
+
+								
+
+
+
++!test(X)[perform]: { B specifications_violated(X,[avoid(l5),before(l3,l5)],SVL)} <- 
+								+!appendPrint("Near ",X)[perform],
+								+!appendPrint("specifications violated",SVL)[perform],
+								+!updatePlan(SVL)[perform];	
+								
++!updatePlan([])[perform]: {True} <- print("do nothing"); 
++!updatePlan(SVL)[perform]: {True} <- +!appendPrint("Do something ",SVL)[perform];							
+
+																					
+//print actions							
++!appendPrint(PString,PVar)[perform] : {True} <- 
+							 +.lock,
+							 toString(PVar,PVarS),
+							 append(PString,PVarS,PrintV),
+							print(PrintV),
+							-.lock;

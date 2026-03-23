@@ -1,0 +1,9 @@
+mas.file = /src/examples/eass/ros/fumic/agent/go-to-location.gwen
+mas.builder = eass.EASSMASBuilder
+
+env = eass.ros.fumic.agent.GridworldEnvironment
+
+log.fine = ail.mas.DefaultEnvironment
+log.fine = ail.semantics.operationalrules
+log.fine = ajpf.MCAPLAgent
+log.format = brief

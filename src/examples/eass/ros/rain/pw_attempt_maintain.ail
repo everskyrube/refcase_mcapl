@@ -1,0 +1,13 @@
+mas.file = /src/examples/eass/ros/rain/pw_attempt_maintain.gwen
+mas.builder = eass.EASSMASBuilder
+
+env = eass.ros.rain.AtNearEnv
+
+log.warning = ail.mas.DefaultEnvironment //useful for debugging when you get info - tells you about abstraction agent too
+log.warning = ail.semantics.operationalrules
+log.warning = ajpf.MCAPLAgent //userful for debugging - I forgot for what
+log.warning = ail.semantics.AILAgent
+log.warning = ail.syntax.EvaluationAndRuleBaseIterator
+log.warning = eass.mas.DefaultEASSEnvironment
+
+log.format = brief
