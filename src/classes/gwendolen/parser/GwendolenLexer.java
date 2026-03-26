@@ -1,3838 +1,769 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2015-10-19 16:00:58
-
+// Generated from /Users/louisedennis/IdeaProjects/mcapl/src/classes/gwendolen/parser/antlr/GwendolenLexer.g4 by ANTLR 4.13.1
 package gwendolen.parser;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.*;
 
-
-import mcaplantlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-
-@SuppressWarnings("all")
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class GwendolenLexer extends Lexer {
-	public static final int EOF=-1;
-	public static final int ACHIEVE=4;
-	public static final int ACHIEVEGOAL=5;
-	public static final int ADD_CONSTRAINT=6;
-	public static final int ADD_CONTENT=7;
-	public static final int ADD_CONTEXT=8;
-	public static final int ADD_PLAN=9;
-	public static final int BAR=10;
-	public static final int BELIEFRULES=11;
-	public static final int BELIEFS=12;
-	public static final int BELIEVE=13;
-	public static final int BRULEARROW=14;
-	public static final int CLOSE=15;
-	public static final int COLON=16;
-	public static final int COMMA=17;
-	public static final int COMMENT=18;
-	public static final int CONST=19;
-	public static final int CONSTRAINT=20;
-	public static final int CURLYCLOSE=21;
-	public static final int CURLYOPEN=22;
-	public static final int DIV=23;
-	public static final int DOUBLEQUOTE=24;
-	public static final int EQ=25;
-	public static final int GOAL=26;
-	public static final int GOALS=27;
-	public static final int GWENDOLEN=28;
-	public static final int IN_CONTENT=29;
-	public static final int IN_CONTEXT=30;
-	public static final int LESS=31;
-	public static final int LINE_COMMENT=32;
-	public static final int LOCK=33;
-	public static final int MINUS=34;
-	public static final int MOD=35;
-	public static final int MULT=36;
-	public static final int NAME=37;
-	public static final int NEWLINE=38;
-	public static final int NOT=39;
-	public static final int NUMBER=40;
-	public static final int OPEN=41;
-	public static final int PERFORM=42;
-	public static final int PERFORMGOAL=43;
-	public static final int PLANS=44;
-	public static final int PLUS=45;
-	public static final int POINT=46;
-	public static final int QUERY=47;
-	public static final int RECEIVED=48;
-	public static final int RULEARROW=49;
-	public static final int SEMI=50;
-	public static final int SEND=51;
-	public static final int SENT=52;
-	public static final int SHRIEK=53;
-	public static final int SQCLOSE=54;
-	public static final int SQOPEN=55;
-	public static final int STRING=56;
-	public static final int TELL=57;
-	public static final int TELLHOW=58;
-	public static final int TRUE=59;
-	public static final int UNNAMEDVAR=60;
-	public static final int VAR=61;
-	public static final int WS=62;
+	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
+
+	protected static final DFA[] _decisionToDFA;
+	protected static final PredictionContextCache _sharedContextCache =
+		new PredictionContextCache();
+	public static final int
+		GWENDOLEN=1, NAME=2, CONST=3, COMMENT=4, LINE_COMMENT=5, NEWLINE=6, WS=7, 
+		BELIEFS=8, BELIEFRULES=9, GOAL_IB=10, CAP_IB=11, IB_COMMENT=12, IB_LINE_COMMENT=13, 
+		IB_NEWLINE=14, IB_WS=15, BELIEF_BLOCK=16, GOAL_RR=17, CAP_RR=18, RR_COMMENT=19, 
+		RR_LINE_COMMENT=20, RR_NEWLINE=21, RR_WS=22, RR_BLOCK=23, GOAL_C=24, CAP_COMMENT=25, 
+		CAP_LINE_COMMENT=26, CAP_NEWLINE=27, CAP_WS=28, CAP_CURLYOPEN=29, CAP_CURLYCLOSE=30, 
+		CAP_BLOCK=31, PLANS=32, GL_COMMENT=33, GL_LINE_COMMENT=34, GL_NEWLINE=35, 
+		GL_WS=36, GL_ACHIEVEGOAL=37, GL_PERFORMGOAL=38, GL_SQOPEN=39, GL_SQCLOSE=40, 
+		GOAL_BLOCK=41, NAME_PM=42, PL_COMMENT=43, PL_LINE_COMMENT=44, PL_NEWLINE=45, 
+		PL_WS=46, SEND=47, RECEIVED=48, BELIEVE=49, GOAL=50, SENT=51, LOCK=52, 
+		QUERYCOM=53, PL_ACHIEVEGOAL=54, PL_PERFORMGOAL=55, PL_SQOPEN=56, PL_SQCLOSE=57, 
+		PL_BAR=58, NOT=59, COLON=60, CURLYOPEN=61, CURLYCLOSE=62, COMMA=63, SEMI=64, 
+		TELL=65, SHRIEK=66, OPEN=67, CLOSE=68, MULT=69, PLUS=70, MINUS=71, LESS=72, 
+		EQUAL=73, IDPUNCT=74, RULEARROW=75, TRUE=76, PL_CONST=77, PL_VAR=78, NUMBER=79, 
+		QUOTED_STRING=80;
+	public static final int
+		INITIAL_BELIEFS=1, REASONING_RULES=2, CAPABILITIES=3, GOALS=4, PLANS_MODE=5;
+	public static String[] channelNames = {
+		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
+	};
+
+	public static String[] modeNames = {
+		"DEFAULT_MODE", "INITIAL_BELIEFS", "REASONING_RULES", "CAPABILITIES", 
+		"GOALS", "PLANS_MODE"
+	};
+
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"GWENDOLEN", "NAME", "CONST", "COMMENT", "LINE_COMMENT", "NEWLINE", "WS", 
+			"BELIEFS", "BELIEFRULES", "GOAL_IB", "CAP_IB", "IB_COMMENT", "IB_LINE_COMMENT", 
+			"IB_NEWLINE", "IB_WS", "BELIEF_BLOCK", "GOAL_RR", "CAP_RR", "RR_COMMENT", 
+			"RR_LINE_COMMENT", "RR_NEWLINE", "RR_WS", "RR_BLOCK", "GOAL_C", "CAP_COMMENT", 
+			"CAP_LINE_COMMENT", "CAP_NEWLINE", "CAP_WS", "CAP_CURLYOPEN", "CAP_CURLYCLOSE", 
+			"CAP_BLOCK", "PLANS", "GL_COMMENT", "GL_LINE_COMMENT", "GL_NEWLINE", 
+			"GL_WS", "GL_ACHIEVEGOAL", "GL_PERFORMGOAL", "GL_SQOPEN", "GL_SQCLOSE", 
+			"GOAL_BLOCK", "NAME_PM", "PL_COMMENT", "PL_LINE_COMMENT", "PL_NEWLINE", 
+			"PL_WS", "SEND", "RECEIVED", "BELIEVE", "GOAL", "SENT", "LOCK", "QUERYCOM", 
+			"PL_ACHIEVEGOAL", "PL_PERFORMGOAL", "PL_SQOPEN", "PL_SQCLOSE", "PL_BAR", 
+			"NOT", "COLON", "CURLYOPEN", "CURLYCLOSE", "COMMA", "SEMI", "TELL", "SHRIEK", 
+			"OPEN", "CLOSE", "MULT", "PLUS", "MINUS", "LESS", "EQUAL", "IDPUNCT", 
+			"RULEARROW", "TRUE", "PL_CONST", "PL_VAR", "NUMBER", "QUOTED_STRING"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
+
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'GWENDOLEN'", null, null, null, null, null, null, "':Initial Beliefs:'", 
+			"':Reasoning Rules:'", null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, "'Initial Goals:'", null, null, null, 
+			null, null, null, null, "':Plans:'", null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, "'.send'", "'.received'", 
+			null, null, "'.sent'", "'.lock'", "'.query'", "'achieve'", "'perform'", 
+			null, null, "'|'", "'~'", "':'", null, null, "','", "';'", "':tell'", 
+			"'!'", "'('", "')'", "'*'", "'+'", "'-'", "'<'", "'=='", "'.'", "'<-'", 
+			"'True'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "GWENDOLEN", "NAME", "CONST", "COMMENT", "LINE_COMMENT", "NEWLINE", 
+			"WS", "BELIEFS", "BELIEFRULES", "GOAL_IB", "CAP_IB", "IB_COMMENT", "IB_LINE_COMMENT", 
+			"IB_NEWLINE", "IB_WS", "BELIEF_BLOCK", "GOAL_RR", "CAP_RR", "RR_COMMENT", 
+			"RR_LINE_COMMENT", "RR_NEWLINE", "RR_WS", "RR_BLOCK", "GOAL_C", "CAP_COMMENT", 
+			"CAP_LINE_COMMENT", "CAP_NEWLINE", "CAP_WS", "CAP_CURLYOPEN", "CAP_CURLYCLOSE", 
+			"CAP_BLOCK", "PLANS", "GL_COMMENT", "GL_LINE_COMMENT", "GL_NEWLINE", 
+			"GL_WS", "GL_ACHIEVEGOAL", "GL_PERFORMGOAL", "GL_SQOPEN", "GL_SQCLOSE", 
+			"GOAL_BLOCK", "NAME_PM", "PL_COMMENT", "PL_LINE_COMMENT", "PL_NEWLINE", 
+			"PL_WS", "SEND", "RECEIVED", "BELIEVE", "GOAL", "SENT", "LOCK", "QUERYCOM", 
+			"PL_ACHIEVEGOAL", "PL_PERFORMGOAL", "PL_SQOPEN", "PL_SQCLOSE", "PL_BAR", 
+			"NOT", "COLON", "CURLYOPEN", "CURLYCLOSE", "COMMA", "SEMI", "TELL", "SHRIEK", 
+			"OPEN", "CLOSE", "MULT", "PLUS", "MINUS", "LESS", "EQUAL", "IDPUNCT", 
+			"RULEARROW", "TRUE", "PL_CONST", "PL_VAR", "NUMBER", "QUOTED_STRING"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
 
 	    public int plain_nesting = 0;
 	    public int sq_nesting = 0;
 	    public int curly_nesting = 0;
-	    public boolean stringterm = false;
-	    public boolean gwendolen = true;
-	    public int belief_rules = 0;
 
 
-	// delegates
-	// delegators
-	public Lexer[] getDelegates() {
-		return new Lexer[] {};
-	}
-
-	public GwendolenLexer() {} 
 	public GwendolenLexer(CharStream input) {
-		this(input, new RecognizerSharedState());
+		super(input);
+		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public GwendolenLexer(CharStream input, RecognizerSharedState state) {
-		super(input,state);
-	}
-	@Override public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g"; }
-
-	// $ANTLR start "GWENDOLEN"
-	public final void mGWENDOLEN() throws RecognitionException {
-		try {
-			int _type = GWENDOLEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:163:11: ({...}? => 'GWENDOLEN' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:163:12: {...}? => 'GWENDOLEN'
-			{
-			if ( !((curly_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "GWENDOLEN", "curly_nesting == 0");
-			}
-			match("GWENDOLEN"); 
-
-			gwendolen = true;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "GWENDOLEN"
-
-	// $ANTLR start "GOALS"
-	public final void mGOALS() throws RecognitionException {
-		try {
-			int _type = GOALS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:165:7: ( ':Initial Goals:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:165:9: ':Initial Goals:'
-			{
-			match(":Initial Goals:"); 
-
-			belief_rules = 0;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "GOALS"
-
-	// $ANTLR start "BELIEFS"
-	public final void mBELIEFS() throws RecognitionException {
-		try {
-			int _type = BELIEFS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:166:9: ( ':Initial Beliefs:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:166:11: ':Initial Beliefs:'
-			{
-			match(":Initial Beliefs:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BELIEFS"
-
-	// $ANTLR start "BELIEFRULES"
-	public final void mBELIEFRULES() throws RecognitionException {
-		try {
-			int _type = BELIEFRULES;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:168:2: ( ':Reasoning Rules:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:168:4: ':Reasoning Rules:'
-			{
-			match(":Reasoning Rules:"); 
-
-			belief_rules = 1;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BELIEFRULES"
-
-	// $ANTLR start "PLANS"
-	public final void mPLANS() throws RecognitionException {
-		try {
-			int _type = PLANS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:169:7: ( ':Plans:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:169:9: ':Plans:'
-			{
-			match(":Plans:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "PLANS"
-
-	// $ANTLR start "NAME"
-	public final void mNAME() throws RecognitionException {
-		try {
-			int _type = NAME;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:170:6: ( ':name:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:170:8: ':name:'
-			{
-			match(":name:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NAME"
-
-	// $ANTLR start "SEND"
-	public final void mSEND() throws RecognitionException {
-		try {
-			int _type = SEND;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:172:6: ( '.send' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:172:8: '.send'
-			{
-			match(".send"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SEND"
-
-	// $ANTLR start "RECEIVED"
-	public final void mRECEIVED() throws RecognitionException {
-		try {
-			int _type = RECEIVED;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:173:9: ({...}? => '.received' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:173:11: {...}? => '.received'
-			{
-			if ( !((gwendolen)) ) {
-				throw new FailedPredicateException(input, "RECEIVED", "gwendolen");
-			}
-			match(".received"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "RECEIVED"
-
-	// $ANTLR start "BELIEVE"
-	public final void mBELIEVE() throws RecognitionException {
-		try {
-			int _type = BELIEVE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:9: ({...}? => ( 'B' | '.B' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:11: {...}? => ( 'B' | '.B' )
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0");
-			}
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:56: ( 'B' | '.B' )
-			int alt1=2;
-			int LA1_0 = input.LA(1);
-			if ( (LA1_0=='B') ) {
-				alt1=1;
-			}
-			else if ( (LA1_0=='.') ) {
-				alt1=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 1, 0, input);
-				throw nvae;
-			}
-
-			switch (alt1) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:57: 'B'
-					{
-					match('B'); 
-					}
-					break;
-				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:63: '.B'
-					{
-					match(".B"); 
-
-					}
-					break;
-
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BELIEVE"
-
-	// $ANTLR start "GOAL"
-	public final void mGOAL() throws RecognitionException {
-		try {
-			int _type = GOAL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:175:6: ({...}? => ( 'G' | '.G' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:175:8: {...}? => ( 'G' | '.G' )
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "GOAL", "curly_nesting > 0 && plain_nesting == 0");
-			}
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:175:53: ( 'G' | '.G' )
-			int alt2=2;
-			int LA2_0 = input.LA(1);
-			if ( (LA2_0=='G') ) {
-				alt2=1;
-			}
-			else if ( (LA2_0=='.') ) {
-				alt2=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 2, 0, input);
-				throw nvae;
-			}
-
-			switch (alt2) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:175:54: 'G'
-					{
-					match('G'); 
-					}
-					break;
-				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:175:60: '.G'
-					{
-					match(".G"); 
-
-					}
-					break;
-
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "GOAL"
-
-	// $ANTLR start "IN_CONTENT"
-	public final void mIN_CONTENT() throws RecognitionException {
-		try {
-			int _type = IN_CONTENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:176:12: ({...}? => ( 'N' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:176:14: {...}? => ( 'N' )
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "IN_CONTENT", "curly_nesting > 0 && plain_nesting == 0");
-			}
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:176:59: ( 'N' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:176:60: 'N'
-			{
-			match('N'); 
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "IN_CONTENT"
-
-	// $ANTLR start "IN_CONTEXT"
-	public final void mIN_CONTEXT() throws RecognitionException {
-		try {
-			int _type = IN_CONTEXT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:177:12: ({...}? => ( 'X' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:177:14: {...}? => ( 'X' )
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "IN_CONTEXT", "curly_nesting > 0 && plain_nesting == 0");
-			}
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:177:59: ( 'X' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:177:60: 'X'
-			{
-			match('X'); 
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "IN_CONTEXT"
-
-	// $ANTLR start "SENT"
-	public final void mSENT() throws RecognitionException {
-		try {
-			int _type = SENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:178:6: ({...}? => '.sent' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:178:8: {...}? => '.sent'
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
-				throw new FailedPredicateException(input, "SENT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
-			}
-			match(".sent"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SENT"
-
-	// $ANTLR start "LOCK"
-	public final void mLOCK() throws RecognitionException {
-		try {
-			int _type = LOCK;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:179:6: ( '.lock' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:179:8: '.lock'
-			{
-			match(".lock"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "LOCK"
-
-	// $ANTLR start "ADD_PLAN"
-	public final void mADD_PLAN() throws RecognitionException {
-		try {
-			int _type = ADD_PLAN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:180:10: ( '.plan' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:180:12: '.plan'
-			{
-			match(".plan"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ADD_PLAN"
-
-	// $ANTLR start "ADD_CONSTRAINT"
-	public final void mADD_CONSTRAINT() throws RecognitionException {
-		try {
-			int _type = ADD_CONSTRAINT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:181:16: ( '.constraint' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:181:18: '.constraint'
-			{
-			match(".constraint"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ADD_CONSTRAINT"
-
-	// $ANTLR start "ADD_CONTENT"
-	public final void mADD_CONTENT() throws RecognitionException {
-		try {
-			int _type = ADD_CONTENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:183:2: ( '.n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:183:4: '.n'
-			{
-			match(".n"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ADD_CONTENT"
-
-	// $ANTLR start "ADD_CONTEXT"
-	public final void mADD_CONTEXT() throws RecognitionException {
-		try {
-			int _type = ADD_CONTEXT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:184:13: ( '.x' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:184:15: '.x'
-			{
-			match(".x"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ADD_CONTEXT"
-
-	// $ANTLR start "TELL"
-	public final void mTELL() throws RecognitionException {
-		try {
-			int _type = TELL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:186:6: ( ':tell' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:186:8: ':tell'
-			{
-			match(":tell"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "TELL"
-
-	// $ANTLR start "PERFORM"
-	public final void mPERFORM() throws RecognitionException {
-		try {
-			int _type = PERFORM;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:187:9: ( ':perform' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:187:11: ':perform'
-			{
-			match(":perform"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "PERFORM"
-
-	// $ANTLR start "ACHIEVE"
-	public final void mACHIEVE() throws RecognitionException {
-		try {
-			int _type = ACHIEVE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:188:9: ( ':achieve' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:188:11: ':achieve'
-			{
-			match(":achieve"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ACHIEVE"
-
-	// $ANTLR start "TELLHOW"
-	public final void mTELLHOW() throws RecognitionException {
-		try {
-			int _type = TELLHOW;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:189:9: ( ':how' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:189:11: ':how'
-			{
-			match(":how"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "TELLHOW"
-
-	// $ANTLR start "CONSTRAINT"
-	public final void mCONSTRAINT() throws RecognitionException {
-		try {
-			int _type = CONSTRAINT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:191:2: ( ':constrain' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:191:4: ':constrain'
-			{
-			match(":constrain"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CONSTRAINT"
-
-	// $ANTLR start "ACHIEVEGOAL"
-	public final void mACHIEVEGOAL() throws RecognitionException {
-		try {
-			int _type = ACHIEVEGOAL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:193:13: ({...}? => 'achieve' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:193:15: {...}? => 'achieve'
-			{
-			if ( !((sq_nesting > 0)) ) {
-				throw new FailedPredicateException(input, "ACHIEVEGOAL", "sq_nesting > 0");
-			}
-			match("achieve"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ACHIEVEGOAL"
-
-	// $ANTLR start "PERFORMGOAL"
-	public final void mPERFORMGOAL() throws RecognitionException {
-		try {
-			int _type = PERFORMGOAL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:194:13: ({...}? => 'perform' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:194:15: {...}? => 'perform'
-			{
-			if ( !((sq_nesting > 0)) ) {
-				throw new FailedPredicateException(input, "PERFORMGOAL", "sq_nesting > 0");
-			}
-			match("perform"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "PERFORMGOAL"
-
-	// $ANTLR start "BRULEARROW"
-	public final void mBRULEARROW() throws RecognitionException {
-		try {
-			int _type = BRULEARROW;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:196:2: ( ':-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:196:4: ':-'
-			{
-			match(":-"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BRULEARROW"
-
-	// $ANTLR start "RULEARROW"
-	public final void mRULEARROW() throws RecognitionException {
-		try {
-			int _type = RULEARROW;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:197:11: ( '<-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:197:13: '<-'
-			{
-			match("<-"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "RULEARROW"
-
-	// $ANTLR start "TRUE"
-	public final void mTRUE() throws RecognitionException {
-		try {
-			int _type = TRUE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:6: ({...}? => 'True' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:8: {...}? => 'True'
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
-			}
-			match("True"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "TRUE"
-
-	// $ANTLR start "COMMENT"
-	public final void mCOMMENT() throws RecognitionException {
-		try {
-			int _type = COMMENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:261:5: ( '/*' ( . )* '*/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:261:7: '/*' ( . )* '*/'
-			{
-			match("/*"); 
-
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:261:12: ( . )*
-			loop3:
-			while (true) {
-				int alt3=2;
-				int LA3_0 = input.LA(1);
-				if ( (LA3_0=='*') ) {
-					int LA3_1 = input.LA(2);
-					if ( (LA3_1=='/') ) {
-						alt3=2;
-					}
-					else if ( ((LA3_1 >= '\u0000' && LA3_1 <= '.')||(LA3_1 >= '0' && LA3_1 <= '\uFFFF')) ) {
-						alt3=1;
-					}
-
-				}
-				else if ( ((LA3_0 >= '\u0000' && LA3_0 <= ')')||(LA3_0 >= '+' && LA3_0 <= '\uFFFF')) ) {
-					alt3=1;
-				}
-
-				switch (alt3) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:261:12: .
-					{
-					matchAny(); 
-					}
-					break;
-
-				default :
-					break loop3;
-				}
-			}
-
-			match("*/"); 
-
-			_channel=HIDDEN;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "COMMENT"
-
-	// $ANTLR start "LINE_COMMENT"
-	public final void mLINE_COMMENT() throws RecognitionException {
-		try {
-			int _type = LINE_COMMENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
-			{
-			match("//"); 
-
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:12: (~ ( '\\n' | '\\r' ) )*
-			loop4:
-			while (true) {
-				int alt4=2;
-				int LA4_0 = input.LA(1);
-				if ( ((LA4_0 >= '\u0000' && LA4_0 <= '\t')||(LA4_0 >= '\u000B' && LA4_0 <= '\f')||(LA4_0 >= '\u000E' && LA4_0 <= '\uFFFF')) ) {
-					alt4=1;
-				}
-
-				switch (alt4) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
-					{
-					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop4;
-				}
-			}
-
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:26: ( '\\r' )?
-			int alt5=2;
-			int LA5_0 = input.LA(1);
-			if ( (LA5_0=='\r') ) {
-				alt5=1;
-			}
-			switch (alt5) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:26: '\\r'
-					{
-					match('\r'); 
-					}
-					break;
-
-			}
-
-			match('\n'); 
-			_channel=HIDDEN;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "LINE_COMMENT"
-
-	// $ANTLR start "NEWLINE"
-	public final void mNEWLINE() throws RecognitionException {
-		try {
-			int _type = NEWLINE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:266:8: ( ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:266:9: ( '\\r' )? '\\n'
-			{
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:266:9: ( '\\r' )?
-			int alt6=2;
-			int LA6_0 = input.LA(1);
-			if ( (LA6_0=='\r') ) {
-				alt6=1;
-			}
-			switch (alt6) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:266:9: '\\r'
-					{
-					match('\r'); 
-					}
-					break;
-
-			}
-
-			match('\n'); 
-			skip();
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NEWLINE"
-
-	// $ANTLR start "WS"
-	public final void mWS() throws RecognitionException {
-		try {
-			int _type = WS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:267:5: ({...}? => ( ' ' | '\\t' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:267:8: {...}? => ( ' ' | '\\t' )+
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "WS", "!stringterm");
-			}
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:267:24: ( ' ' | '\\t' )+
-			int cnt7=0;
-			loop7:
-			while (true) {
-				int alt7=2;
-				int LA7_0 = input.LA(1);
-				if ( (LA7_0=='\t'||LA7_0==' ') ) {
-					alt7=1;
-				}
-
-				switch (alt7) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
-					{
-					if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					if ( cnt7 >= 1 ) break loop7;
-					EarlyExitException eee = new EarlyExitException(7, input);
-					throw eee;
-				}
-				cnt7++;
-			}
-
-			skip();
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "WS"
-
-	// $ANTLR start "OPEN"
-	public final void mOPEN() throws RecognitionException {
-		try {
-			int _type = OPEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:270:6: ( '(' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:270:9: '('
-			{
-			match('('); 
-			plain_nesting++;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "OPEN"
-
-	// $ANTLR start "CLOSE"
-	public final void mCLOSE() throws RecognitionException {
-		try {
-			int _type = CLOSE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:271:7: ( ')' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:271:9: ')'
-			{
-			match(')'); 
-			plain_nesting--;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CLOSE"
-
-	// $ANTLR start "SQOPEN"
-	public final void mSQOPEN() throws RecognitionException {
-		try {
-			int _type = SQOPEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:272:8: ( '[' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:272:10: '['
-			{
-			match('['); 
-			sq_nesting++;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SQOPEN"
-
-	// $ANTLR start "SQCLOSE"
-	public final void mSQCLOSE() throws RecognitionException {
-		try {
-			int _type = SQCLOSE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:273:9: ( ']' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:273:11: ']'
-			{
-			match(']'); 
-			sq_nesting--;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SQCLOSE"
-
-	// $ANTLR start "CURLYOPEN"
-	public final void mCURLYOPEN() throws RecognitionException {
-		try {
-			int _type = CURLYOPEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:274:11: ( '{' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:274:13: '{'
-			{
-			match('{'); 
-			curly_nesting++;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CURLYOPEN"
-
-	// $ANTLR start "CURLYCLOSE"
-	public final void mCURLYCLOSE() throws RecognitionException {
-		try {
-			int _type = CURLYCLOSE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:275:12: ( '}' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:275:14: '}'
-			{
-			match('}'); 
-			curly_nesting--;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CURLYCLOSE"
-
-	// $ANTLR start "DOUBLEQUOTE"
-	public final void mDOUBLEQUOTE() throws RecognitionException {
-		try {
-			int _type = DOUBLEQUOTE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:277:2: ( '\"' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:277:4: '\"'
-			{
-			match('\"'); 
-			if (stringterm) {stringterm = false;} else {stringterm = true;}
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "DOUBLEQUOTE"
-
-	// $ANTLR start "NOT"
-	public final void mNOT() throws RecognitionException {
-		try {
-			int _type = NOT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:278:5: ( '~' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:278:7: '~'
-			{
-			match('~'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NOT"
-
-	// $ANTLR start "STRING"
-	public final void mSTRING() throws RecognitionException {
-		try {
-			int _type = STRING;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:280:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:280:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
-			{
-			if ( !((stringterm)) ) {
-				throw new FailedPredicateException(input, "STRING", "stringterm");
-			}
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:280:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
-			int cnt8=0;
-			loop8:
-			while (true) {
-				int alt8=2;
-				int LA8_0 = input.LA(1);
-				if ( (LA8_0==' '||LA8_0=='.'||(LA8_0 >= '0' && LA8_0 <= '9')||(LA8_0 >= 'A' && LA8_0 <= 'Z')||LA8_0=='_'||(LA8_0 >= 'a' && LA8_0 <= 'z')) ) {
-					alt8=1;
-				}
-
-				switch (alt8) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
-					{
-					if ( input.LA(1)==' '||input.LA(1)=='.'||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					if ( cnt8 >= 1 ) break loop8;
-					EarlyExitException eee = new EarlyExitException(8, input);
-					throw eee;
-				}
-				cnt8++;
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "STRING"
-
-	// $ANTLR start "CONST"
-	public final void mCONST() throws RecognitionException {
-		try {
-			int _type = CONST;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:281:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:281:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "CONST", "!stringterm");
-			}
-			matchRange('a','z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:281:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			loop9:
-			while (true) {
-				int alt9=2;
-				int LA9_0 = input.LA(1);
-				if ( ((LA9_0 >= '0' && LA9_0 <= '9')||(LA9_0 >= 'A' && LA9_0 <= 'Z')||LA9_0=='_'||(LA9_0 >= 'a' && LA9_0 <= 'z')) ) {
-					alt9=1;
-				}
-
-				switch (alt9) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop9;
-				}
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CONST"
-
-	// $ANTLR start "VAR"
-	public final void mVAR() throws RecognitionException {
-		try {
-			int _type = VAR;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:282:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:282:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "VAR", "!stringterm");
-			}
-			matchRange('A','Z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:282:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			loop10:
-			while (true) {
-				int alt10=2;
-				int LA10_0 = input.LA(1);
-				if ( ((LA10_0 >= '0' && LA10_0 <= '9')||(LA10_0 >= 'A' && LA10_0 <= 'Z')||LA10_0=='_'||(LA10_0 >= 'a' && LA10_0 <= 'z')) ) {
-					alt10=1;
-				}
-
-				switch (alt10) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop10;
-				}
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "VAR"
-
-	// $ANTLR start "NUMBER"
-	public final void mNUMBER() throws RecognitionException {
-		try {
-			int _type = NUMBER;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:283:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:283:10: {...}? => '0' .. '9' ( '0' .. '9' )*
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "NUMBER", "!stringterm");
-			}
-			matchRange('0','9'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:283:35: ( '0' .. '9' )*
-			loop11:
-			while (true) {
-				int alt11=2;
-				int LA11_0 = input.LA(1);
-				if ( ((LA11_0 >= '0' && LA11_0 <= '9')) ) {
-					alt11=1;
-				}
-
-				switch (alt11) {
-				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop11;
-				}
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NUMBER"
-
-	// $ANTLR start "UNNAMEDVAR"
-	public final void mUNNAMEDVAR() throws RecognitionException {
-		try {
-			int _type = UNNAMEDVAR;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:285:2: ({...}? => '_' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:285:4: {...}? => '_'
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "UNNAMEDVAR", "!stringterm");
-			}
-			match('_'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "UNNAMEDVAR"
-
-	// $ANTLR start "LESS"
-	public final void mLESS() throws RecognitionException {
-		try {
-			int _type = LESS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:288:6: ( '<' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:288:8: '<'
-			{
-			match('<'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "LESS"
-
-	// $ANTLR start "EQ"
-	public final void mEQ() throws RecognitionException {
-		try {
-			int _type = EQ;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:289:4: ( '==' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:289:7: '=='
-			{
-			match("=="); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "EQ"
-
-	// $ANTLR start "POINT"
-	public final void mPOINT() throws RecognitionException {
-		try {
-			int _type = POINT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:290:7: ({...}? => '.' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:290:9: {...}? => '.'
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "POINT", "!stringterm");
-			}
-			match('.'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "POINT"
-
-	// $ANTLR start "MULT"
-	public final void mMULT() throws RecognitionException {
-		try {
-			int _type = MULT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:291:6: ( '*' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:291:8: '*'
-			{
-			match('*'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "MULT"
-
-	// $ANTLR start "PLUS"
-	public final void mPLUS() throws RecognitionException {
-		try {
-			int _type = PLUS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:292:6: ( '+' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:292:8: '+'
-			{
-			match('+'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "PLUS"
-
-	// $ANTLR start "MINUS"
-	public final void mMINUS() throws RecognitionException {
-		try {
-			int _type = MINUS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:293:7: ( '-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:293:9: '-'
-			{
-			match('-'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "MINUS"
-
-	// $ANTLR start "DIV"
-	public final void mDIV() throws RecognitionException {
-		try {
-			int _type = DIV;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:294:5: ( '/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:294:7: '/'
-			{
-			match('/'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "DIV"
-
-	// $ANTLR start "MOD"
-	public final void mMOD() throws RecognitionException {
-		try {
-			int _type = MOD;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:295:5: ( '%' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:295:7: '%'
-			{
-			match('%'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "MOD"
-
-	// $ANTLR start "SHRIEK"
-	public final void mSHRIEK() throws RecognitionException {
-		try {
-			int _type = SHRIEK;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:297:8: ( '!' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:297:10: '!'
-			{
-			match('!'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SHRIEK"
-
-	// $ANTLR start "COMMA"
-	public final void mCOMMA() throws RecognitionException {
-		try {
-			int _type = COMMA;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:298:7: ( ',' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:298:9: ','
-			{
-			match(','); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "COMMA"
-
-	// $ANTLR start "SEMI"
-	public final void mSEMI() throws RecognitionException {
-		try {
-			int _type = SEMI;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:299:6: ( ';' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:299:8: ';'
-			{
-			match(';'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SEMI"
-
-	// $ANTLR start "COLON"
-	public final void mCOLON() throws RecognitionException {
-		try {
-			int _type = COLON;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:300:7: ( ':' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:300:9: ':'
-			{
-			match(':'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "COLON"
-
-	// $ANTLR start "QUERY"
-	public final void mQUERY() throws RecognitionException {
-		try {
-			int _type = QUERY;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:301:7: ( '?' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:301:9: '?'
-			{
-			match('?'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "QUERY"
-
-	// $ANTLR start "BAR"
-	public final void mBAR() throws RecognitionException {
-		try {
-			int _type = BAR;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:302:5: ( '|' )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:302:7: '|'
-			{
-			match('|'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BAR"
 
 	@Override
-	public void mTokens() throws RecognitionException {
-		// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:8: ( GWENDOLEN | GOALS | BELIEFS | BELIEFRULES | PLANS | NAME | SEND | RECEIVED | BELIEVE | GOAL | IN_CONTENT | IN_CONTEXT | SENT | LOCK | ADD_PLAN | ADD_CONSTRAINT | ADD_CONTENT | ADD_CONTEXT | TELL | PERFORM | ACHIEVE | TELLHOW | CONSTRAINT | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | UNNAMEDVAR | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY | BAR )
-		int alt12=59;
-		alt12 = dfa12.predict(input);
-		switch (alt12) {
-			case 1 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:10: GWENDOLEN
-				{
-				mGWENDOLEN(); 
+	public String getGrammarFileName() { return "GwendolenLexer.g4"; }
 
-				}
-				break;
-			case 2 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:20: GOALS
-				{
-				mGOALS(); 
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
 
-				}
-				break;
-			case 3 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:26: BELIEFS
-				{
-				mBELIEFS(); 
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
 
-				}
-				break;
-			case 4 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:34: BELIEFRULES
-				{
-				mBELIEFRULES(); 
+	@Override
+	public String[] getChannelNames() { return channelNames; }
 
-				}
-				break;
-			case 5 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:46: PLANS
-				{
-				mPLANS(); 
+	@Override
+	public String[] getModeNames() { return modeNames; }
 
-				}
-				break;
-			case 6 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:52: NAME
-				{
-				mNAME(); 
+	@Override
+	public ATN getATN() { return _ATN; }
 
-				}
-				break;
-			case 7 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:57: SEND
-				{
-				mSEND(); 
-
-				}
-				break;
-			case 8 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:62: RECEIVED
-				{
-				mRECEIVED(); 
-
-				}
-				break;
-			case 9 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:71: BELIEVE
-				{
-				mBELIEVE(); 
-
-				}
-				break;
-			case 10 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:79: GOAL
-				{
-				mGOAL(); 
-
-				}
-				break;
-			case 11 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:84: IN_CONTENT
-				{
-				mIN_CONTENT(); 
-
-				}
-				break;
-			case 12 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:95: IN_CONTEXT
-				{
-				mIN_CONTEXT(); 
-
-				}
-				break;
-			case 13 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:106: SENT
-				{
-				mSENT(); 
-
-				}
-				break;
-			case 14 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:111: LOCK
-				{
-				mLOCK(); 
-
-				}
-				break;
-			case 15 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:116: ADD_PLAN
-				{
-				mADD_PLAN(); 
-
-				}
-				break;
-			case 16 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:125: ADD_CONSTRAINT
-				{
-				mADD_CONSTRAINT(); 
-
-				}
-				break;
-			case 17 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:140: ADD_CONTENT
-				{
-				mADD_CONTENT(); 
-
-				}
-				break;
-			case 18 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:152: ADD_CONTEXT
-				{
-				mADD_CONTEXT(); 
-
-				}
-				break;
-			case 19 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:164: TELL
-				{
-				mTELL(); 
-
-				}
-				break;
-			case 20 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:169: PERFORM
-				{
-				mPERFORM(); 
-
-				}
-				break;
-			case 21 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:177: ACHIEVE
-				{
-				mACHIEVE(); 
-
-				}
-				break;
-			case 22 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:185: TELLHOW
-				{
-				mTELLHOW(); 
-
-				}
-				break;
-			case 23 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:193: CONSTRAINT
-				{
-				mCONSTRAINT(); 
-
-				}
-				break;
-			case 24 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:204: ACHIEVEGOAL
-				{
-				mACHIEVEGOAL(); 
-
-				}
-				break;
-			case 25 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:216: PERFORMGOAL
-				{
-				mPERFORMGOAL(); 
-
-				}
-				break;
-			case 26 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:228: BRULEARROW
-				{
-				mBRULEARROW(); 
-
-				}
-				break;
-			case 27 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:239: RULEARROW
-				{
-				mRULEARROW(); 
-
-				}
-				break;
-			case 28 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:249: TRUE
-				{
-				mTRUE(); 
-
-				}
-				break;
-			case 29 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:254: COMMENT
-				{
-				mCOMMENT(); 
-
-				}
-				break;
-			case 30 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:262: LINE_COMMENT
-				{
-				mLINE_COMMENT(); 
-
-				}
-				break;
-			case 31 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:275: NEWLINE
-				{
-				mNEWLINE(); 
-
-				}
-				break;
-			case 32 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:283: WS
-				{
-				mWS(); 
-
-				}
-				break;
-			case 33 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:286: OPEN
-				{
-				mOPEN(); 
-
-				}
-				break;
-			case 34 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:291: CLOSE
-				{
-				mCLOSE(); 
-
-				}
-				break;
-			case 35 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:297: SQOPEN
-				{
-				mSQOPEN(); 
-
-				}
-				break;
-			case 36 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:304: SQCLOSE
-				{
-				mSQCLOSE(); 
-
-				}
-				break;
-			case 37 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:312: CURLYOPEN
-				{
-				mCURLYOPEN(); 
-
-				}
-				break;
-			case 38 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:322: CURLYCLOSE
-				{
-				mCURLYCLOSE(); 
-
-				}
-				break;
-			case 39 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:333: DOUBLEQUOTE
-				{
-				mDOUBLEQUOTE(); 
-
-				}
-				break;
-			case 40 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:345: NOT
-				{
-				mNOT(); 
-
-				}
-				break;
-			case 41 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:349: STRING
-				{
-				mSTRING(); 
-
-				}
-				break;
-			case 42 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:356: CONST
-				{
-				mCONST(); 
-
-				}
-				break;
-			case 43 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:362: VAR
-				{
-				mVAR(); 
-
-				}
-				break;
-			case 44 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:366: NUMBER
-				{
-				mNUMBER(); 
-
-				}
-				break;
-			case 45 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:373: UNNAMEDVAR
-				{
-				mUNNAMEDVAR(); 
-
-				}
-				break;
-			case 46 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:384: LESS
-				{
-				mLESS(); 
-
-				}
-				break;
-			case 47 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:389: EQ
-				{
-				mEQ(); 
-
-				}
-				break;
-			case 48 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:392: POINT
-				{
-				mPOINT(); 
-
-				}
-				break;
-			case 49 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:398: MULT
-				{
-				mMULT(); 
-
-				}
-				break;
-			case 50 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:403: PLUS
-				{
-				mPLUS(); 
-
-				}
-				break;
-			case 51 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:408: MINUS
-				{
-				mMINUS(); 
-
-				}
-				break;
-			case 52 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:414: DIV
-				{
-				mDIV(); 
-
-				}
-				break;
-			case 53 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:418: MOD
-				{
-				mMOD(); 
-
-				}
-				break;
-			case 54 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:422: SHRIEK
-				{
-				mSHRIEK(); 
-
-				}
-				break;
-			case 55 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:429: COMMA
-				{
-				mCOMMA(); 
-
-				}
-				break;
-			case 56 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:435: SEMI
-				{
-				mSEMI(); 
-
-				}
-				break;
-			case 57 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:440: COLON
-				{
-				mCOLON(); 
-
-				}
-				break;
-			case 58 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:446: QUERY
-				{
-				mQUERY(); 
-
-				}
-				break;
-			case 59 :
-				// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:452: BAR
-				{
-				mBAR(); 
-
-				}
-				break;
-
+	@Override
+	public void action(RuleContext _localctx, int ruleIndex, int actionIndex) {
+		switch (ruleIndex) {
+		case 28:
+			CAP_CURLYOPEN_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 29:
+			CAP_CURLYCLOSE_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 38:
+			GL_SQOPEN_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 39:
+			GL_SQCLOSE_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 60:
+			CURLYOPEN_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 61:
+			CURLYCLOSE_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 66:
+			OPEN_action((RuleContext)_localctx, actionIndex);
+			break;
+		case 67:
+			CLOSE_action((RuleContext)_localctx, actionIndex);
+			break;
 		}
 	}
+	private void CAP_CURLYOPEN_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 0:
+			curly_nesting++;
+			break;
+		}
+	}
+	private void CAP_CURLYCLOSE_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 1:
+			curly_nesting--;
+			break;
+		}
+	}
+	private void GL_SQOPEN_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 2:
+			sq_nesting++;
+			break;
+		}
+	}
+	private void GL_SQCLOSE_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 3:
+			sq_nesting--;
+			break;
+		}
+	}
+	private void CURLYOPEN_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 4:
+			curly_nesting++;
+			break;
+		}
+	}
+	private void CURLYCLOSE_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 5:
+			curly_nesting--;
+			break;
+		}
+	}
+	private void OPEN_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 6:
+			plain_nesting++;
+			break;
+		}
+	}
+	private void CLOSE_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 7:
+			plain_nesting--;
+			break;
+		}
+	}
+	@Override
+	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
+		switch (ruleIndex) {
+		case 36:
+			return GL_ACHIEVEGOAL_sempred((RuleContext)_localctx, predIndex);
+		case 37:
+			return GL_PERFORMGOAL_sempred((RuleContext)_localctx, predIndex);
+		case 48:
+			return BELIEVE_sempred((RuleContext)_localctx, predIndex);
+		case 49:
+			return GOAL_sempred((RuleContext)_localctx, predIndex);
+		}
+		return true;
+	}
+	private boolean GL_ACHIEVEGOAL_sempred(RuleContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0:
+			return sq_nesting > 0;
+		}
+		return true;
+	}
+	private boolean GL_PERFORMGOAL_sempred(RuleContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 1:
+			return sq_nesting > 0;
+		}
+		return true;
+	}
+	private boolean BELIEVE_sempred(RuleContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 2:
+			return curly_nesting > 0;
+		}
+		return true;
+	}
+	private boolean GOAL_sempred(RuleContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 3:
+			return curly_nesting > 0;
+		}
+		return true;
+	}
 
-
-	protected DFA12 dfa12 = new DFA12(this);
-	static final String DFA12_eotS =
-		"\1\uffff\1\46\1\63\1\75\1\76\1\77\1\100\2\102\1\106\1\110\1\113\1\uffff"+
-		"\1\114\11\uffff\1\102\1\110\1\115\1\117\12\uffff\1\110\1\uffff\1\110\14"+
-		"\uffff\2\50\1\126\1\127\3\50\1\133\1\134\4\uffff\1\102\1\uffff\2\102\2"+
-		"\uffff\1\110\6\uffff\1\115\1\uffff\1\110\3\uffff\2\50\2\uffff\3\50\6\uffff"+
-		"\1\102\1\uffff\1\102\1\110\2\uffff\1\110\1\uffff\5\50\2\uffff\2\102\1"+
-		"\175\1\110\1\uffff\1\u0080\1\u0081\1\50\1\u0083\1\u0084\1\50\2\102\1\uffff"+
-		"\1\110\3\uffff\1\50\2\uffff\1\50\2\102\1\uffff\1\110\3\uffff\1\50\2\uffff"+
-		"\1\50\1\u0097\1\u0098\1\110\1\uffff\2\50\2\uffff\1\u009f\1\uffff\1\u00a2"+
-		"\1\50\6\uffff\1\50\2\uffff\1\u00a7\2\uffff";
-	static final String DFA12_eofS =
-		"\u00a9\uffff";
-	static final String DFA12_minS =
-		"\1\11\1\40\1\55\6\40\1\55\1\40\1\52\1\uffff\1\11\11\uffff\4\40\12\uffff"+
-		"\1\40\1\0\1\40\1\uffff\1\156\12\uffff\2\145\2\40\1\157\1\154\1\157\2\40"+
-		"\4\0\1\40\1\0\2\40\2\uffff\1\40\1\0\3\uffff\2\0\1\40\1\0\1\40\2\uffff"+
-		"\1\151\1\156\1\143\2\0\1\143\1\141\1\156\2\0\4\uffff\1\40\1\uffff\2\40"+
-		"\2\uffff\1\40\1\164\1\144\1\145\1\153\1\156\1\163\2\uffff\4\40\1\151\2"+
-		"\40\1\151\2\40\1\164\2\40\1\0\1\40\1\141\2\0\1\166\2\0\1\162\2\40\1\uffff"+
-		"\1\40\1\154\2\uffff\1\145\2\uffff\1\141\4\40\1\144\1\151\2\0\1\40\1\102"+
-		"\1\40\1\156\2\uffff\1\0\2\uffff\1\0\1\164\2\uffff\1\40\1\0\1\uffff";
-	static final String DFA12_maxS =
-		"\1\176\1\172\1\164\6\172\1\55\1\172\1\57\1\uffff\1\172\11\uffff\4\172"+
-		"\12\uffff\1\172\1\0\1\172\1\uffff\1\156\12\uffff\2\145\2\172\1\157\1\154"+
-		"\1\157\2\172\4\0\1\172\1\0\2\172\2\uffff\1\172\1\0\3\uffff\2\0\1\172\1"+
-		"\0\1\172\2\uffff\1\151\1\156\1\143\2\0\1\143\1\141\1\156\2\0\4\uffff\1"+
-		"\172\1\uffff\2\172\2\uffff\1\172\2\164\1\145\1\153\1\156\1\163\2\uffff"+
-		"\4\172\1\151\2\172\1\151\2\172\1\164\2\172\1\0\1\172\1\141\2\0\1\166\2"+
-		"\0\1\162\2\172\1\uffff\1\172\1\154\2\uffff\1\145\2\uffff\1\141\3\172\1"+
-		"\40\1\144\1\151\2\0\1\172\1\107\1\172\1\156\2\uffff\1\0\2\uffff\1\0\1"+
-		"\164\2\uffff\1\172\1\0\1\uffff";
-	static final String DFA12_acceptS =
-		"\14\uffff\1\37\1\uffff\1\41\1\42\1\43\1\44\1\45\1\46\1\47\1\50\1\40\4"+
-		"\uffff\1\57\1\61\1\62\1\63\1\65\1\66\1\67\1\70\1\72\1\73\3\uffff\1\51"+
-		"\1\uffff\1\4\1\5\1\6\1\23\1\24\1\25\1\26\1\27\1\32\1\71\21\uffff\1\33"+
-		"\1\56\2\uffff\1\35\1\36\1\64\5\uffff\1\12\1\53\12\uffff\1\60\1\11\1\13"+
-		"\1\14\1\uffff\1\52\2\uffff\1\54\1\55\7\uffff\1\21\1\22\30\uffff\1\34\2"+
-		"\uffff\1\7\1\15\1\uffff\1\16\1\17\15\uffff\1\30\1\31\1\uffff\1\2\1\3\2"+
-		"\uffff\1\1\1\10\2\uffff\1\20";
-	static final String DFA12_specialS =
-		"\1\103\1\142\1\uffff\1\1\1\33\1\44\1\54\1\126\1\141\1\uffff\1\34\2\uffff"+
-		"\1\63\11\uffff\1\36\1\76\1\4\1\6\12\uffff\1\114\1\110\1\35\14\uffff\1"+
-		"\133\1\105\1\55\1\77\1\7\1\13\1\16\1\21\1\31\1\67\1\106\1\112\1\115\1"+
-		"\65\1\60\1\22\1\73\2\uffff\1\2\1\61\3\uffff\1\56\1\62\1\57\1\64\1\117"+
-		"\3\uffff\1\135\1\107\1\42\1\43\1\10\1\14\1\17\1\51\1\52\4\uffff\1\66\1"+
-		"\uffff\1\74\1\3\2\uffff\1\121\1\uffff\1\137\1\111\1\11\1\15\1\20\2\uffff"+
-		"\1\70\1\75\1\32\1\124\1\uffff\1\37\1\131\1\113\1\0\1\5\1\23\1\71\1\100"+
-		"\1\140\1\125\1\uffff\1\40\1\45\1\116\1\46\1\47\1\24\1\72\1\101\1\uffff"+
-		"\1\127\3\uffff\1\120\2\uffff\1\25\1\104\1\136\1\130\1\uffff\1\122\1\26"+
-		"\1\132\1\134\1\123\1\uffff\1\53\1\27\2\uffff\1\102\2\uffff\1\41\1\30\2"+
-		"\uffff\1\12\1\50\1\uffff}>";
-	static final String[] DFA12_transitionS = {
-			"\1\26\1\14\2\uffff\1\14\22\uffff\1\15\1\40\1\24\2\uffff\1\37\2\uffff"+
-			"\1\16\1\17\1\34\1\35\1\41\1\36\1\3\1\13\12\31\1\2\1\42\1\11\1\33\1\uffff"+
-			"\1\43\1\uffff\1\30\1\4\4\30\1\1\6\30\1\5\5\30\1\12\3\30\1\6\2\30\1\20"+
-			"\1\uffff\1\21\1\uffff\1\32\1\uffff\1\7\16\27\1\10\12\27\1\22\1\44\1\23"+
-			"\1\25",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\26\47\1\45\3\47\4\uffff\1"+
-			"\47\1\uffff\32\47",
-			"\1\62\33\uffff\1\51\6\uffff\1\53\1\uffff\1\52\16\uffff\1\57\1\uffff"+
-			"\1\61\4\uffff\1\60\5\uffff\1\54\1\uffff\1\56\3\uffff\1\55",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\1\50\1\66\4\50\1\67\23\50"+
-			"\4\uffff\1\50\1\uffff\2\50\1\72\10\50\1\70\1\50\1\73\1\50\1\71\1\50\1"+
-			"\65\1\64\4\50\1\74\2\50",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\2\103\1\101\27\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\4\103\1\104\25\103",
-			"\1\105",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\21\47\1\107\10\47",
-			"\1\111\4\uffff\1\112",
-			"",
-			"\1\26\26\uffff\1\15\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff"+
-			"\1\50\1\uffff\32\50",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\32\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"\1\50\15\uffff\1\50\1\uffff\12\116\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\4\47\1\120\25\47\4\uffff\1"+
-			"\47\1\uffff\32\47",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"",
-			"\1\123",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\124",
-			"\1\125",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\130",
-			"\1\131",
-			"\1\132",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\7\103\1\141\22\103",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\32\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\21\103\1\143\10\103",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\24\47\1\144\5\47",
-			"\1\uffff",
-			"",
-			"",
-			"",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\116\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\15\47\1\147\14\47\4\uffff"+
-			"\1\47\1\uffff\32\47",
-			"",
-			"",
-			"\1\150",
-			"\1\151",
-			"\1\152",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\153",
-			"\1\154",
-			"\1\155",
-			"\1\uffff",
-			"\1\uffff",
-			"",
-			"",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\10\103\1\160\21\103",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\5\103\1\161\24\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\4\47\1\162\25\47",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\3\47\1\163\26\47\4\uffff\1"+
-			"\47\1\uffff\32\47",
-			"\1\164",
-			"\1\165\17\uffff\1\166",
-			"\1\167",
-			"\1\170",
-			"\1\171",
-			"\1\172",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\4\103\1\173\25\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\16\103\1\174\13\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\16\47\1\176\13\47\4\uffff"+
-			"\1\47\1\uffff\32\47",
-			"\1\177",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\u0082",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\u0085",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\25\103\1\u0086\4\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\21\103\1\u0087\10\103",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\13\47\1\u0089\16\47\4\uffff"+
-			"\1\47\1\uffff\32\47",
-			"\1\u008a",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\u008d",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\u0090",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\4\103\1\u0091\25\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\14\103\1\u0092\15\103",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\4\47\1\u0093\25\47\4\uffff"+
-			"\1\47\1\uffff\32\47",
-			"\1\u0094",
-			"",
-			"",
-			"\1\u0095",
-			"",
-			"",
-			"\1\u0096",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\32\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\103\7\uffff\32\103\4\uffff\1\103\1\uffff"+
-			"\32\103",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\15\47\1\u0099\14\47\4\uffff"+
-			"\1\47\1\uffff\32\47",
-			"\1\u009a",
-			"\1\u009b",
-			"\1\u009c",
-			"\1\uffff",
-			"\1\uffff",
-			"\1\50\15\uffff\1\50\1\uffff\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff"+
-			"\32\47",
-			"\1\u00a1\4\uffff\1\u00a0",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\u00a3",
-			"",
-			"",
-			"\1\uffff",
-			"",
-			"",
-			"\1\uffff",
-			"\1\u00a6",
-			"",
-			"",
-			"\1\50\15\uffff\1\50\1\uffff\12\50\7\uffff\32\50\4\uffff\1\50\1\uffff"+
-			"\32\50",
-			"\1\uffff",
-			""
-	};
-
-	static final short[] DFA12_eot = DFA.unpackEncodedString(DFA12_eotS);
-	static final short[] DFA12_eof = DFA.unpackEncodedString(DFA12_eofS);
-	static final char[] DFA12_min = DFA.unpackEncodedStringToUnsignedChars(DFA12_minS);
-	static final char[] DFA12_max = DFA.unpackEncodedStringToUnsignedChars(DFA12_maxS);
-	static final short[] DFA12_accept = DFA.unpackEncodedString(DFA12_acceptS);
-	static final short[] DFA12_special = DFA.unpackEncodedString(DFA12_specialS);
-	static final short[][] DFA12_transition;
-
+	public static final String _serializedATN =
+		"\u0004\u0000P\u02f5\u0006\uffff\uffff\u0006\uffff\uffff\u0006\uffff\uffff"+
+		"\u0006\uffff\uffff\u0006\uffff\uffff\u0006\uffff\uffff\u0002\u0000\u0007"+
+		"\u0000\u0002\u0001\u0007\u0001\u0002\u0002\u0007\u0002\u0002\u0003\u0007"+
+		"\u0003\u0002\u0004\u0007\u0004\u0002\u0005\u0007\u0005\u0002\u0006\u0007"+
+		"\u0006\u0002\u0007\u0007\u0007\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n"+
+		"\u0007\n\u0002\u000b\u0007\u000b\u0002\f\u0007\f\u0002\r\u0007\r\u0002"+
+		"\u000e\u0007\u000e\u0002\u000f\u0007\u000f\u0002\u0010\u0007\u0010\u0002"+
+		"\u0011\u0007\u0011\u0002\u0012\u0007\u0012\u0002\u0013\u0007\u0013\u0002"+
+		"\u0014\u0007\u0014\u0002\u0015\u0007\u0015\u0002\u0016\u0007\u0016\u0002"+
+		"\u0017\u0007\u0017\u0002\u0018\u0007\u0018\u0002\u0019\u0007\u0019\u0002"+
+		"\u001a\u0007\u001a\u0002\u001b\u0007\u001b\u0002\u001c\u0007\u001c\u0002"+
+		"\u001d\u0007\u001d\u0002\u001e\u0007\u001e\u0002\u001f\u0007\u001f\u0002"+
+		" \u0007 \u0002!\u0007!\u0002\"\u0007\"\u0002#\u0007#\u0002$\u0007$\u0002"+
+		"%\u0007%\u0002&\u0007&\u0002\'\u0007\'\u0002(\u0007(\u0002)\u0007)\u0002"+
+		"*\u0007*\u0002+\u0007+\u0002,\u0007,\u0002-\u0007-\u0002.\u0007.\u0002"+
+		"/\u0007/\u00020\u00070\u00021\u00071\u00022\u00072\u00023\u00073\u0002"+
+		"4\u00074\u00025\u00075\u00026\u00076\u00027\u00077\u00028\u00078\u0002"+
+		"9\u00079\u0002:\u0007:\u0002;\u0007;\u0002<\u0007<\u0002=\u0007=\u0002"+
+		">\u0007>\u0002?\u0007?\u0002@\u0007@\u0002A\u0007A\u0002B\u0007B\u0002"+
+		"C\u0007C\u0002D\u0007D\u0002E\u0007E\u0002F\u0007F\u0002G\u0007G\u0002"+
+		"H\u0007H\u0002I\u0007I\u0002J\u0007J\u0002K\u0007K\u0002L\u0007L\u0002"+
+		"M\u0007M\u0002N\u0007N\u0002O\u0007O\u0001\u0000\u0001\u0000\u0001\u0000"+
+		"\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000"+
+		"\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0002\u0004\u0002\u00b9\b\u0002\u000b\u0002"+
+		"\f\u0002\u00ba\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0005\u0003"+
+		"\u00c1\b\u0003\n\u0003\f\u0003\u00c4\t\u0003\u0001\u0003\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
+		"\u0004\u0005\u0004\u00cf\b\u0004\n\u0004\f\u0004\u00d2\t\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0005\u0003\u0005\u00d7\b\u0005\u0001\u0005\u0001\u0005"+
+		"\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007"+
+		"\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007"+
+		"\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007"+
+		"\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001"+
+		"\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001"+
+		"\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001"+
+		"\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001"+
+		"\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0001"+
+		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
+		"\n\u0001\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0005\u000b\u012f\b\u000b\n\u000b\f\u000b\u0132\t\u000b\u0001\u000b\u0001"+
+		"\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\f\u0001\f\u0001\f\u0001"+
+		"\f\u0005\f\u013d\b\f\n\f\f\f\u0140\t\f\u0001\f\u0001\f\u0001\r\u0003\r"+
+		"\u0145\b\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\u000e\u0001\u000e\u0001"+
+		"\u000e\u0001\u000e\u0001\u000f\u0004\u000f\u0150\b\u000f\u000b\u000f\f"+
+		"\u000f\u0151\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010"+
+		"\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010"+
+		"\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010"+
+		"\u0001\u0010\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
+		"\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
+		"\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0012"+
+		"\u0001\u0012\u0001\u0012\u0001\u0012\u0005\u0012\u017a\b\u0012\n\u0012"+
+		"\f\u0012\u017d\t\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012"+
+		"\u0001\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0005\u0013"+
+		"\u0188\b\u0013\n\u0013\f\u0013\u018b\t\u0013\u0001\u0013\u0001\u0013\u0001"+
+		"\u0014\u0003\u0014\u0190\b\u0014\u0001\u0014\u0001\u0014\u0001\u0015\u0001"+
+		"\u0015\u0001\u0015\u0001\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0001"+
+		"\u0016\u0004\u0016\u019c\b\u0016\u000b\u0016\f\u0016\u019d\u0001\u0017"+
+		"\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017"+
+		"\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017"+
+		"\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0018\u0001\u0018"+
+		"\u0001\u0018\u0001\u0018\u0005\u0018\u01b5\b\u0018\n\u0018\f\u0018\u01b8"+
+		"\t\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0001"+
+		"\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0005\u0019\u01c3\b\u0019\n"+
+		"\u0019\f\u0019\u01c6\t\u0019\u0001\u0019\u0001\u0019\u0001\u001a\u0003"+
+		"\u001a\u01cb\b\u001a\u0001\u001a\u0001\u001a\u0001\u001b\u0001\u001b\u0001"+
+		"\u001b\u0001\u001b\u0001\u001c\u0001\u001c\u0001\u001c\u0001\u001d\u0001"+
+		"\u001d\u0001\u001d\u0001\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0004"+
+		"\u001e\u01dd\b\u001e\u000b\u001e\f\u001e\u01de\u0001\u001f\u0001\u001f"+
+		"\u0001\u001f\u0001\u001f\u0001\u001f\u0001\u001f\u0001\u001f\u0001\u001f"+
+		"\u0001\u001f\u0001\u001f\u0001 \u0001 \u0001 \u0001 \u0005 \u01ef\b \n"+
+		" \f \u01f2\t \u0001 \u0001 \u0001 \u0001 \u0001 \u0001!\u0001!\u0001!"+
+		"\u0001!\u0005!\u01fd\b!\n!\f!\u0200\t!\u0001!\u0001!\u0001\"\u0003\"\u0205"+
+		"\b\"\u0001\"\u0001\"\u0001\"\u0001\"\u0001#\u0001#\u0001#\u0001#\u0001"+
+		"$\u0001$\u0001$\u0001$\u0001$\u0001$\u0001$\u0001$\u0001$\u0001%\u0001"+
+		"%\u0001%\u0001%\u0001%\u0001%\u0001%\u0001%\u0001%\u0001&\u0001&\u0001"+
+		"&\u0001\'\u0001\'\u0001\'\u0001(\u0004(\u0228\b(\u000b(\f(\u0229\u0001"+
+		")\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001*\u0001"+
+		"*\u0001*\u0001*\u0005*\u0239\b*\n*\f*\u023c\t*\u0001*\u0001*\u0001*\u0001"+
+		"*\u0001*\u0001+\u0001+\u0001+\u0001+\u0005+\u0247\b+\n+\f+\u024a\t+\u0001"+
+		"+\u0001+\u0001,\u0003,\u024f\b,\u0001,\u0001,\u0001,\u0001,\u0001-\u0001"+
+		"-\u0001-\u0001-\u0001.\u0001.\u0001.\u0001.\u0001.\u0001.\u0001/\u0001"+
+		"/\u0001/\u0001/\u0001/\u0001/\u0001/\u0001/\u0001/\u0001/\u00010\u0001"+
+		"0\u00010\u00010\u00030\u026d\b0\u00011\u00011\u00011\u00011\u00031\u0273"+
+		"\b1\u00012\u00012\u00012\u00012\u00012\u00012\u00013\u00013\u00013\u0001"+
+		"3\u00013\u00013\u00014\u00014\u00014\u00014\u00014\u00014\u00014\u0001"+
+		"5\u00015\u00015\u00015\u00015\u00015\u00015\u00015\u00016\u00016\u0001"+
+		"6\u00016\u00016\u00016\u00016\u00016\u00017\u00017\u00018\u00018\u0001"+
+		"9\u00019\u0001:\u0001:\u0001;\u0001;\u0001<\u0001<\u0001<\u0001=\u0001"+
+		"=\u0001=\u0001>\u0001>\u0001?\u0001?\u0001@\u0001@\u0001@\u0001@\u0001"+
+		"@\u0001@\u0001A\u0001A\u0001B\u0001B\u0001B\u0001C\u0001C\u0001C\u0001"+
+		"D\u0001D\u0001E\u0001E\u0001F\u0001F\u0001G\u0001G\u0001H\u0001H\u0001"+
+		"H\u0001I\u0001I\u0001J\u0001J\u0001J\u0001K\u0001K\u0001K\u0001K\u0001"+
+		"K\u0001L\u0001L\u0005L\u02d1\bL\nL\fL\u02d4\tL\u0001M\u0001M\u0005M\u02d8"+
+		"\bM\nM\fM\u02db\tM\u0001N\u0001N\u0005N\u02df\bN\nN\fN\u02e2\tN\u0001"+
+		"O\u0001O\u0005O\u02e6\bO\nO\fO\u02e9\tO\u0001O\u0001O\u0001O\u0005O\u02ee"+
+		"\bO\nO\fO\u02f1\tO\u0001O\u0003O\u02f4\bO\b\u00c2\u0130\u017b\u01b6\u01f0"+
+		"\u023a\u02e7\u02ef\u0000P\u0006\u0001\b\u0002\n\u0003\f\u0004\u000e\u0005"+
+		"\u0010\u0006\u0012\u0007\u0014\b\u0016\t\u0018\n\u001a\u000b\u001c\f\u001e"+
+		"\r \u000e\"\u000f$\u0010&\u0011(\u0012*\u0013,\u0014.\u00150\u00162\u0017"+
+		"4\u00186\u00198\u001a:\u001b<\u001c>\u001d@\u001eB\u001fD F!H\"J#L$N%"+
+		"P&R\'T(V)X*Z+\\,^-`.b/d0f1h2j3l4n5p6r7t8v9x:z;|<~=\u0080>\u0082?\u0084"+
+		"@\u0086A\u0088B\u008aC\u008cD\u008eE\u0090F\u0092G\u0094H\u0096I\u0098"+
+		"J\u009aK\u009cL\u009eM\u00a0N\u00a2O\u00a4P\u0006\u0000\u0001\u0002\u0003"+
+		"\u0004\u0005\u000b\u0004\u000009AZ__az\u0001\u0000\n\n\u0002\u0000\t\t"+
+		"  \f\u0000\t\n\r\r  \"\"(),.09A[]]__az||\u0006\u0000(),,09AZ__az\b\u0000"+
+		"\t\n\r\r !;<[[]]||~~\b\u0000\t\n\r\r !;;[[]]||~~\b\u0000  (),,..09AZ_"+
+		"_az\u0005\u0000..09AZ__az\u0002\u0000AZ__\u0002\u0000..09\u0312\u0000"+
+		"\u0006\u0001\u0000\u0000\u0000\u0000\b\u0001\u0000\u0000\u0000\u0000\n"+
+		"\u0001\u0000\u0000\u0000\u0000\f\u0001\u0000\u0000\u0000\u0000\u000e\u0001"+
+		"\u0000\u0000\u0000\u0000\u0010\u0001\u0000\u0000\u0000\u0000\u0012\u0001"+
+		"\u0000\u0000\u0000\u0000\u0014\u0001\u0000\u0000\u0000\u0001\u0016\u0001"+
+		"\u0000\u0000\u0000\u0001\u0018\u0001\u0000\u0000\u0000\u0001\u001a\u0001"+
+		"\u0000\u0000\u0000\u0001\u001c\u0001\u0000\u0000\u0000\u0001\u001e\u0001"+
+		"\u0000\u0000\u0000\u0001 \u0001\u0000\u0000\u0000\u0001\"\u0001\u0000"+
+		"\u0000\u0000\u0001$\u0001\u0000\u0000\u0000\u0002&\u0001\u0000\u0000\u0000"+
+		"\u0002(\u0001\u0000\u0000\u0000\u0002*\u0001\u0000\u0000\u0000\u0002,"+
+		"\u0001\u0000\u0000\u0000\u0002.\u0001\u0000\u0000\u0000\u00020\u0001\u0000"+
+		"\u0000\u0000\u00022\u0001\u0000\u0000\u0000\u00034\u0001\u0000\u0000\u0000"+
+		"\u00036\u0001\u0000\u0000\u0000\u00038\u0001\u0000\u0000\u0000\u0003:"+
+		"\u0001\u0000\u0000\u0000\u0003<\u0001\u0000\u0000\u0000\u0003>\u0001\u0000"+
+		"\u0000\u0000\u0003@\u0001\u0000\u0000\u0000\u0003B\u0001\u0000\u0000\u0000"+
+		"\u0004D\u0001\u0000\u0000\u0000\u0004F\u0001\u0000\u0000\u0000\u0004H"+
+		"\u0001\u0000\u0000\u0000\u0004J\u0001\u0000\u0000\u0000\u0004L\u0001\u0000"+
+		"\u0000\u0000\u0004N\u0001\u0000\u0000\u0000\u0004P\u0001\u0000\u0000\u0000"+
+		"\u0004R\u0001\u0000\u0000\u0000\u0004T\u0001\u0000\u0000\u0000\u0004V"+
+		"\u0001\u0000\u0000\u0000\u0005X\u0001\u0000\u0000\u0000\u0005Z\u0001\u0000"+
+		"\u0000\u0000\u0005\\\u0001\u0000\u0000\u0000\u0005^\u0001\u0000\u0000"+
+		"\u0000\u0005`\u0001\u0000\u0000\u0000\u0005b\u0001\u0000\u0000\u0000\u0005"+
+		"d\u0001\u0000\u0000\u0000\u0005f\u0001\u0000\u0000\u0000\u0005h\u0001"+
+		"\u0000\u0000\u0000\u0005j\u0001\u0000\u0000\u0000\u0005l\u0001\u0000\u0000"+
+		"\u0000\u0005n\u0001\u0000\u0000\u0000\u0005p\u0001\u0000\u0000\u0000\u0005"+
+		"r\u0001\u0000\u0000\u0000\u0005t\u0001\u0000\u0000\u0000\u0005v\u0001"+
+		"\u0000\u0000\u0000\u0005x\u0001\u0000\u0000\u0000\u0005z\u0001\u0000\u0000"+
+		"\u0000\u0005|\u0001\u0000\u0000\u0000\u0005~\u0001\u0000\u0000\u0000\u0005"+
+		"\u0080\u0001\u0000\u0000\u0000\u0005\u0082\u0001\u0000\u0000\u0000\u0005"+
+		"\u0084\u0001\u0000\u0000\u0000\u0005\u0086\u0001\u0000\u0000\u0000\u0005"+
+		"\u0088\u0001\u0000\u0000\u0000\u0005\u008a\u0001\u0000\u0000\u0000\u0005"+
+		"\u008c\u0001\u0000\u0000\u0000\u0005\u008e\u0001\u0000\u0000\u0000\u0005"+
+		"\u0090\u0001\u0000\u0000\u0000\u0005\u0092\u0001\u0000\u0000\u0000\u0005"+
+		"\u0094\u0001\u0000\u0000\u0000\u0005\u0096\u0001\u0000\u0000\u0000\u0005"+
+		"\u0098\u0001\u0000\u0000\u0000\u0005\u009a\u0001\u0000\u0000\u0000\u0005"+
+		"\u009c\u0001\u0000\u0000\u0000\u0005\u009e\u0001\u0000\u0000\u0000\u0005"+
+		"\u00a0\u0001\u0000\u0000\u0000\u0005\u00a2\u0001\u0000\u0000\u0000\u0005"+
+		"\u00a4\u0001\u0000\u0000\u0000\u0006\u00a6\u0001\u0000\u0000\u0000\b\u00b0"+
+		"\u0001\u0000\u0000\u0000\n\u00b8\u0001\u0000\u0000\u0000\f\u00bc\u0001"+
+		"\u0000\u0000\u0000\u000e\u00ca\u0001\u0000\u0000\u0000\u0010\u00d6\u0001"+
+		"\u0000\u0000\u0000\u0012\u00dc\u0001\u0000\u0000\u0000\u0014\u00e0\u0001"+
+		"\u0000\u0000\u0000\u0016\u00f4\u0001\u0000\u0000\u0000\u0018\u0108\u0001"+
+		"\u0000\u0000\u0000\u001a\u011a\u0001\u0000\u0000\u0000\u001c\u012a\u0001"+
+		"\u0000\u0000\u0000\u001e\u0138\u0001\u0000\u0000\u0000 \u0144\u0001\u0000"+
+		"\u0000\u0000\"\u014a\u0001\u0000\u0000\u0000$\u014f\u0001\u0000\u0000"+
+		"\u0000&\u0153\u0001\u0000\u0000\u0000(\u0165\u0001\u0000\u0000\u0000*"+
+		"\u0175\u0001\u0000\u0000\u0000,\u0183\u0001\u0000\u0000\u0000.\u018f\u0001"+
+		"\u0000\u0000\u00000\u0193\u0001\u0000\u0000\u00002\u019b\u0001\u0000\u0000"+
+		"\u00004\u019f\u0001\u0000\u0000\u00006\u01b0\u0001\u0000\u0000\u00008"+
+		"\u01be\u0001\u0000\u0000\u0000:\u01ca\u0001\u0000\u0000\u0000<\u01ce\u0001"+
+		"\u0000\u0000\u0000>\u01d2\u0001\u0000\u0000\u0000@\u01d5\u0001\u0000\u0000"+
+		"\u0000B\u01dc\u0001\u0000\u0000\u0000D\u01e0\u0001\u0000\u0000\u0000F"+
+		"\u01ea\u0001\u0000\u0000\u0000H\u01f8\u0001\u0000\u0000\u0000J\u0204\u0001"+
+		"\u0000\u0000\u0000L\u020a\u0001\u0000\u0000\u0000N\u020e\u0001\u0000\u0000"+
+		"\u0000P\u0217\u0001\u0000\u0000\u0000R\u0220\u0001\u0000\u0000\u0000T"+
+		"\u0223\u0001\u0000\u0000\u0000V\u0227\u0001\u0000\u0000\u0000X\u022b\u0001"+
+		"\u0000\u0000\u0000Z\u0234\u0001\u0000\u0000\u0000\\\u0242\u0001\u0000"+
+		"\u0000\u0000^\u024e\u0001\u0000\u0000\u0000`\u0254\u0001\u0000\u0000\u0000"+
+		"b\u0258\u0001\u0000\u0000\u0000d\u025e\u0001\u0000\u0000\u0000f\u0268"+
+		"\u0001\u0000\u0000\u0000h\u026e\u0001\u0000\u0000\u0000j\u0274\u0001\u0000"+
+		"\u0000\u0000l\u027a\u0001\u0000\u0000\u0000n\u0280\u0001\u0000\u0000\u0000"+
+		"p\u0287\u0001\u0000\u0000\u0000r\u028f\u0001\u0000\u0000\u0000t\u0297"+
+		"\u0001\u0000\u0000\u0000v\u0299\u0001\u0000\u0000\u0000x\u029b\u0001\u0000"+
+		"\u0000\u0000z\u029d\u0001\u0000\u0000\u0000|\u029f\u0001\u0000\u0000\u0000"+
+		"~\u02a1\u0001\u0000\u0000\u0000\u0080\u02a4\u0001\u0000\u0000\u0000\u0082"+
+		"\u02a7\u0001\u0000\u0000\u0000\u0084\u02a9\u0001\u0000\u0000\u0000\u0086"+
+		"\u02ab\u0001\u0000\u0000\u0000\u0088\u02b1\u0001\u0000\u0000\u0000\u008a"+
+		"\u02b3\u0001\u0000\u0000\u0000\u008c\u02b6\u0001\u0000\u0000\u0000\u008e"+
+		"\u02b9\u0001\u0000\u0000\u0000\u0090\u02bb\u0001\u0000\u0000\u0000\u0092"+
+		"\u02bd\u0001\u0000\u0000\u0000\u0094\u02bf\u0001\u0000\u0000\u0000\u0096"+
+		"\u02c1\u0001\u0000\u0000\u0000\u0098\u02c4\u0001\u0000\u0000\u0000\u009a"+
+		"\u02c6\u0001\u0000\u0000\u0000\u009c\u02c9\u0001\u0000\u0000\u0000\u009e"+
+		"\u02ce\u0001\u0000\u0000\u0000\u00a0\u02d5\u0001\u0000\u0000\u0000\u00a2"+
+		"\u02dc\u0001\u0000\u0000\u0000\u00a4\u02f3\u0001\u0000\u0000\u0000\u00a6"+
+		"\u00a7\u0005G\u0000\u0000\u00a7\u00a8\u0005W\u0000\u0000\u00a8\u00a9\u0005"+
+		"E\u0000\u0000\u00a9\u00aa\u0005N\u0000\u0000\u00aa\u00ab\u0005D\u0000"+
+		"\u0000\u00ab\u00ac\u0005O\u0000\u0000\u00ac\u00ad\u0005L\u0000\u0000\u00ad"+
+		"\u00ae\u0005E\u0000\u0000\u00ae\u00af\u0005N\u0000\u0000\u00af\u0007\u0001"+
+		"\u0000\u0000\u0000\u00b0\u00b1\u0005:\u0000\u0000\u00b1\u00b2\u0005n\u0000"+
+		"\u0000\u00b2\u00b3\u0005a\u0000\u0000\u00b3\u00b4\u0005m\u0000\u0000\u00b4"+
+		"\u00b5\u0005e\u0000\u0000\u00b5\u00b6\u0005:\u0000\u0000\u00b6\t\u0001"+
+		"\u0000\u0000\u0000\u00b7\u00b9\u0007\u0000\u0000\u0000\u00b8\u00b7\u0001"+
+		"\u0000\u0000\u0000\u00b9\u00ba\u0001\u0000\u0000\u0000\u00ba\u00b8\u0001"+
+		"\u0000\u0000\u0000\u00ba\u00bb\u0001\u0000\u0000\u0000\u00bb\u000b\u0001"+
+		"\u0000\u0000\u0000\u00bc\u00bd\u0005/\u0000\u0000\u00bd\u00be\u0005*\u0000"+
+		"\u0000\u00be\u00c2\u0001\u0000\u0000\u0000\u00bf\u00c1\t\u0000\u0000\u0000"+
+		"\u00c0\u00bf\u0001\u0000\u0000\u0000\u00c1\u00c4\u0001\u0000\u0000\u0000"+
+		"\u00c2\u00c3\u0001\u0000\u0000\u0000\u00c2\u00c0\u0001\u0000\u0000\u0000"+
+		"\u00c3\u00c5\u0001\u0000\u0000\u0000\u00c4\u00c2\u0001\u0000\u0000\u0000"+
+		"\u00c5\u00c6\u0005*\u0000\u0000\u00c6\u00c7\u0005/\u0000\u0000\u00c7\u00c8"+
+		"\u0001\u0000\u0000\u0000\u00c8\u00c9\u0006\u0003\u0000\u0000\u00c9\r\u0001"+
+		"\u0000\u0000\u0000\u00ca\u00cb\u0005/\u0000\u0000\u00cb\u00cc\u0005/\u0000"+
+		"\u0000\u00cc\u00d0\u0001\u0000\u0000\u0000\u00cd\u00cf\b\u0001\u0000\u0000"+
+		"\u00ce\u00cd\u0001\u0000\u0000\u0000\u00cf\u00d2\u0001\u0000\u0000\u0000"+
+		"\u00d0\u00ce\u0001\u0000\u0000\u0000\u00d0\u00d1\u0001\u0000\u0000\u0000"+
+		"\u00d1\u00d3\u0001\u0000\u0000\u0000\u00d2\u00d0\u0001\u0000\u0000\u0000"+
+		"\u00d3\u00d4\u0006\u0004\u0000\u0000\u00d4\u000f\u0001\u0000\u0000\u0000"+
+		"\u00d5\u00d7\u0005\r\u0000\u0000\u00d6\u00d5\u0001\u0000\u0000\u0000\u00d6"+
+		"\u00d7\u0001\u0000\u0000\u0000\u00d7\u00d8\u0001\u0000\u0000\u0000\u00d8"+
+		"\u00d9\u0005\n\u0000\u0000\u00d9\u00da\u0001\u0000\u0000\u0000\u00da\u00db"+
+		"\u0006\u0005\u0000\u0000\u00db\u0011\u0001\u0000\u0000\u0000\u00dc\u00dd"+
+		"\u0007\u0002\u0000\u0000\u00dd\u00de\u0001\u0000\u0000\u0000\u00de\u00df"+
+		"\u0006\u0006\u0000\u0000\u00df\u0013\u0001\u0000\u0000\u0000\u00e0\u00e1"+
+		"\u0005:\u0000\u0000\u00e1\u00e2\u0005I\u0000\u0000\u00e2\u00e3\u0005n"+
+		"\u0000\u0000\u00e3\u00e4\u0005i\u0000\u0000\u00e4\u00e5\u0005t\u0000\u0000"+
+		"\u00e5\u00e6\u0005i\u0000\u0000\u00e6\u00e7\u0005a\u0000\u0000\u00e7\u00e8"+
+		"\u0005l\u0000\u0000\u00e8\u00e9\u0005 \u0000\u0000\u00e9\u00ea\u0005B"+
+		"\u0000\u0000\u00ea\u00eb\u0005e\u0000\u0000\u00eb\u00ec\u0005l\u0000\u0000"+
+		"\u00ec\u00ed\u0005i\u0000\u0000\u00ed\u00ee\u0005e\u0000\u0000\u00ee\u00ef"+
+		"\u0005f\u0000\u0000\u00ef\u00f0\u0005s\u0000\u0000\u00f0\u00f1\u0005:"+
+		"\u0000\u0000\u00f1\u00f2\u0001\u0000\u0000\u0000\u00f2\u00f3\u0006\u0007"+
+		"\u0001\u0000\u00f3\u0015\u0001\u0000\u0000\u0000\u00f4\u00f5\u0005:\u0000"+
+		"\u0000\u00f5\u00f6\u0005R\u0000\u0000\u00f6\u00f7\u0005e\u0000\u0000\u00f7"+
+		"\u00f8\u0005a\u0000\u0000\u00f8\u00f9\u0005s\u0000\u0000\u00f9\u00fa\u0005"+
+		"o\u0000\u0000\u00fa\u00fb\u0005n\u0000\u0000\u00fb\u00fc\u0005i\u0000"+
+		"\u0000\u00fc\u00fd\u0005n\u0000\u0000\u00fd\u00fe\u0005g\u0000\u0000\u00fe"+
+		"\u00ff\u0005 \u0000\u0000\u00ff\u0100\u0005R\u0000\u0000\u0100\u0101\u0005"+
+		"u\u0000\u0000\u0101\u0102\u0005l\u0000\u0000\u0102\u0103\u0005e\u0000"+
+		"\u0000\u0103\u0104\u0005s\u0000\u0000\u0104\u0105\u0005:\u0000\u0000\u0105"+
+		"\u0106\u0001\u0000\u0000\u0000\u0106\u0107\u0006\b\u0002\u0000\u0107\u0017"+
+		"\u0001\u0000\u0000\u0000\u0108\u0109\u0005:\u0000\u0000\u0109\u010a\u0005"+
+		"I\u0000\u0000\u010a\u010b\u0005n\u0000\u0000\u010b\u010c\u0005i\u0000"+
+		"\u0000\u010c\u010d\u0005t\u0000\u0000\u010d\u010e\u0005i\u0000\u0000\u010e"+
+		"\u010f\u0005a\u0000\u0000\u010f\u0110\u0005l\u0000\u0000\u0110\u0111\u0005"+
+		" \u0000\u0000\u0111\u0112\u0005G\u0000\u0000\u0112\u0113\u0005o\u0000"+
+		"\u0000\u0113\u0114\u0005a\u0000\u0000\u0114\u0115\u0005l\u0000\u0000\u0115"+
+		"\u0116\u0005s\u0000\u0000\u0116\u0117\u0005:\u0000\u0000\u0117\u0118\u0001"+
+		"\u0000\u0000\u0000\u0118\u0119\u0006\t\u0003\u0000\u0119\u0019\u0001\u0000"+
+		"\u0000\u0000\u011a\u011b\u0005C\u0000\u0000\u011b\u011c\u0005a\u0000\u0000"+
+		"\u011c\u011d\u0005p\u0000\u0000\u011d\u011e\u0005a\u0000\u0000\u011e\u011f"+
+		"\u0005b\u0000\u0000\u011f\u0120\u0005i\u0000\u0000\u0120\u0121\u0005l"+
+		"\u0000\u0000\u0121\u0122\u0005i\u0000\u0000\u0122\u0123\u0005t\u0000\u0000"+
+		"\u0123\u0124\u0005i\u0000\u0000\u0124\u0125\u0005e\u0000\u0000\u0125\u0126"+
+		"\u0005s\u0000\u0000\u0126\u0127\u0005:\u0000\u0000\u0127\u0128\u0001\u0000"+
+		"\u0000\u0000\u0128\u0129\u0006\n\u0004\u0000\u0129\u001b\u0001\u0000\u0000"+
+		"\u0000\u012a\u012b\u0005/\u0000\u0000\u012b\u012c\u0005*\u0000\u0000\u012c"+
+		"\u0130\u0001\u0000\u0000\u0000\u012d\u012f\t\u0000\u0000\u0000\u012e\u012d"+
+		"\u0001\u0000\u0000\u0000\u012f\u0132\u0001\u0000\u0000\u0000\u0130\u0131"+
+		"\u0001\u0000\u0000\u0000\u0130\u012e\u0001\u0000\u0000\u0000\u0131\u0133"+
+		"\u0001\u0000\u0000\u0000\u0132\u0130\u0001\u0000\u0000\u0000\u0133\u0134"+
+		"\u0005*\u0000\u0000\u0134\u0135\u0005/\u0000\u0000\u0135\u0136\u0001\u0000"+
+		"\u0000\u0000\u0136\u0137\u0006\u000b\u0000\u0000\u0137\u001d\u0001\u0000"+
+		"\u0000\u0000\u0138\u0139\u0005/\u0000\u0000\u0139\u013a\u0005/\u0000\u0000"+
+		"\u013a\u013e\u0001\u0000\u0000\u0000\u013b\u013d\b\u0001\u0000\u0000\u013c"+
+		"\u013b\u0001\u0000\u0000\u0000\u013d\u0140\u0001\u0000\u0000\u0000\u013e"+
+		"\u013c\u0001\u0000\u0000\u0000\u013e\u013f\u0001\u0000\u0000\u0000\u013f"+
+		"\u0141\u0001\u0000\u0000\u0000\u0140\u013e\u0001\u0000\u0000\u0000\u0141"+
+		"\u0142\u0006\f\u0000\u0000\u0142\u001f\u0001\u0000\u0000\u0000\u0143\u0145"+
+		"\u0005\r\u0000\u0000\u0144\u0143\u0001\u0000\u0000\u0000\u0144\u0145\u0001"+
+		"\u0000\u0000\u0000\u0145\u0146\u0001\u0000\u0000\u0000\u0146\u0147\u0005"+
+		"\n\u0000\u0000\u0147\u0148\u0001\u0000\u0000\u0000\u0148\u0149\u0006\r"+
+		"\u0000\u0000\u0149!\u0001\u0000\u0000\u0000\u014a\u014b\u0007\u0002\u0000"+
+		"\u0000\u014b\u014c\u0001\u0000\u0000\u0000\u014c\u014d\u0006\u000e\u0000"+
+		"\u0000\u014d#\u0001\u0000\u0000\u0000\u014e\u0150\u0007\u0003\u0000\u0000"+
+		"\u014f\u014e\u0001\u0000\u0000\u0000\u0150\u0151\u0001\u0000\u0000\u0000"+
+		"\u0151\u014f\u0001\u0000\u0000\u0000\u0151\u0152\u0001\u0000\u0000\u0000"+
+		"\u0152%\u0001\u0000\u0000\u0000\u0153\u0154\u0005:\u0000\u0000\u0154\u0155"+
+		"\u0005I\u0000\u0000\u0155\u0156\u0005n\u0000\u0000\u0156\u0157\u0005i"+
+		"\u0000\u0000\u0157\u0158\u0005t\u0000\u0000\u0158\u0159\u0005i\u0000\u0000"+
+		"\u0159\u015a\u0005a\u0000\u0000\u015a\u015b\u0005l\u0000\u0000\u015b\u015c"+
+		"\u0005 \u0000\u0000\u015c\u015d\u0005G\u0000\u0000\u015d\u015e\u0005o"+
+		"\u0000\u0000\u015e\u015f\u0005a\u0000\u0000\u015f\u0160\u0005l\u0000\u0000"+
+		"\u0160\u0161\u0005s\u0000\u0000\u0161\u0162\u0005:\u0000\u0000\u0162\u0163"+
+		"\u0001\u0000\u0000\u0000\u0163\u0164\u0006\u0010\u0003\u0000\u0164\'\u0001"+
+		"\u0000\u0000\u0000\u0165\u0166\u0005C\u0000\u0000\u0166\u0167\u0005a\u0000"+
+		"\u0000\u0167\u0168\u0005p\u0000\u0000\u0168\u0169\u0005a\u0000\u0000\u0169"+
+		"\u016a\u0005b\u0000\u0000\u016a\u016b\u0005i\u0000\u0000\u016b\u016c\u0005"+
+		"l\u0000\u0000\u016c\u016d\u0005i\u0000\u0000\u016d\u016e\u0005t\u0000"+
+		"\u0000\u016e\u016f\u0005i\u0000\u0000\u016f\u0170\u0005e\u0000\u0000\u0170"+
+		"\u0171\u0005s\u0000\u0000\u0171\u0172\u0005:\u0000\u0000\u0172\u0173\u0001"+
+		"\u0000\u0000\u0000\u0173\u0174\u0006\u0011\u0004\u0000\u0174)\u0001\u0000"+
+		"\u0000\u0000\u0175\u0176\u0005/\u0000\u0000\u0176\u0177\u0005*\u0000\u0000"+
+		"\u0177\u017b\u0001\u0000\u0000\u0000\u0178\u017a\t\u0000\u0000\u0000\u0179"+
+		"\u0178\u0001\u0000\u0000\u0000\u017a\u017d\u0001\u0000\u0000\u0000\u017b"+
+		"\u017c\u0001\u0000\u0000\u0000\u017b\u0179\u0001\u0000\u0000\u0000\u017c"+
+		"\u017e\u0001\u0000\u0000\u0000\u017d\u017b\u0001\u0000\u0000\u0000\u017e"+
+		"\u017f\u0005*\u0000\u0000\u017f\u0180\u0005/\u0000\u0000\u0180\u0181\u0001"+
+		"\u0000\u0000\u0000\u0181\u0182\u0006\u0012\u0000\u0000\u0182+\u0001\u0000"+
+		"\u0000\u0000\u0183\u0184\u0005/\u0000\u0000\u0184\u0185\u0005/\u0000\u0000"+
+		"\u0185\u0189\u0001\u0000\u0000\u0000\u0186\u0188\b\u0001\u0000\u0000\u0187"+
+		"\u0186\u0001\u0000\u0000\u0000\u0188\u018b\u0001\u0000\u0000\u0000\u0189"+
+		"\u0187\u0001\u0000\u0000\u0000\u0189\u018a\u0001\u0000\u0000\u0000\u018a"+
+		"\u018c\u0001\u0000\u0000\u0000\u018b\u0189\u0001\u0000\u0000\u0000\u018c"+
+		"\u018d\u0006\u0013\u0000\u0000\u018d-\u0001\u0000\u0000\u0000\u018e\u0190"+
+		"\u0005\r\u0000\u0000\u018f\u018e\u0001\u0000\u0000\u0000\u018f\u0190\u0001"+
+		"\u0000\u0000\u0000\u0190\u0191\u0001\u0000\u0000\u0000\u0191\u0192\u0005"+
+		"\n\u0000\u0000\u0192/\u0001\u0000\u0000\u0000\u0193\u0194\u0007\u0002"+
+		"\u0000\u0000\u0194\u0195\u0001\u0000\u0000\u0000\u0195\u0196\u0006\u0015"+
+		"\u0000\u0000\u01961\u0001\u0000\u0000\u0000\u0197\u019c\u0007\u0004\u0000"+
+		"\u0000\u0198\u0199\u0005:\u0000\u0000\u0199\u019c\u0005-\u0000\u0000\u019a"+
+		"\u019c\u0007\u0005\u0000\u0000\u019b\u0197\u0001\u0000\u0000\u0000\u019b"+
+		"\u0198\u0001\u0000\u0000\u0000\u019b\u019a\u0001\u0000\u0000\u0000\u019c"+
+		"\u019d\u0001\u0000\u0000\u0000\u019d\u019b\u0001\u0000\u0000\u0000\u019d"+
+		"\u019e\u0001\u0000\u0000\u0000\u019e3\u0001\u0000\u0000\u0000\u019f\u01a0"+
+		"\u0005I\u0000\u0000\u01a0\u01a1\u0005n\u0000\u0000\u01a1\u01a2\u0005i"+
+		"\u0000\u0000\u01a2\u01a3\u0005t\u0000\u0000\u01a3\u01a4\u0005i\u0000\u0000"+
+		"\u01a4\u01a5\u0005a\u0000\u0000\u01a5\u01a6\u0005l\u0000\u0000\u01a6\u01a7"+
+		"\u0005 \u0000\u0000\u01a7\u01a8\u0005G\u0000\u0000\u01a8\u01a9\u0005o"+
+		"\u0000\u0000\u01a9\u01aa\u0005a\u0000\u0000\u01aa\u01ab\u0005l\u0000\u0000"+
+		"\u01ab\u01ac\u0005s\u0000\u0000\u01ac\u01ad\u0005:\u0000\u0000\u01ad\u01ae"+
+		"\u0001\u0000\u0000\u0000\u01ae\u01af\u0006\u0017\u0003\u0000\u01af5\u0001"+
+		"\u0000\u0000\u0000\u01b0\u01b1\u0005/\u0000\u0000\u01b1\u01b2\u0005*\u0000"+
+		"\u0000\u01b2\u01b6\u0001\u0000\u0000\u0000\u01b3\u01b5\t\u0000\u0000\u0000"+
+		"\u01b4\u01b3\u0001\u0000\u0000\u0000\u01b5\u01b8\u0001\u0000\u0000\u0000"+
+		"\u01b6\u01b7\u0001\u0000\u0000\u0000\u01b6\u01b4\u0001\u0000\u0000\u0000"+
+		"\u01b7\u01b9\u0001\u0000\u0000\u0000\u01b8\u01b6\u0001\u0000\u0000\u0000"+
+		"\u01b9\u01ba\u0005*\u0000\u0000\u01ba\u01bb\u0005/\u0000\u0000\u01bb\u01bc"+
+		"\u0001\u0000\u0000\u0000\u01bc\u01bd\u0006\u0018\u0000\u0000\u01bd7\u0001"+
+		"\u0000\u0000\u0000\u01be\u01bf\u0005/\u0000\u0000\u01bf\u01c0\u0005/\u0000"+
+		"\u0000\u01c0\u01c4\u0001\u0000\u0000\u0000\u01c1\u01c3\b\u0001\u0000\u0000"+
+		"\u01c2\u01c1\u0001\u0000\u0000\u0000\u01c3\u01c6\u0001\u0000\u0000\u0000"+
+		"\u01c4\u01c2\u0001\u0000\u0000\u0000\u01c4\u01c5\u0001\u0000\u0000\u0000"+
+		"\u01c5\u01c7\u0001\u0000\u0000\u0000\u01c6\u01c4\u0001\u0000\u0000\u0000"+
+		"\u01c7\u01c8\u0006\u0019\u0000\u0000\u01c89\u0001\u0000\u0000\u0000\u01c9"+
+		"\u01cb\u0005\r\u0000\u0000\u01ca\u01c9\u0001\u0000\u0000\u0000\u01ca\u01cb"+
+		"\u0001\u0000\u0000\u0000\u01cb\u01cc\u0001\u0000\u0000\u0000\u01cc\u01cd"+
+		"\u0005\n\u0000\u0000\u01cd;\u0001\u0000\u0000\u0000\u01ce\u01cf\u0007"+
+		"\u0002\u0000\u0000\u01cf\u01d0\u0001\u0000\u0000\u0000\u01d0\u01d1\u0006"+
+		"\u001b\u0000\u0000\u01d1=\u0001\u0000\u0000\u0000\u01d2\u01d3\u0005{\u0000"+
+		"\u0000\u01d3\u01d4\u0006\u001c\u0005\u0000\u01d4?\u0001\u0000\u0000\u0000"+
+		"\u01d5\u01d6\u0005}\u0000\u0000\u01d6\u01d7\u0006\u001d\u0006\u0000\u01d7"+
+		"A\u0001\u0000\u0000\u0000\u01d8\u01dd\u0007\u0004\u0000\u0000\u01d9\u01da"+
+		"\u0005:\u0000\u0000\u01da\u01dd\u0005-\u0000\u0000\u01db\u01dd\u0007\u0006"+
+		"\u0000\u0000\u01dc\u01d8\u0001\u0000\u0000\u0000\u01dc\u01d9\u0001\u0000"+
+		"\u0000\u0000\u01dc\u01db\u0001\u0000\u0000\u0000\u01dd\u01de\u0001\u0000"+
+		"\u0000\u0000\u01de\u01dc\u0001\u0000\u0000\u0000\u01de\u01df\u0001\u0000"+
+		"\u0000\u0000\u01dfC\u0001\u0000\u0000\u0000\u01e0\u01e1\u0005:\u0000\u0000"+
+		"\u01e1\u01e2\u0005P\u0000\u0000\u01e2\u01e3\u0005l\u0000\u0000\u01e3\u01e4"+
+		"\u0005a\u0000\u0000\u01e4\u01e5\u0005n\u0000\u0000\u01e5\u01e6\u0005s"+
+		"\u0000\u0000\u01e6\u01e7\u0005:\u0000\u0000\u01e7\u01e8\u0001\u0000\u0000"+
+		"\u0000\u01e8\u01e9\u0006\u001f\u0007\u0000\u01e9E\u0001\u0000\u0000\u0000"+
+		"\u01ea\u01eb\u0005/\u0000\u0000\u01eb\u01ec\u0005*\u0000\u0000\u01ec\u01f0"+
+		"\u0001\u0000\u0000\u0000\u01ed\u01ef\t\u0000\u0000\u0000\u01ee\u01ed\u0001"+
+		"\u0000\u0000\u0000\u01ef\u01f2\u0001\u0000\u0000\u0000\u01f0\u01f1\u0001"+
+		"\u0000\u0000\u0000\u01f0\u01ee\u0001\u0000\u0000\u0000\u01f1\u01f3\u0001"+
+		"\u0000\u0000\u0000\u01f2\u01f0\u0001\u0000\u0000\u0000\u01f3\u01f4\u0005"+
+		"*\u0000\u0000\u01f4\u01f5\u0005/\u0000\u0000\u01f5\u01f6\u0001\u0000\u0000"+
+		"\u0000\u01f6\u01f7\u0006 \u0000\u0000\u01f7G\u0001\u0000\u0000\u0000\u01f8"+
+		"\u01f9\u0005/\u0000\u0000\u01f9\u01fa\u0005/\u0000\u0000\u01fa\u01fe\u0001"+
+		"\u0000\u0000\u0000\u01fb\u01fd\b\u0001\u0000\u0000\u01fc\u01fb\u0001\u0000"+
+		"\u0000\u0000\u01fd\u0200\u0001\u0000\u0000\u0000\u01fe\u01fc\u0001\u0000"+
+		"\u0000\u0000\u01fe\u01ff\u0001\u0000\u0000\u0000\u01ff\u0201\u0001\u0000"+
+		"\u0000\u0000\u0200\u01fe\u0001\u0000\u0000\u0000\u0201\u0202\u0006!\u0000"+
+		"\u0000\u0202I\u0001\u0000\u0000\u0000\u0203\u0205\u0005\r\u0000\u0000"+
+		"\u0204\u0203\u0001\u0000\u0000\u0000\u0204\u0205\u0001\u0000\u0000\u0000"+
+		"\u0205\u0206\u0001\u0000\u0000\u0000\u0206\u0207\u0005\n\u0000\u0000\u0207"+
+		"\u0208\u0001\u0000\u0000\u0000\u0208\u0209\u0006\"\u0000\u0000\u0209K"+
+		"\u0001\u0000\u0000\u0000\u020a\u020b\u0007\u0002\u0000\u0000\u020b\u020c"+
+		"\u0001\u0000\u0000\u0000\u020c\u020d\u0006#\u0000\u0000\u020dM\u0001\u0000"+
+		"\u0000\u0000\u020e\u020f\u0004$\u0000\u0000\u020f\u0210\u0005a\u0000\u0000"+
+		"\u0210\u0211\u0005c\u0000\u0000\u0211\u0212\u0005h\u0000\u0000\u0212\u0213"+
+		"\u0005i\u0000\u0000\u0213\u0214\u0005e\u0000\u0000\u0214\u0215\u0005v"+
+		"\u0000\u0000\u0215\u0216\u0005e\u0000\u0000\u0216O\u0001\u0000\u0000\u0000"+
+		"\u0217\u0218\u0004%\u0001\u0000\u0218\u0219\u0005p\u0000\u0000\u0219\u021a"+
+		"\u0005e\u0000\u0000\u021a\u021b\u0005r\u0000\u0000\u021b\u021c\u0005f"+
+		"\u0000\u0000\u021c\u021d\u0005o\u0000\u0000\u021d\u021e\u0005r\u0000\u0000"+
+		"\u021e\u021f\u0005m\u0000\u0000\u021fQ\u0001\u0000\u0000\u0000\u0220\u0221"+
+		"\u0005[\u0000\u0000\u0221\u0222\u0006&\b\u0000\u0222S\u0001\u0000\u0000"+
+		"\u0000\u0223\u0224\u0005]\u0000\u0000\u0224\u0225\u0006\'\t\u0000\u0225"+
+		"U\u0001\u0000\u0000\u0000\u0226\u0228\u0007\u0007\u0000\u0000\u0227\u0226"+
+		"\u0001\u0000\u0000\u0000\u0228\u0229\u0001\u0000\u0000\u0000\u0229\u0227"+
+		"\u0001\u0000\u0000\u0000\u0229\u022a\u0001\u0000\u0000\u0000\u022aW\u0001"+
+		"\u0000\u0000\u0000\u022b\u022c\u0005:\u0000\u0000\u022c\u022d\u0005n\u0000"+
+		"\u0000\u022d\u022e\u0005a\u0000\u0000\u022e\u022f\u0005m\u0000\u0000\u022f"+
+		"\u0230\u0005e\u0000\u0000\u0230\u0231\u0005:\u0000\u0000\u0231\u0232\u0001"+
+		"\u0000\u0000\u0000\u0232\u0233\u0006)\n\u0000\u0233Y\u0001\u0000\u0000"+
+		"\u0000\u0234\u0235\u0005/\u0000\u0000\u0235\u0236\u0005*\u0000\u0000\u0236"+
+		"\u023a\u0001\u0000\u0000\u0000\u0237\u0239\t\u0000\u0000\u0000\u0238\u0237"+
+		"\u0001\u0000\u0000\u0000\u0239\u023c\u0001\u0000\u0000\u0000\u023a\u023b"+
+		"\u0001\u0000\u0000\u0000\u023a\u0238\u0001\u0000\u0000\u0000\u023b\u023d"+
+		"\u0001\u0000\u0000\u0000\u023c\u023a\u0001\u0000\u0000\u0000\u023d\u023e"+
+		"\u0005*\u0000\u0000\u023e\u023f\u0005/\u0000\u0000\u023f\u0240\u0001\u0000"+
+		"\u0000\u0000\u0240\u0241\u0006*\u0000\u0000\u0241[\u0001\u0000\u0000\u0000"+
+		"\u0242\u0243\u0005/\u0000\u0000\u0243\u0244\u0005/\u0000\u0000\u0244\u0248"+
+		"\u0001\u0000\u0000\u0000\u0245\u0247\b\u0001\u0000\u0000\u0246\u0245\u0001"+
+		"\u0000\u0000\u0000\u0247\u024a\u0001\u0000\u0000\u0000\u0248\u0246\u0001"+
+		"\u0000\u0000\u0000\u0248\u0249\u0001\u0000\u0000\u0000\u0249\u024b\u0001"+
+		"\u0000\u0000\u0000\u024a\u0248\u0001\u0000\u0000\u0000\u024b\u024c\u0006"+
+		"+\u0000\u0000\u024c]\u0001\u0000\u0000\u0000\u024d\u024f\u0005\r\u0000"+
+		"\u0000\u024e\u024d\u0001\u0000\u0000\u0000\u024e\u024f\u0001\u0000\u0000"+
+		"\u0000\u024f\u0250\u0001\u0000\u0000\u0000\u0250\u0251\u0005\n\u0000\u0000"+
+		"\u0251\u0252\u0001\u0000\u0000\u0000\u0252\u0253\u0006,\u0000\u0000\u0253"+
+		"_\u0001\u0000\u0000\u0000\u0254\u0255\u0007\u0002\u0000\u0000\u0255\u0256"+
+		"\u0001\u0000\u0000\u0000\u0256\u0257\u0006-\u000b\u0000\u0257a\u0001\u0000"+
+		"\u0000\u0000\u0258\u0259\u0005.\u0000\u0000\u0259\u025a\u0005s\u0000\u0000"+
+		"\u025a\u025b\u0005e\u0000\u0000\u025b\u025c\u0005n\u0000\u0000\u025c\u025d"+
+		"\u0005d\u0000\u0000\u025dc\u0001\u0000\u0000\u0000\u025e\u025f\u0005."+
+		"\u0000\u0000\u025f\u0260\u0005r\u0000\u0000\u0260\u0261\u0005e\u0000\u0000"+
+		"\u0261\u0262\u0005c\u0000\u0000\u0262\u0263\u0005e\u0000\u0000\u0263\u0264"+
+		"\u0005i\u0000\u0000\u0264\u0265\u0005v\u0000\u0000\u0265\u0266\u0005e"+
+		"\u0000\u0000\u0266\u0267\u0005d\u0000\u0000\u0267e\u0001\u0000\u0000\u0000"+
+		"\u0268\u026c\u00040\u0002\u0000\u0269\u026d\u0005B\u0000\u0000\u026a\u026b"+
+		"\u0005.\u0000\u0000\u026b\u026d\u0005B\u0000\u0000\u026c\u0269\u0001\u0000"+
+		"\u0000\u0000\u026c\u026a\u0001\u0000\u0000\u0000\u026dg\u0001\u0000\u0000"+
+		"\u0000\u026e\u0272\u00041\u0003\u0000\u026f\u0273\u0005G\u0000\u0000\u0270"+
+		"\u0271\u0005.\u0000\u0000\u0271\u0273\u0005G\u0000\u0000\u0272\u026f\u0001"+
+		"\u0000\u0000\u0000\u0272\u0270\u0001\u0000\u0000\u0000\u0273i\u0001\u0000"+
+		"\u0000\u0000\u0274\u0275\u0005.\u0000\u0000\u0275\u0276\u0005s\u0000\u0000"+
+		"\u0276\u0277\u0005e\u0000\u0000\u0277\u0278\u0005n\u0000\u0000\u0278\u0279"+
+		"\u0005t\u0000\u0000\u0279k\u0001\u0000\u0000\u0000\u027a\u027b\u0005."+
+		"\u0000\u0000\u027b\u027c\u0005l\u0000\u0000\u027c\u027d\u0005o\u0000\u0000"+
+		"\u027d\u027e\u0005c\u0000\u0000\u027e\u027f\u0005k\u0000\u0000\u027fm"+
+		"\u0001\u0000\u0000\u0000\u0280\u0281\u0005.\u0000\u0000\u0281\u0282\u0005"+
+		"q\u0000\u0000\u0282\u0283\u0005u\u0000\u0000\u0283\u0284\u0005e\u0000"+
+		"\u0000\u0284\u0285\u0005r\u0000\u0000\u0285\u0286\u0005y\u0000\u0000\u0286"+
+		"o\u0001\u0000\u0000\u0000\u0287\u0288\u0005a\u0000\u0000\u0288\u0289\u0005"+
+		"c\u0000\u0000\u0289\u028a\u0005h\u0000\u0000\u028a\u028b\u0005i\u0000"+
+		"\u0000\u028b\u028c\u0005e\u0000\u0000\u028c\u028d\u0005v\u0000\u0000\u028d"+
+		"\u028e\u0005e\u0000\u0000\u028eq\u0001\u0000\u0000\u0000\u028f\u0290\u0005"+
+		"p\u0000\u0000\u0290\u0291\u0005e\u0000\u0000\u0291\u0292\u0005r\u0000"+
+		"\u0000\u0292\u0293\u0005f\u0000\u0000\u0293\u0294\u0005o\u0000\u0000\u0294"+
+		"\u0295\u0005r\u0000\u0000\u0295\u0296\u0005m\u0000\u0000\u0296s\u0001"+
+		"\u0000\u0000\u0000\u0297\u0298\u0005[\u0000\u0000\u0298u\u0001\u0000\u0000"+
+		"\u0000\u0299\u029a\u0005]\u0000\u0000\u029aw\u0001\u0000\u0000\u0000\u029b"+
+		"\u029c\u0005|\u0000\u0000\u029cy\u0001\u0000\u0000\u0000\u029d\u029e\u0005"+
+		"~\u0000\u0000\u029e{\u0001\u0000\u0000\u0000\u029f\u02a0\u0005:\u0000"+
+		"\u0000\u02a0}\u0001\u0000\u0000\u0000\u02a1\u02a2\u0005{\u0000\u0000\u02a2"+
+		"\u02a3\u0006<\f\u0000\u02a3\u007f\u0001\u0000\u0000\u0000\u02a4\u02a5"+
+		"\u0005}\u0000\u0000\u02a5\u02a6\u0006=\r\u0000\u02a6\u0081\u0001\u0000"+
+		"\u0000\u0000\u02a7\u02a8\u0005,\u0000\u0000\u02a8\u0083\u0001\u0000\u0000"+
+		"\u0000\u02a9\u02aa\u0005;\u0000\u0000\u02aa\u0085\u0001\u0000\u0000\u0000"+
+		"\u02ab\u02ac\u0005:\u0000\u0000\u02ac\u02ad\u0005t\u0000\u0000\u02ad\u02ae"+
+		"\u0005e\u0000\u0000\u02ae\u02af\u0005l\u0000\u0000\u02af\u02b0\u0005l"+
+		"\u0000\u0000\u02b0\u0087\u0001\u0000\u0000\u0000\u02b1\u02b2\u0005!\u0000"+
+		"\u0000\u02b2\u0089\u0001\u0000\u0000\u0000\u02b3\u02b4\u0005(\u0000\u0000"+
+		"\u02b4\u02b5\u0006B\u000e\u0000\u02b5\u008b\u0001\u0000\u0000\u0000\u02b6"+
+		"\u02b7\u0005)\u0000\u0000\u02b7\u02b8\u0006C\u000f\u0000\u02b8\u008d\u0001"+
+		"\u0000\u0000\u0000\u02b9\u02ba\u0005*\u0000\u0000\u02ba\u008f\u0001\u0000"+
+		"\u0000\u0000\u02bb\u02bc\u0005+\u0000\u0000\u02bc\u0091\u0001\u0000\u0000"+
+		"\u0000\u02bd\u02be\u0005-\u0000\u0000\u02be\u0093\u0001\u0000\u0000\u0000"+
+		"\u02bf\u02c0\u0005<\u0000\u0000\u02c0\u0095\u0001\u0000\u0000\u0000\u02c1"+
+		"\u02c2\u0005=\u0000\u0000\u02c2\u02c3\u0005=\u0000\u0000\u02c3\u0097\u0001"+
+		"\u0000\u0000\u0000\u02c4\u02c5\u0005.\u0000\u0000\u02c5\u0099\u0001\u0000"+
+		"\u0000\u0000\u02c6\u02c7\u0005<\u0000\u0000\u02c7\u02c8\u0005-\u0000\u0000"+
+		"\u02c8\u009b\u0001\u0000\u0000\u0000\u02c9\u02ca\u0005T\u0000\u0000\u02ca"+
+		"\u02cb\u0005r\u0000\u0000\u02cb\u02cc\u0005u\u0000\u0000\u02cc\u02cd\u0005"+
+		"e\u0000\u0000\u02cd\u009d\u0001\u0000\u0000\u0000\u02ce\u02d2\u0002az"+
+		"\u0000\u02cf\u02d1\u0007\b\u0000\u0000\u02d0\u02cf\u0001\u0000\u0000\u0000"+
+		"\u02d1\u02d4\u0001\u0000\u0000\u0000\u02d2\u02d0\u0001\u0000\u0000\u0000"+
+		"\u02d2\u02d3\u0001\u0000\u0000\u0000\u02d3\u009f\u0001\u0000\u0000\u0000"+
+		"\u02d4\u02d2\u0001\u0000\u0000\u0000\u02d5\u02d9\u0007\t\u0000\u0000\u02d6"+
+		"\u02d8\u0007\u0000\u0000\u0000\u02d7\u02d6\u0001\u0000\u0000\u0000\u02d8"+
+		"\u02db\u0001\u0000\u0000\u0000\u02d9\u02d7\u0001\u0000\u0000\u0000\u02d9"+
+		"\u02da\u0001\u0000\u0000\u0000\u02da\u00a1\u0001\u0000\u0000\u0000\u02db"+
+		"\u02d9\u0001\u0000\u0000\u0000\u02dc\u02e0\u000209\u0000\u02dd\u02df\u0007"+
+		"\n\u0000\u0000\u02de\u02dd\u0001\u0000\u0000\u0000\u02df\u02e2\u0001\u0000"+
+		"\u0000\u0000\u02e0\u02de\u0001\u0000\u0000\u0000\u02e0\u02e1\u0001\u0000"+
+		"\u0000\u0000\u02e1\u00a3\u0001\u0000\u0000\u0000\u02e2\u02e0\u0001\u0000"+
+		"\u0000\u0000\u02e3\u02e7\u0005\"\u0000\u0000\u02e4\u02e6\t\u0000\u0000"+
+		"\u0000\u02e5\u02e4\u0001\u0000\u0000\u0000\u02e6\u02e9\u0001\u0000\u0000"+
+		"\u0000\u02e7\u02e8\u0001\u0000\u0000\u0000\u02e7\u02e5\u0001\u0000\u0000"+
+		"\u0000\u02e8\u02ea\u0001\u0000\u0000\u0000\u02e9\u02e7\u0001\u0000\u0000"+
+		"\u0000\u02ea\u02f4\u0005\"\u0000\u0000\u02eb\u02ef\u0005\'\u0000\u0000"+
+		"\u02ec\u02ee\t\u0000\u0000\u0000\u02ed\u02ec\u0001\u0000\u0000\u0000\u02ee"+
+		"\u02f1\u0001\u0000\u0000\u0000\u02ef\u02f0\u0001\u0000\u0000\u0000\u02ef"+
+		"\u02ed\u0001\u0000\u0000\u0000\u02f0\u02f2\u0001\u0000\u0000\u0000\u02f1"+
+		"\u02ef\u0001\u0000\u0000\u0000\u02f2\u02f4\u0005\'\u0000\u0000\u02f3\u02e3"+
+		"\u0001\u0000\u0000\u0000\u02f3\u02eb\u0001\u0000\u0000\u0000\u02f4\u00a5"+
+		"\u0001\u0000\u0000\u0000\'\u0000\u0001\u0002\u0003\u0004\u0005\u00ba\u00c2"+
+		"\u00d0\u00d6\u0130\u013e\u0144\u0151\u017b\u0189\u018f\u019b\u019d\u01b6"+
+		"\u01c4\u01ca\u01dc\u01de\u01f0\u01fe\u0204\u0229\u023a\u0248\u024e\u026c"+
+		"\u0272\u02d2\u02d9\u02e0\u02e7\u02ef\u02f3\u0010\u0006\u0000\u0000\u0002"+
+		"\u0001\u0000\u0002\u0002\u0000\u0002\u0004\u0000\u0002\u0003\u0000\u0001"+
+		"\u001c\u0000\u0001\u001d\u0001\u0002\u0005\u0000\u0001&\u0002\u0001\'"+
+		"\u0003\u0002\u0000\u0000\u0000\u0001\u0000\u0001<\u0004\u0001=\u0005\u0001"+
+		"B\u0006\u0001C\u0007";
+	public static final ATN _ATN =
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
-		int numStates = DFA12_transitionS.length;
-		DFA12_transition = new short[numStates][];
-		for (int i=0; i<numStates; i++) {
-			DFA12_transition[i] = DFA.unpackEncodedString(DFA12_transitionS[i]);
+		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
 		}
 	}
-
-	protected class DFA12 extends DFA {
-
-		public DFA12(BaseRecognizer recognizer) {
-			this.recognizer = recognizer;
-			this.decisionNumber = 12;
-			this.eot = DFA12_eot;
-			this.eof = DFA12_eof;
-			this.min = DFA12_min;
-			this.max = DFA12_max;
-			this.accept = DFA12_accept;
-			this.special = DFA12_special;
-			this.transition = DFA12_transition;
-		}
-		@Override
-		public String getDescription() {
-			return "1:1: Tokens : ( GWENDOLEN | GOALS | BELIEFS | BELIEFRULES | PLANS | NAME | SEND | RECEIVED | BELIEVE | GOAL | IN_CONTENT | IN_CONTEXT | SENT | LOCK | ADD_PLAN | ADD_CONSTRAINT | ADD_CONTENT | ADD_CONTEXT | TELL | PERFORM | ACHIEVE | TELLHOW | CONSTRAINT | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | UNNAMEDVAR | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY | BAR );";
-		}
-		@Override
-		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
-			IntStream input = _input;
-			int _s = s;
-			switch ( s ) {
-					case 0 : 
-						int LA12_120 = input.LA(1);
-						 
-						int index12_120 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_120==' '||LA12_120=='.'||(LA12_120 >= '0' && LA12_120 <= '9')||(LA12_120 >= 'A' && LA12_120 <= 'Z')||LA12_120=='_'||(LA12_120 >= 'a' && LA12_120 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 131;
-						 
-						input.seek(index12_120);
-						if ( s>=0 ) return s;
-						break;
-
-					case 1 : 
-						int LA12_3 = input.LA(1);
-						 
-						int index12_3 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_3=='s') ) {s = 52;}
-						else if ( (LA12_3=='r') && (((gwendolen)||(stringterm)))) {s = 53;}
-						else if ( (LA12_3=='B') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)))) {s = 54;}
-						else if ( (LA12_3=='G') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)))) {s = 55;}
-						else if ( (LA12_3=='l') ) {s = 56;}
-						else if ( (LA12_3=='p') ) {s = 57;}
-						else if ( (LA12_3=='c') ) {s = 58;}
-						else if ( (LA12_3=='n') ) {s = 59;}
-						else if ( (LA12_3=='x') ) {s = 60;}
-						else if ( (LA12_3==' '||LA12_3=='.'||(LA12_3 >= '0' && LA12_3 <= '9')||LA12_3=='A'||(LA12_3 >= 'C' && LA12_3 <= 'F')||(LA12_3 >= 'H' && LA12_3 <= 'Z')||LA12_3=='_'||(LA12_3 >= 'a' && LA12_3 <= 'b')||(LA12_3 >= 'd' && LA12_3 <= 'k')||LA12_3=='m'||LA12_3=='o'||LA12_3=='q'||(LA12_3 >= 't' && LA12_3 <= 'w')||(LA12_3 >= 'y' && LA12_3 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 61;
-						 
-						input.seek(index12_3);
-						if ( s>=0 ) return s;
-						break;
-
-					case 2 : 
-						int LA12_71 = input.LA(1);
-						 
-						int index12_71 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_71=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 100;}
-						else if ( ((LA12_71 >= '0' && LA12_71 <= '9')||(LA12_71 >= 'A' && LA12_71 <= 'Z')||LA12_71=='_'||(LA12_71 >= 'a' && LA12_71 <= 't')||(LA12_71 >= 'v' && LA12_71 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_71==' '||LA12_71=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_71);
-						if ( s>=0 ) return s;
-						break;
-
-					case 3 : 
-						int LA12_100 = input.LA(1);
-						 
-						int index12_100 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_100=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 114;}
-						else if ( ((LA12_100 >= '0' && LA12_100 <= '9')||(LA12_100 >= 'A' && LA12_100 <= 'Z')||LA12_100=='_'||(LA12_100 >= 'a' && LA12_100 <= 'd')||(LA12_100 >= 'f' && LA12_100 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_100==' '||LA12_100=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_100);
-						if ( s>=0 ) return s;
-						break;
-
-					case 4 : 
-						int LA12_25 = input.LA(1);
-						 
-						int index12_25 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_25 >= '0' && LA12_25 <= '9')) && (((stringterm)||(!stringterm)))) {s = 78;}
-						else if ( (LA12_25==' '||LA12_25=='.'||(LA12_25 >= 'A' && LA12_25 <= 'Z')||LA12_25=='_'||(LA12_25 >= 'a' && LA12_25 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 77;
-						 
-						input.seek(index12_25);
-						if ( s>=0 ) return s;
-						break;
-
-					case 5 : 
-						int LA12_121 = input.LA(1);
-						 
-						int index12_121 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_121==' '||LA12_121=='.'||(LA12_121 >= '0' && LA12_121 <= '9')||(LA12_121 >= 'A' && LA12_121 <= 'Z')||LA12_121=='_'||(LA12_121 >= 'a' && LA12_121 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 132;
-						 
-						input.seek(index12_121);
-						if ( s>=0 ) return s;
-						break;
-
-					case 6 : 
-						int LA12_26 = input.LA(1);
-						 
-						int index12_26 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_26==' '||LA12_26=='.'||(LA12_26 >= '0' && LA12_26 <= '9')||(LA12_26 >= 'A' && LA12_26 <= 'Z')||LA12_26=='_'||(LA12_26 >= 'a' && LA12_26 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 79;
-						 
-						input.seek(index12_26);
-						if ( s>=0 ) return s;
-						break;
-
-					case 7 : 
-						int LA12_56 = input.LA(1);
-						 
-						int index12_56 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_56=='o') ) {s = 88;}
-						else s = 40;
-						 
-						input.seek(index12_56);
-						if ( s>=0 ) return s;
-						break;
-
-					case 8 : 
-						int LA12_88 = input.LA(1);
-						 
-						int index12_88 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_88=='c') ) {s = 107;}
-						else s = 40;
-						 
-						input.seek(index12_88);
-						if ( s>=0 ) return s;
-						break;
-
-					case 9 : 
-						int LA12_107 = input.LA(1);
-						 
-						int index12_107 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_107=='k') ) {s = 120;}
-						else s = 40;
-						 
-						input.seek(index12_107);
-						if ( s>=0 ) return s;
-						break;
-
-					case 10 : 
-						int LA12_166 = input.LA(1);
-						 
-						int index12_166 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_166==' '||LA12_166=='.'||(LA12_166 >= '0' && LA12_166 <= '9')||(LA12_166 >= 'A' && LA12_166 <= 'Z')||LA12_166=='_'||(LA12_166 >= 'a' && LA12_166 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 167;
-						 
-						input.seek(index12_166);
-						if ( s>=0 ) return s;
-						break;
-
-					case 11 : 
-						int LA12_57 = input.LA(1);
-						 
-						int index12_57 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_57=='l') ) {s = 89;}
-						else s = 40;
-						 
-						input.seek(index12_57);
-						if ( s>=0 ) return s;
-						break;
-
-					case 12 : 
-						int LA12_89 = input.LA(1);
-						 
-						int index12_89 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_89=='a') ) {s = 108;}
-						else s = 40;
-						 
-						input.seek(index12_89);
-						if ( s>=0 ) return s;
-						break;
-
-					case 13 : 
-						int LA12_108 = input.LA(1);
-						 
-						int index12_108 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_108=='n') ) {s = 121;}
-						else s = 40;
-						 
-						input.seek(index12_108);
-						if ( s>=0 ) return s;
-						break;
-
-					case 14 : 
-						int LA12_58 = input.LA(1);
-						 
-						int index12_58 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_58=='o') ) {s = 90;}
-						else s = 40;
-						 
-						input.seek(index12_58);
-						if ( s>=0 ) return s;
-						break;
-
-					case 15 : 
-						int LA12_90 = input.LA(1);
-						 
-						int index12_90 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_90=='n') ) {s = 109;}
-						else s = 40;
-						 
-						input.seek(index12_90);
-						if ( s>=0 ) return s;
-						break;
-
-					case 16 : 
-						int LA12_109 = input.LA(1);
-						 
-						int index12_109 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_109=='s') ) {s = 122;}
-						else s = 40;
-						 
-						input.seek(index12_109);
-						if ( s>=0 ) return s;
-						break;
-
-					case 17 : 
-						int LA12_59 = input.LA(1);
-						 
-						int index12_59 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_59==' '||LA12_59=='.'||(LA12_59 >= '0' && LA12_59 <= '9')||(LA12_59 >= 'A' && LA12_59 <= 'Z')||LA12_59=='_'||(LA12_59 >= 'a' && LA12_59 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 91;
-						 
-						input.seek(index12_59);
-						if ( s>=0 ) return s;
-						break;
-
-					case 18 : 
-						int LA12_67 = input.LA(1);
-						 
-						int index12_67 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_67 >= '0' && LA12_67 <= '9')||(LA12_67 >= 'A' && LA12_67 <= 'Z')||LA12_67=='_'||(LA12_67 >= 'a' && LA12_67 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_67==' '||LA12_67=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_67);
-						if ( s>=0 ) return s;
-						break;
-
-					case 19 : 
-						int LA12_122 = input.LA(1);
-						 
-						int index12_122 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_122=='t') ) {s = 133;}
-						else s = 40;
-						 
-						input.seek(index12_122);
-						if ( s>=0 ) return s;
-						break;
-
-					case 20 : 
-						int LA12_133 = input.LA(1);
-						 
-						int index12_133 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_133=='r') ) {s = 144;}
-						else s = 40;
-						 
-						input.seek(index12_133);
-						if ( s>=0 ) return s;
-						break;
-
-					case 21 : 
-						int LA12_144 = input.LA(1);
-						 
-						int index12_144 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_144=='a') ) {s = 150;}
-						else s = 40;
-						 
-						input.seek(index12_144);
-						if ( s>=0 ) return s;
-						break;
-
-					case 22 : 
-						int LA12_150 = input.LA(1);
-						 
-						int index12_150 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_150=='i') ) {s = 156;}
-						else s = 40;
-						 
-						input.seek(index12_150);
-						if ( s>=0 ) return s;
-						break;
-
-					case 23 : 
-						int LA12_156 = input.LA(1);
-						 
-						int index12_156 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_156=='n') ) {s = 163;}
-						else s = 40;
-						 
-						input.seek(index12_156);
-						if ( s>=0 ) return s;
-						break;
-
-					case 24 : 
-						int LA12_163 = input.LA(1);
-						 
-						int index12_163 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_163=='t') ) {s = 166;}
-						else s = 40;
-						 
-						input.seek(index12_163);
-						if ( s>=0 ) return s;
-						break;
-
-					case 25 : 
-						int LA12_60 = input.LA(1);
-						 
-						int index12_60 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_60==' '||LA12_60=='.'||(LA12_60 >= '0' && LA12_60 <= '9')||(LA12_60 >= 'A' && LA12_60 <= 'Z')||LA12_60=='_'||(LA12_60 >= 'a' && LA12_60 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 92;
-						 
-						input.seek(index12_60);
-						if ( s>=0 ) return s;
-						break;
-
-					case 26 : 
-						int LA12_114 = input.LA(1);
-						 
-						int index12_114 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_114 >= '0' && LA12_114 <= '9')||(LA12_114 >= 'A' && LA12_114 <= 'Z')||LA12_114=='_'||(LA12_114 >= 'a' && LA12_114 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_114==' '||LA12_114=='.') && ((stringterm))) {s = 40;}
-						else s = 125;
-						 
-						input.seek(index12_114);
-						if ( s>=0 ) return s;
-						break;
-
-					case 27 : 
-						int LA12_4 = input.LA(1);
-						 
-						int index12_4 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_4 >= '0' && LA12_4 <= '9')||(LA12_4 >= 'A' && LA12_4 <= 'Z')||LA12_4=='_'||(LA12_4 >= 'a' && LA12_4 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_4==' '||LA12_4=='.') && ((stringterm))) {s = 40;}
-						else s = 62;
-						 
-						input.seek(index12_4);
-						if ( s>=0 ) return s;
-						break;
-
-					case 28 : 
-						int LA12_10 = input.LA(1);
-						 
-						int index12_10 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_10=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 71;}
-						else if ( ((LA12_10 >= '0' && LA12_10 <= '9')||(LA12_10 >= 'A' && LA12_10 <= 'Z')||LA12_10=='_'||(LA12_10 >= 'a' && LA12_10 <= 'q')||(LA12_10 >= 's' && LA12_10 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_10==' '||LA12_10=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_10);
-						if ( s>=0 ) return s;
-						break;
-
-					case 29 : 
-						int LA12_39 = input.LA(1);
-						 
-						int index12_39 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_39 >= '0' && LA12_39 <= '9')||(LA12_39 >= 'A' && LA12_39 <= 'Z')||LA12_39=='_'||(LA12_39 >= 'a' && LA12_39 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_39==' '||LA12_39=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_39);
-						if ( s>=0 ) return s;
-						break;
-
-					case 30 : 
-						int LA12_23 = input.LA(1);
-						 
-						int index12_23 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_23 >= '0' && LA12_23 <= '9')||(LA12_23 >= 'A' && LA12_23 <= 'Z')||LA12_23=='_'||(LA12_23 >= 'a' && LA12_23 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_23==' '||LA12_23=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_23);
-						if ( s>=0 ) return s;
-						break;
-
-					case 31 : 
-						int LA12_117 = input.LA(1);
-						 
-						int index12_117 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_117==' '||LA12_117=='.'||(LA12_117 >= '0' && LA12_117 <= '9')||(LA12_117 >= 'A' && LA12_117 <= 'Z')||LA12_117=='_'||(LA12_117 >= 'a' && LA12_117 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 128;
-						 
-						input.seek(index12_117);
-						if ( s>=0 ) return s;
-						break;
-
-					case 32 : 
-						int LA12_128 = input.LA(1);
-						 
-						int index12_128 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (!(((stringterm)))) ) {s = 139;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_128);
-						if ( s>=0 ) return s;
-						break;
-
-					case 33 : 
-						int LA12_162 = input.LA(1);
-						 
-						int index12_162 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((gwendolen)) ) {s = 165;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_162);
-						if ( s>=0 ) return s;
-						break;
-
-					case 34 : 
-						int LA12_86 = input.LA(1);
-						 
-						int index12_86 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 94;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_86);
-						if ( s>=0 ) return s;
-						break;
-
-					case 35 : 
-						int LA12_87 = input.LA(1);
-						 
-						int index12_87 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 81;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_87);
-						if ( s>=0 ) return s;
-						break;
-
-					case 36 : 
-						int LA12_5 = input.LA(1);
-						 
-						int index12_5 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_5 >= '0' && LA12_5 <= '9')||(LA12_5 >= 'A' && LA12_5 <= 'Z')||LA12_5=='_'||(LA12_5 >= 'a' && LA12_5 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_5==' '||LA12_5=='.') && ((stringterm))) {s = 40;}
-						else s = 63;
-						 
-						input.seek(index12_5);
-						if ( s>=0 ) return s;
-						break;
-
-					case 37 : 
-						int LA12_129 = input.LA(1);
-						 
-						int index12_129 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 140;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_129);
-						if ( s>=0 ) return s;
-						break;
-
-					case 38 : 
-						int LA12_131 = input.LA(1);
-						 
-						int index12_131 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (!(((stringterm)))) ) {s = 142;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_131);
-						if ( s>=0 ) return s;
-						break;
-
-					case 39 : 
-						int LA12_132 = input.LA(1);
-						 
-						int index12_132 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (!(((stringterm)))) ) {s = 143;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_132);
-						if ( s>=0 ) return s;
-						break;
-
-					case 40 : 
-						int LA12_167 = input.LA(1);
-						 
-						int index12_167 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (!(((stringterm)))) ) {s = 168;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_167);
-						if ( s>=0 ) return s;
-						break;
-
-					case 41 : 
-						int LA12_91 = input.LA(1);
-						 
-						int index12_91 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (!(((stringterm)))) ) {s = 110;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_91);
-						if ( s>=0 ) return s;
-						break;
-
-					case 42 : 
-						int LA12_92 = input.LA(1);
-						 
-						int index12_92 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (!(((stringterm)))) ) {s = 111;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_92);
-						if ( s>=0 ) return s;
-						break;
-
-					case 43 : 
-						int LA12_155 = input.LA(1);
-						 
-						int index12_155 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_155==' '||LA12_155=='.'||(LA12_155 >= '0' && LA12_155 <= '9')||(LA12_155 >= 'A' && LA12_155 <= 'Z')||LA12_155=='_'||(LA12_155 >= 'a' && LA12_155 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 162;
-						 
-						input.seek(index12_155);
-						if ( s>=0 ) return s;
-						break;
-
-					case 44 : 
-						int LA12_6 = input.LA(1);
-						 
-						int index12_6 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_6 >= '0' && LA12_6 <= '9')||(LA12_6 >= 'A' && LA12_6 <= 'Z')||LA12_6=='_'||(LA12_6 >= 'a' && LA12_6 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_6==' '||LA12_6=='.') && ((stringterm))) {s = 40;}
-						else s = 64;
-						 
-						input.seek(index12_6);
-						if ( s>=0 ) return s;
-						break;
-
-					case 45 : 
-						int LA12_54 = input.LA(1);
-						 
-						int index12_54 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_54==' '||LA12_54=='.'||(LA12_54 >= '0' && LA12_54 <= '9')||(LA12_54 >= 'A' && LA12_54 <= 'Z')||LA12_54=='_'||(LA12_54 >= 'a' && LA12_54 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 86;
-						 
-						input.seek(index12_54);
-						if ( s>=0 ) return s;
-						break;
-
-					case 46 : 
-						int LA12_76 = input.LA(1);
-						 
-						int index12_76 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((!stringterm)) ) {s = 22;}
-						else if ( ((stringterm)) ) {s = 40;}
-						 
-						input.seek(index12_76);
-						if ( s>=0 ) return s;
-						break;
-
-					case 47 : 
-						int LA12_78 = input.LA(1);
-						 
-						int index12_78 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_78 >= '0' && LA12_78 <= '9')) && (((stringterm)||(!stringterm)))) {s = 78;}
-						else if ( (LA12_78==' '||LA12_78=='.'||(LA12_78 >= 'A' && LA12_78 <= 'Z')||LA12_78=='_'||(LA12_78 >= 'a' && LA12_78 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 77;
-						 
-						input.seek(index12_78);
-						if ( s>=0 ) return s;
-						break;
-
-					case 48 : 
-						int LA12_66 = input.LA(1);
-						 
-						int index12_66 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 98;}
-						 
-						input.seek(index12_66);
-						if ( s>=0 ) return s;
-						break;
-
-					case 49 : 
-						int LA12_72 = input.LA(1);
-						 
-						int index12_72 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_72);
-						if ( s>=0 ) return s;
-						break;
-
-					case 50 : 
-						int LA12_77 = input.LA(1);
-						 
-						int index12_77 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 101;}
-						 
-						input.seek(index12_77);
-						if ( s>=0 ) return s;
-						break;
-
-					case 51 : 
-						int LA12_13 = input.LA(1);
-						 
-						int index12_13 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_13==' ') && (((stringterm)||(!stringterm)))) {s = 13;}
-						else if ( (LA12_13=='\t') && ((!stringterm))) {s = 22;}
-						else if ( (LA12_13=='.'||(LA12_13 >= '0' && LA12_13 <= '9')||(LA12_13 >= 'A' && LA12_13 <= 'Z')||LA12_13=='_'||(LA12_13 >= 'a' && LA12_13 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 76;
-						 
-						input.seek(index12_13);
-						if ( s>=0 ) return s;
-						break;
-
-					case 52 : 
-						int LA12_79 = input.LA(1);
-						 
-						int index12_79 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 102;}
-						 
-						input.seek(index12_79);
-						if ( s>=0 ) return s;
-						break;
-
-					case 53 : 
-						int LA12_65 = input.LA(1);
-						 
-						int index12_65 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_65=='h') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 97;}
-						else if ( ((LA12_65 >= '0' && LA12_65 <= '9')||(LA12_65 >= 'A' && LA12_65 <= 'Z')||LA12_65=='_'||(LA12_65 >= 'a' && LA12_65 <= 'g')||(LA12_65 >= 'i' && LA12_65 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_65==' '||LA12_65=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_65);
-						if ( s>=0 ) return s;
-						break;
-
-					case 54 : 
-						int LA12_97 = input.LA(1);
-						 
-						int index12_97 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_97=='i') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 112;}
-						else if ( ((LA12_97 >= '0' && LA12_97 <= '9')||(LA12_97 >= 'A' && LA12_97 <= 'Z')||LA12_97=='_'||(LA12_97 >= 'a' && LA12_97 <= 'h')||(LA12_97 >= 'j' && LA12_97 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_97==' '||LA12_97=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_97);
-						if ( s>=0 ) return s;
-						break;
-
-					case 55 : 
-						int LA12_61 = input.LA(1);
-						 
-						int index12_61 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 93;}
-						 
-						input.seek(index12_61);
-						if ( s>=0 ) return s;
-						break;
-
-					case 56 : 
-						int LA12_112 = input.LA(1);
-						 
-						int index12_112 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_112=='e') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 123;}
-						else if ( ((LA12_112 >= '0' && LA12_112 <= '9')||(LA12_112 >= 'A' && LA12_112 <= 'Z')||LA12_112=='_'||(LA12_112 >= 'a' && LA12_112 <= 'd')||(LA12_112 >= 'f' && LA12_112 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_112==' '||LA12_112=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_112);
-						if ( s>=0 ) return s;
-						break;
-
-					case 57 : 
-						int LA12_123 = input.LA(1);
-						 
-						int index12_123 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_123=='v') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 134;}
-						else if ( ((LA12_123 >= '0' && LA12_123 <= '9')||(LA12_123 >= 'A' && LA12_123 <= 'Z')||LA12_123=='_'||(LA12_123 >= 'a' && LA12_123 <= 'u')||(LA12_123 >= 'w' && LA12_123 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_123==' '||LA12_123=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_123);
-						if ( s>=0 ) return s;
-						break;
-
-					case 58 : 
-						int LA12_134 = input.LA(1);
-						 
-						int index12_134 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_134=='e') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 145;}
-						else if ( ((LA12_134 >= '0' && LA12_134 <= '9')||(LA12_134 >= 'A' && LA12_134 <= 'Z')||LA12_134=='_'||(LA12_134 >= 'a' && LA12_134 <= 'd')||(LA12_134 >= 'f' && LA12_134 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_134==' '||LA12_134=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_134);
-						if ( s>=0 ) return s;
-						break;
-
-					case 59 : 
-						int LA12_68 = input.LA(1);
-						 
-						int index12_68 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_68=='r') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 99;}
-						else if ( ((LA12_68 >= '0' && LA12_68 <= '9')||(LA12_68 >= 'A' && LA12_68 <= 'Z')||LA12_68=='_'||(LA12_68 >= 'a' && LA12_68 <= 'q')||(LA12_68 >= 's' && LA12_68 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_68==' '||LA12_68=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_68);
-						if ( s>=0 ) return s;
-						break;
-
-					case 60 : 
-						int LA12_99 = input.LA(1);
-						 
-						int index12_99 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_99=='f') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 113;}
-						else if ( ((LA12_99 >= '0' && LA12_99 <= '9')||(LA12_99 >= 'A' && LA12_99 <= 'Z')||LA12_99=='_'||(LA12_99 >= 'a' && LA12_99 <= 'e')||(LA12_99 >= 'g' && LA12_99 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_99==' '||LA12_99=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_99);
-						if ( s>=0 ) return s;
-						break;
-
-					case 61 : 
-						int LA12_113 = input.LA(1);
-						 
-						int index12_113 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_113=='o') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 124;}
-						else if ( ((LA12_113 >= '0' && LA12_113 <= '9')||(LA12_113 >= 'A' && LA12_113 <= 'Z')||LA12_113=='_'||(LA12_113 >= 'a' && LA12_113 <= 'n')||(LA12_113 >= 'p' && LA12_113 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_113==' '||LA12_113=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_113);
-						if ( s>=0 ) return s;
-						break;
-
-					case 62 : 
-						int LA12_24 = input.LA(1);
-						 
-						int index12_24 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_24 >= '0' && LA12_24 <= '9')||(LA12_24 >= 'A' && LA12_24 <= 'Z')||LA12_24=='_'||(LA12_24 >= 'a' && LA12_24 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_24==' '||LA12_24=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_24);
-						if ( s>=0 ) return s;
-						break;
-
-					case 63 : 
-						int LA12_55 = input.LA(1);
-						 
-						int index12_55 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_55==' '||LA12_55=='.'||(LA12_55 >= '0' && LA12_55 <= '9')||(LA12_55 >= 'A' && LA12_55 <= 'Z')||LA12_55=='_'||(LA12_55 >= 'a' && LA12_55 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 87;
-						 
-						input.seek(index12_55);
-						if ( s>=0 ) return s;
-						break;
-
-					case 64 : 
-						int LA12_124 = input.LA(1);
-						 
-						int index12_124 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_124=='r') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 135;}
-						else if ( ((LA12_124 >= '0' && LA12_124 <= '9')||(LA12_124 >= 'A' && LA12_124 <= 'Z')||LA12_124=='_'||(LA12_124 >= 'a' && LA12_124 <= 'q')||(LA12_124 >= 's' && LA12_124 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_124==' '||LA12_124=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_124);
-						if ( s>=0 ) return s;
-						break;
-
-					case 65 : 
-						int LA12_135 = input.LA(1);
-						 
-						int index12_135 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_135=='m') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 146;}
-						else if ( ((LA12_135 >= '0' && LA12_135 <= '9')||(LA12_135 >= 'A' && LA12_135 <= 'Z')||LA12_135=='_'||(LA12_135 >= 'a' && LA12_135 <= 'l')||(LA12_135 >= 'n' && LA12_135 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_135==' '||LA12_135=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_135);
-						if ( s>=0 ) return s;
-						break;
-
-					case 66 : 
-						int LA12_159 = input.LA(1);
-						 
-						int index12_159 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting == 0)) ) {s = 164;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_159);
-						if ( s>=0 ) return s;
-						break;
-
-					case 67 : 
-						int LA12_0 = input.LA(1);
-						 
-						int index12_0 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_0=='G') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 1;}
-						else if ( (LA12_0==':') ) {s = 2;}
-						else if ( (LA12_0=='.') ) {s = 3;}
-						else if ( (LA12_0=='B') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 4;}
-						else if ( (LA12_0=='N') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 5;}
-						else if ( (LA12_0=='X') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 6;}
-						else if ( (LA12_0=='a') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 7;}
-						else if ( (LA12_0=='p') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 8;}
-						else if ( (LA12_0=='<') ) {s = 9;}
-						else if ( (LA12_0=='T') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 10;}
-						else if ( (LA12_0=='/') ) {s = 11;}
-						else if ( (LA12_0=='\n'||LA12_0=='\r') ) {s = 12;}
-						else if ( (LA12_0==' ') && (((stringterm)||(!stringterm)))) {s = 13;}
-						else if ( (LA12_0=='(') ) {s = 14;}
-						else if ( (LA12_0==')') ) {s = 15;}
-						else if ( (LA12_0=='[') ) {s = 16;}
-						else if ( (LA12_0==']') ) {s = 17;}
-						else if ( (LA12_0=='{') ) {s = 18;}
-						else if ( (LA12_0=='}') ) {s = 19;}
-						else if ( (LA12_0=='\"') ) {s = 20;}
-						else if ( (LA12_0=='~') ) {s = 21;}
-						else if ( (LA12_0=='\t') && ((!stringterm))) {s = 22;}
-						else if ( ((LA12_0 >= 'b' && LA12_0 <= 'o')||(LA12_0 >= 'q' && LA12_0 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 23;}
-						else if ( (LA12_0=='A'||(LA12_0 >= 'C' && LA12_0 <= 'F')||(LA12_0 >= 'H' && LA12_0 <= 'M')||(LA12_0 >= 'O' && LA12_0 <= 'S')||(LA12_0 >= 'U' && LA12_0 <= 'W')||(LA12_0 >= 'Y' && LA12_0 <= 'Z')) && (((stringterm)||(!stringterm)))) {s = 24;}
-						else if ( ((LA12_0 >= '0' && LA12_0 <= '9')) && (((stringterm)||(!stringterm)))) {s = 25;}
-						else if ( (LA12_0=='_') && (((stringterm)||(!stringterm)))) {s = 26;}
-						else if ( (LA12_0=='=') ) {s = 27;}
-						else if ( (LA12_0=='*') ) {s = 28;}
-						else if ( (LA12_0=='+') ) {s = 29;}
-						else if ( (LA12_0=='-') ) {s = 30;}
-						else if ( (LA12_0=='%') ) {s = 31;}
-						else if ( (LA12_0=='!') ) {s = 32;}
-						else if ( (LA12_0==',') ) {s = 33;}
-						else if ( (LA12_0==';') ) {s = 34;}
-						else if ( (LA12_0=='?') ) {s = 35;}
-						else if ( (LA12_0=='|') ) {s = 36;}
-						 
-						input.seek(index12_0);
-						if ( s>=0 ) return s;
-						break;
-
-					case 68 : 
-						int LA12_145 = input.LA(1);
-						 
-						int index12_145 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_145 >= '0' && LA12_145 <= '9')||(LA12_145 >= 'A' && LA12_145 <= 'Z')||LA12_145=='_'||(LA12_145 >= 'a' && LA12_145 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_145==' '||LA12_145=='.') && ((stringterm))) {s = 40;}
-						else s = 151;
-						 
-						input.seek(index12_145);
-						if ( s>=0 ) return s;
-						break;
-
-					case 69 : 
-						int LA12_53 = input.LA(1);
-						 
-						int index12_53 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_53=='e') && (((gwendolen)||(stringterm)))) {s = 85;}
-						else s = 40;
-						 
-						input.seek(index12_53);
-						if ( s>=0 ) return s;
-						break;
-
-					case 70 : 
-						int LA12_62 = input.LA(1);
-						 
-						int index12_62 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 94;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_62);
-						if ( s>=0 ) return s;
-						break;
-
-					case 71 : 
-						int LA12_85 = input.LA(1);
-						 
-						int index12_85 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_85=='c') && (((gwendolen)||(stringterm)))) {s = 106;}
-						else s = 40;
-						 
-						input.seek(index12_85);
-						if ( s>=0 ) return s;
-						break;
-
-					case 72 : 
-						int LA12_38 = input.LA(1);
-						 
-						int index12_38 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 81;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_38);
-						if ( s>=0 ) return s;
-						break;
-
-					case 73 : 
-						int LA12_106 = input.LA(1);
-						 
-						int index12_106 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_106=='e') && (((gwendolen)||(stringterm)))) {s = 119;}
-						else s = 40;
-						 
-						input.seek(index12_106);
-						if ( s>=0 ) return s;
-						break;
-
-					case 74 : 
-						int LA12_63 = input.LA(1);
-						 
-						int index12_63 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 95;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_63);
-						if ( s>=0 ) return s;
-						break;
-
-					case 75 : 
-						int LA12_119 = input.LA(1);
-						 
-						int index12_119 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_119=='i') && (((gwendolen)||(stringterm)))) {s = 130;}
-						else s = 40;
-						 
-						input.seek(index12_119);
-						if ( s>=0 ) return s;
-						break;
-
-					case 76 : 
-						int LA12_37 = input.LA(1);
-						 
-						int index12_37 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_37=='E') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 80;}
-						else if ( ((LA12_37 >= '0' && LA12_37 <= '9')||(LA12_37 >= 'A' && LA12_37 <= 'D')||(LA12_37 >= 'F' && LA12_37 <= 'Z')||LA12_37=='_'||(LA12_37 >= 'a' && LA12_37 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_37==' '||LA12_37=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_37);
-						if ( s>=0 ) return s;
-						break;
-
-					case 77 : 
-						int LA12_64 = input.LA(1);
-						 
-						int index12_64 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 96;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_64);
-						if ( s>=0 ) return s;
-						break;
-
-					case 78 : 
-						int LA12_130 = input.LA(1);
-						 
-						int index12_130 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_130=='v') && (((gwendolen)||(stringterm)))) {s = 141;}
-						else s = 40;
-						 
-						input.seek(index12_130);
-						if ( s>=0 ) return s;
-						break;
-
-					case 79 : 
-						int LA12_80 = input.LA(1);
-						 
-						int index12_80 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_80=='N') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 103;}
-						else if ( ((LA12_80 >= '0' && LA12_80 <= '9')||(LA12_80 >= 'A' && LA12_80 <= 'M')||(LA12_80 >= 'O' && LA12_80 <= 'Z')||LA12_80=='_'||(LA12_80 >= 'a' && LA12_80 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_80==' '||LA12_80=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_80);
-						if ( s>=0 ) return s;
-						break;
-
-					case 80 : 
-						int LA12_141 = input.LA(1);
-						 
-						int index12_141 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_141=='e') && (((gwendolen)||(stringterm)))) {s = 149;}
-						else s = 40;
-						 
-						input.seek(index12_141);
-						if ( s>=0 ) return s;
-						break;
-
-					case 81 : 
-						int LA12_103 = input.LA(1);
-						 
-						int index12_103 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_103=='D') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 115;}
-						else if ( ((LA12_103 >= '0' && LA12_103 <= '9')||(LA12_103 >= 'A' && LA12_103 <= 'C')||(LA12_103 >= 'E' && LA12_103 <= 'Z')||LA12_103=='_'||(LA12_103 >= 'a' && LA12_103 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_103==' '||LA12_103=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_103);
-						if ( s>=0 ) return s;
-						break;
-
-					case 82 : 
-						int LA12_149 = input.LA(1);
-						 
-						int index12_149 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_149=='d') && (((gwendolen)||(stringterm)))) {s = 155;}
-						else s = 40;
-						 
-						input.seek(index12_149);
-						if ( s>=0 ) return s;
-						break;
-
-					case 83 : 
-						int LA12_153 = input.LA(1);
-						 
-						int index12_153 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_153 >= '0' && LA12_153 <= '9')||(LA12_153 >= 'A' && LA12_153 <= 'Z')||LA12_153=='_'||(LA12_153 >= 'a' && LA12_153 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_153==' '||LA12_153=='.') && ((stringterm))) {s = 40;}
-						else s = 159;
-						 
-						input.seek(index12_153);
-						if ( s>=0 ) return s;
-						break;
-
-					case 84 : 
-						int LA12_115 = input.LA(1);
-						 
-						int index12_115 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_115=='O') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 126;}
-						else if ( ((LA12_115 >= '0' && LA12_115 <= '9')||(LA12_115 >= 'A' && LA12_115 <= 'N')||(LA12_115 >= 'P' && LA12_115 <= 'Z')||LA12_115=='_'||(LA12_115 >= 'a' && LA12_115 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_115==' '||LA12_115=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_115);
-						if ( s>=0 ) return s;
-						break;
-
-					case 85 : 
-						int LA12_126 = input.LA(1);
-						 
-						int index12_126 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_126=='L') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 137;}
-						else if ( ((LA12_126 >= '0' && LA12_126 <= '9')||(LA12_126 >= 'A' && LA12_126 <= 'K')||(LA12_126 >= 'M' && LA12_126 <= 'Z')||LA12_126=='_'||(LA12_126 >= 'a' && LA12_126 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_126==' '||LA12_126=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_126);
-						if ( s>=0 ) return s;
-						break;
-
-					case 86 : 
-						int LA12_7 = input.LA(1);
-						 
-						int index12_7 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_7=='c') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 65;}
-						else if ( ((LA12_7 >= '0' && LA12_7 <= '9')||(LA12_7 >= 'A' && LA12_7 <= 'Z')||LA12_7=='_'||(LA12_7 >= 'a' && LA12_7 <= 'b')||(LA12_7 >= 'd' && LA12_7 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_7==' '||LA12_7=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_7);
-						if ( s>=0 ) return s;
-						break;
-
-					case 87 : 
-						int LA12_137 = input.LA(1);
-						 
-						int index12_137 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_137=='E') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 147;}
-						else if ( ((LA12_137 >= '0' && LA12_137 <= '9')||(LA12_137 >= 'A' && LA12_137 <= 'D')||(LA12_137 >= 'F' && LA12_137 <= 'Z')||LA12_137=='_'||(LA12_137 >= 'a' && LA12_137 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_137==' '||LA12_137=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_137);
-						if ( s>=0 ) return s;
-						break;
-
-					case 88 : 
-						int LA12_147 = input.LA(1);
-						 
-						int index12_147 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_147=='N') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 153;}
-						else if ( ((LA12_147 >= '0' && LA12_147 <= '9')||(LA12_147 >= 'A' && LA12_147 <= 'M')||(LA12_147 >= 'O' && LA12_147 <= 'Z')||LA12_147=='_'||(LA12_147 >= 'a' && LA12_147 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_147==' '||LA12_147=='.') && ((stringterm))) {s = 40;}
-						else s = 72;
-						 
-						input.seek(index12_147);
-						if ( s>=0 ) return s;
-						break;
-
-					case 89 : 
-						int LA12_118 = input.LA(1);
-						 
-						int index12_118 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_118==' '||LA12_118=='.'||(LA12_118 >= '0' && LA12_118 <= '9')||(LA12_118 >= 'A' && LA12_118 <= 'Z')||LA12_118=='_'||(LA12_118 >= 'a' && LA12_118 <= 'z')) && ((stringterm))) {s = 40;}
-						else s = 129;
-						 
-						input.seek(index12_118);
-						if ( s>=0 ) return s;
-						break;
-
-					case 90 : 
-						int LA12_151 = input.LA(1);
-						 
-						int index12_151 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((sq_nesting > 0)) ) {s = 157;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 98;}
-						 
-						input.seek(index12_151);
-						if ( s>=0 ) return s;
-						break;
-
-					case 91 : 
-						int LA12_52 = input.LA(1);
-						 
-						int index12_52 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_52=='e') ) {s = 84;}
-						else s = 40;
-						 
-						input.seek(index12_52);
-						if ( s>=0 ) return s;
-						break;
-
-					case 92 : 
-						int LA12_152 = input.LA(1);
-						 
-						int index12_152 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((sq_nesting > 0)) ) {s = 158;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 98;}
-						 
-						input.seek(index12_152);
-						if ( s>=0 ) return s;
-						break;
-
-					case 93 : 
-						int LA12_84 = input.LA(1);
-						 
-						int index12_84 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_84=='n') ) {s = 105;}
-						else s = 40;
-						 
-						input.seek(index12_84);
-						if ( s>=0 ) return s;
-						break;
-
-					case 94 : 
-						int LA12_146 = input.LA(1);
-						 
-						int index12_146 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_146 >= '0' && LA12_146 <= '9')||(LA12_146 >= 'A' && LA12_146 <= 'Z')||LA12_146=='_'||(LA12_146 >= 'a' && LA12_146 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_146==' '||LA12_146=='.') && ((stringterm))) {s = 40;}
-						else s = 152;
-						 
-						input.seek(index12_146);
-						if ( s>=0 ) return s;
-						break;
-
-					case 95 : 
-						int LA12_105 = input.LA(1);
-						 
-						int index12_105 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_105=='d') ) {s = 117;}
-						else if ( (LA12_105=='t') && (((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)||(stringterm)))) {s = 118;}
-						else s = 40;
-						 
-						input.seek(index12_105);
-						if ( s>=0 ) return s;
-						break;
-
-					case 96 : 
-						int LA12_125 = input.LA(1);
-						 
-						int index12_125 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 136;}
-						else if ( ((stringterm)) ) {s = 40;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_125);
-						if ( s>=0 ) return s;
-						break;
-
-					case 97 : 
-						int LA12_8 = input.LA(1);
-						 
-						int index12_8 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_8=='e') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 68;}
-						else if ( ((LA12_8 >= '0' && LA12_8 <= '9')||(LA12_8 >= 'A' && LA12_8 <= 'Z')||LA12_8=='_'||(LA12_8 >= 'a' && LA12_8 <= 'd')||(LA12_8 >= 'f' && LA12_8 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 67;}
-						else if ( (LA12_8==' '||LA12_8=='.') && ((stringterm))) {s = 40;}
-						else s = 66;
-						 
-						input.seek(index12_8);
-						if ( s>=0 ) return s;
-						break;
-
-					case 98 : 
-						int LA12_1 = input.LA(1);
-						 
-						int index12_1 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_1=='W') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 37;}
-						else if ( ((LA12_1 >= '0' && LA12_1 <= '9')||(LA12_1 >= 'A' && LA12_1 <= 'V')||(LA12_1 >= 'X' && LA12_1 <= 'Z')||LA12_1=='_'||(LA12_1 >= 'a' && LA12_1 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 39;}
-						else if ( (LA12_1==' '||LA12_1=='.') && ((stringterm))) {s = 40;}
-						else s = 38;
-						 
-						input.seek(index12_1);
-						if ( s>=0 ) return s;
-						break;
-			}
-			NoViableAltException nvae =
-				new NoViableAltException(getDescription(), 12, _s, input);
-			error(nvae);
-			throw nvae;
-		}
-	}
-
 }

@@ -28,11 +28,11 @@ package eass;
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
 import ail.syntax.ast.Abstract_MAS;
+import eass.parser.EASSAILVisitor;
 import eass.parser.EASSLexer;
 import eass.parser.EASSParser;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * Utility class.  Builds an EASS MAS by parsing a string or a file.
@@ -50,6 +50,7 @@ public class EASSMASBuilder implements MASBuilder {
 	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
 		mas = amas.toMCAPL(tracedir);
+		// System.err.println("got MAS");
 		return mas;
 	}
 
@@ -64,10 +65,13 @@ public class EASSMASBuilder implements MASBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			EASSLexer lexer = new EASSLexer(new ANTLRFileStream(masstring));
+			EASSLexer lexer = new EASSLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			EASSParser parser = new EASSParser(tokens);
-    		amas = parser.mas();
+			EASSAILVisitor visitor = new EASSAILVisitor();
+
+    		amas = (Abstract_MAS) visitor.visitMas(parser.mas());
+ 
      	} catch (Exception e) {
      		e.printStackTrace();
     	}
@@ -75,11 +79,13 @@ public class EASSMASBuilder implements MASBuilder {
 	}
 
 	public void parse(String masstring) {
-	   	EASSLexer lexer = new EASSLexer(new ANTLRStringStream(masstring));
-    	CommonTokenStream tokens = new CommonTokenStream(lexer);
-    	EASSParser parser = new EASSParser(tokens);
     	try {
-    		amas = parser.mas();
+			EASSLexer lexer = new EASSLexer(CharStreams.fromString(masstring));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			EASSParser parser = new EASSParser(tokens);
+
+			EASSAILVisitor visitor = new EASSAILVisitor();
+			amas = (Abstract_MAS) visitor.visitMas(parser.mas());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}

@@ -25,7 +25,6 @@
 package ail.mas;
 
 import ail.util.AILConfig;
-import ail.util.AILexception;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
@@ -45,7 +44,7 @@ public class AIL {
 	@FilterField
 	static String logname = "ail.mas.AIL";
 	
-	static String version = "MCAPL Framework Development Version 2021";
+	static String version = "MCAPL Framework 2025 Development Version";
 
 	/**
 	 * Main method.  There should be one argument consisting of the name of a configuration file.
@@ -69,14 +68,9 @@ public class AIL {
 	
 		// Create the initial state of the multi-agent program.
 		MAS mas = AILSetup(config, mccontrol);
-		
-		// Set up a controller
-		// mccontrol.setMAS(mas);
-		
-		// mas.getEnv().initialise();
-		
+
 		// Begin!
-		mccontrol.begin(); 
+		mccontrol.begin();  
 		mas.cleanup();
 
 	}
@@ -92,7 +86,9 @@ public class AIL {
 		}
 
 		// First we need to build the multi-agent system
+		//System.err.println("AIL: A");
 		MAS mas = buildMAS(config);
+		//System.err.println("AIL: B");
 		mas.setController(control);
 		
 		// Then, if necessary, we attach an environment
@@ -111,7 +107,7 @@ public class AIL {
 				control.initialiseSpec();
 				// System.err.println("c");
 				env.setMAS(mas);
-				// System.err.println("set mas");
+				//System.err.println("set mas");
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
@@ -128,6 +124,7 @@ public class AIL {
 	public static MAS buildMAS(AILConfig config) {
 		String tracedir = null;
 		String tracing = (String) config.getOrDefault("tracing.enabled", "false");
+		//System.err.println("AIL: A");
 		if (tracing.equals("true")) {
 			tracedir = (String) config.getOrDefault("tracing.directory", System.getProperty("user.dir"));
 			if (! tracedir.equals(System.getProperty("user.dir"))) {
@@ -139,8 +136,9 @@ public class AIL {
 				}
 			}
 		}
-
+		//System.err.println("AIL: B");
 		MAS mas = new MAS();
+
 		mas.setTraceDir(tracedir);
 		
 		// We've been given the name of a file and a mas builder
@@ -165,6 +163,7 @@ public class AIL {
 
 		}
 		
+		
 		int agentcounter = 1;
 		while (config.containsKey(agentNumKey(agentcounter) + ".file") && config.containsKey(agentNumKey(agentcounter) + ".builder")) {
 			String filename = config.getProperty(agentNumKey(agentcounter) + ".file");
@@ -177,13 +176,17 @@ public class AIL {
 			}
 			
 			try {
+				//System.err.println("AIL: C");
 				AgentBuilder agentbuilder = (AgentBuilder) (Class.forName(config.getProperty(agentNumKey(agentcounter) + ".builder"))).newInstance();
+				//System.err.println("AIL: C1");
 				AILAgent agent = agentbuilder.getAgent(abs_filename);
+				//System.err.println("AIL: C2");
 				if (config.containsKey(agentNumKey(agentcounter) + ".name")) {
+					//System.err.println("AIL: C3");
 					String agentname = config.getProperty(agentNumKey(agentcounter) + ".name");
 					agent.setAgName(agentname);
-				} 
-				
+				}
+				//System.err.println("AIL: D");
 				mas.addAg(agent);
 				
 			} catch (Exception e) {

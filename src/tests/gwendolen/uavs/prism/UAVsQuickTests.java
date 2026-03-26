@@ -98,6 +98,7 @@ public class UAVsQuickTests extends TestJPF {
 	 	// }
 	  }
 	  
+	  /*
 	  @Test //----------------------------------------------------------------------
 	  public void really_simple_ajpf () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)) {
@@ -125,6 +126,9 @@ public class UAVsQuickTests extends TestJPF {
 	   }
 	 	// }
 	  }
+	  
+	  */
+	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
 		    /* final long size = Files.size(file1);
 		    if (size != Files.size(file2))

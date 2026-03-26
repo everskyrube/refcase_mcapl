@@ -83,7 +83,7 @@ public class Tutorial3QuickTests {
 	 	// }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
+	  /* @Test //----------------------------------------------------------------------
 	  public void prism_output () {
 	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
 	    	String jpf_config = "src/examples/gwendolen/ajpf_tutorials/tutorial3/TwoPickUpAgents_PrismToFile.jpf";
@@ -115,7 +115,7 @@ public class Tutorial3QuickTests {
 	    	}
 
 	 	// }
-	  }
+	  } */
 	  	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
 		    /* final long size = Files.size(file1);

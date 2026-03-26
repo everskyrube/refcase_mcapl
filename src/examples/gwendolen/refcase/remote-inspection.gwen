@@ -1,0 +1,48 @@
+GWENDOLEN
+
+:name: ss
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
++geofence_violation: {True} <-
+    +.lock,
+    entry_stop,
+    +enforced_stop,
+    -.lock;
+
++safe_halt_req: {True} <-
+    +!wait_for_halt[perform];
+
++!wait_for_halt[perform]: {~B halt_observed, ~B tick, ~B geofence_violation} <-
+    waiting,
+    *tick,
+    +!wait_for_halt[perform];
+
++!wait_for_halt[perform]: {B halt_observed} <-
+    +safe_halt_active;
+
++!wait_for_halt[perform]: {~B halt_observed, B tick} <-
+    entry_stop,
+    +enforced_stop;
+
++move: {B safe_halt_active} <-
+    entry_stop,
+    -safe_halt_active,
+    +enforced_stop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
