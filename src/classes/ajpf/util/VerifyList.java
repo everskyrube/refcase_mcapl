@@ -179,38 +179,33 @@ public class VerifyList<K extends Comparable<? super K>> implements List<K> {
 	 * @return
 	 */
 	private K insert(K t) {
-
-		K toreturn = null;
+		//fatma - modifying to get remove addition of elements in loop
 		int index_to_add_at = -1;
-		K element_to_add = t;
-		boolean add_from_loop = false;
+		K element_to_return = null;
 		for (int i = 0; i < sortedlist.size(); i++) {
 			K t1 = sortedlist.get(i);
 			int comparison = t.compareTo(t1);
 			if (comparison < 0) {
-				add_from_loop = true;
 				index_to_add_at = i;
 				break;
-
+//				sortedlist.add(i, t);
+//				return null;
 			} else if (comparison == 0) {
-				add_from_loop = true;
 				index_to_add_at = i;
-				toreturn = t1;
+				element_to_return = t1;
 				break;
-
+//				sortedlist.add(i, t);
+//				return t1;
 			}
 		}
-
-		if(add_from_loop)
+		if(index_to_add_at!=-1)
 		{
-			sortedlist.add(index_to_add_at,element_to_add);
+			sortedlist.add(index_to_add_at,t);
 		}
-		else{
-			sortedlist.add(element_to_add);
+		else {
+			sortedlist.add(t);
 		}
-		
-
-		return toreturn;
+		return element_to_return;
 	}
 	
 	/*

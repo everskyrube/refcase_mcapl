@@ -27,11 +27,7 @@
 
 package ail.mas;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashSet;
+import java.util.*;
 
 import gov.nasa.jpf.annotation.FilterField;
 import ail.util.AILexception;
@@ -255,7 +251,7 @@ public class DefaultEnvironment implements AILEnv {
     	if (act.getFunctor().equals("append")) {
     		StringTerm x = (StringTerm) act.getTerm(0);
     		StringTerm y = (StringTerm) act.getTerm(1);
-    		String append = x.getString() + y.toString();
+    		String append = x.getString() + y.getString();
     		VarTerm result = (VarTerm) act.getTerm(2);
     		StringTermImpl z = new StringTermImpl(append);
     		u.unifies(result, z);
@@ -394,36 +390,42 @@ public class DefaultEnvironment implements AILEnv {
      * @see ail.others.AILEnv#getPercepts(java.lang.String)
      */
     public Set<Predicate> getPercepts(String agName, boolean update) {
-		synchronized (percepts) {
-			// check whether this agent needs to access the perception lists
-			// or whether it is uptodate
-			// System.err.println("HERE");
-			if (uptodateAgs.contains(agName)) {
-				return null;
-			}
-
-			// add agName to the set of uptodate agents
-			// only happens if its the agent checking - not the property automata
-			if (update) {
-				// System.out.println(uptodateAgs)
-				uptodateAgs.add(agName);
-			}
-
-			Set<Predicate> agl = agPercepts.get(agName);
-			Set<Predicate> p = new HashSet<Predicate>();
-
-			if (!percepts.isEmpty()) { // has global perception?
-				for (Predicate per : percepts) {
-					p.add((Predicate) per.clone());
-				}
-			}
-
-			if (agl != null) { // add agent personal perception
-				p.addAll(agl);
-			}
-			return p;
+		// check whether this agent needs to access the perception lists
+    	// or whether it is uptodate
+    	// System.err.println("HERE");
+    	if (uptodateAgs.contains(agName)) {
+    		return null;
 		}
-	}
+
+    	// add agName to the set of uptodate agents
+    	// only happens if its the agent checking - not the property automata
+    	if (update) {
+    		// System.out.println(uptodateAgs)
+    		uptodateAgs.add(agName);
+    	}
+
+    	Set<Predicate> agl = agPercepts.get(agName);
+    	Set<Predicate> p = new HashSet<Predicate>();
+		boolean succeeded = false;
+
+		while (!succeeded) {
+			try {
+				if (!percepts.isEmpty()) { // has global perception?
+					for (Predicate per : percepts) {
+						p.add((Predicate) per.clone());
+					}
+				}
+				succeeded = true;
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+    	if (agl != null) { // add agent personal perception
+    		p.addAll(agl);
+    	}
+     	return p;
+     }
 
 
     /*
@@ -483,7 +485,15 @@ public class DefaultEnvironment implements AILEnv {
      */
   	public void addPercept(Predicate per) {
   		if (per != null) {
-  			if (! percepts.contains(per)) {
+			  Iterator<Predicate> it = percepts.iterator();
+			  boolean b = false;
+			  while (it.hasNext()) {
+				  if (it.next().equals(per)) {
+					  b = true;
+					  break;
+				  }
+			  }
+  			if (! b) {
   				percepts.add(per);
   				uptodateAgs.clear();
   			}
@@ -509,7 +519,17 @@ public class DefaultEnvironment implements AILEnv {
   	public boolean removePercept(Predicate per) {
   		if (per != null) {
   			uptodateAgs.clear();
-  			boolean b =  percepts.remove(per);
+  			/* boolean b =  percepts.remove(per); */
+			boolean b = false;
+
+			VerifySet<Predicate> list = new VerifySet<Predicate>();
+			for (Predicate pred : percepts) {
+				if (! pred.equals(per)) {
+					list.add(pred);
+					b = true;
+				}
+			}
+            percepts = list;
   			notifyListeners();
   			return b;
   		}
