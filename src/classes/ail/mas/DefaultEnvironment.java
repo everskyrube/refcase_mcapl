@@ -27,7 +27,11 @@
 
 package ail.mas;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.Map;
+import java.util.HashSet;
 
 import gov.nasa.jpf.annotation.FilterField;
 import ail.util.AILexception;
@@ -406,20 +410,12 @@ public class DefaultEnvironment implements AILEnv {
 
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
-		boolean succeeded = false;
 
-		while (!succeeded) {
-			try {
-				if (!percepts.isEmpty()) { // has global perception?
-					for (Predicate per : percepts) {
-						p.add((Predicate) per.clone());
-					}
-				}
-				succeeded = true;
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-		}
+    	if (! percepts.isEmpty()) { // has global perception?
+    		for (Predicate per: percepts) {
+    			p.add((Predicate) per.clone());
+    		}
+    	}
 
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);
@@ -485,15 +481,7 @@ public class DefaultEnvironment implements AILEnv {
      */
   	public void addPercept(Predicate per) {
   		if (per != null) {
-			  Iterator<Predicate> it = percepts.iterator();
-			  boolean b = false;
-			  while (it.hasNext()) {
-				  if (it.next().equals(per)) {
-					  b = true;
-					  break;
-				  }
-			  }
-  			if (! b) {
+  			if (! percepts.contains(per)) {
   				percepts.add(per);
   				uptodateAgs.clear();
   			}
@@ -519,17 +507,7 @@ public class DefaultEnvironment implements AILEnv {
   	public boolean removePercept(Predicate per) {
   		if (per != null) {
   			uptodateAgs.clear();
-  			/* boolean b =  percepts.remove(per); */
-			boolean b = false;
-
-			VerifySet<Predicate> list = new VerifySet<Predicate>();
-			for (Predicate pred : percepts) {
-				if (! pred.equals(per)) {
-					list.add(pred);
-					b = true;
-				}
-			}
-            percepts = list;
+  			boolean b =  percepts.remove(per);
   			notifyListeners();
   			return b;
   		}
