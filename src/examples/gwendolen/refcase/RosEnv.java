@@ -97,13 +97,13 @@ public class RosEnv extends DefaultEnvironment {
 		if (stopped && !lastStoppedState){
 			removePercept(new Literal("move"));
 			addPercept(new Literal("halt_observed"));
-			System.out.println("Percept generated: Robot Stopped");
+			// System.out.println("Percept generated: Robot Stopped");
 		}
 
 		if (!stopped && lastStoppedState){
 			removePercept(new Literal("halt_observed"));
 			addPercept(new Literal("move"));
-			System.out.println("Percept generated: move");
+			// System.out.println("Percept generated: move");
 		}
 
 		lastStoppedState = stopped;
