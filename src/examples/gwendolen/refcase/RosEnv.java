@@ -1,5 +1,4 @@
 package gwendolen.refcase;
-
 import ail.mas.DefaultEnvironment;
 import ail.syntax.*;
 import com.fasterxml.jackson.databind.JsonNode;

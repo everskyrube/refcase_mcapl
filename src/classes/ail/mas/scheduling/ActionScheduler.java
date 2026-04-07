@@ -26,6 +26,8 @@ package ail.mas.scheduling;
 
 import java.util.TreeMap;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import ajpf.util.VerifyList;
 import ajpf.PerceptListener;
@@ -47,10 +49,10 @@ import ajpf.util.AJPFLogger;
  */
 public class ActionScheduler implements MCAPLScheduler, PerceptListener { 
 	private TreeMap<String, MCAPLJobber> agnames = new TreeMap<String, MCAPLJobber>();
-	/* We use VerifyLists to reduce the state space during verification */
-	private VerifyList<String> activeAgents = new VerifyList<String>();
-	private VerifyList<String> inactiveAgents = new VerifyList<String>();
-	private VerifyList<String> donotSchedule = new VerifyList<String>();
+	/* Thread-safe lists for concurrent agent scheduling */
+	private List<String> activeAgents = new CopyOnWriteArrayList<String>();
+	private List<String> inactiveAgents = new CopyOnWriteArrayList<String>();
+	private List<String> donotSchedule = new CopyOnWriteArrayList<String>();
 	
 	private String logname = "ail.mas.ActionScheduler";
 	
@@ -66,13 +68,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	public List<MCAPLJobber> getAvailableJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 		if (somethinghaschanged) {
-			// Got a Concurrent Modification Error here in the Sticky Wheel example.
-			try {
-				for (String s: activeAgents) {
-					ags.add(agnames.get(s));
-				}
-			} catch (Exception e) {
-				AJPFLogger.warning(logname, e.getMessage());
+			// CopyOnWriteArrayList is thread-safe, no concurrent modification issues
+			for (String s: activeAgents) {
+				ags.add(agnames.get(s));
 			}
 		}
 		somethinghaschanged = false;
@@ -84,11 +82,8 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#getActiveJobberNames()
 	 */
 	public List<String> getActiveJobberNames() {
-		List<String> ags = new VerifyList<String>();
-		for (int i = 0; i < activeAgents.size(); i++) {
-			ags.add(activeAgents.get(i));
-		}
-		return ags;
+		// CopyOnWriteArrayList is thread-safe: return a simple ArrayList copy
+		return new ArrayList<String>(activeAgents);
 	}
 
 	
@@ -100,7 +95,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 		if (activeAgents.contains(agName)) {
 			activeAgents.remove(agName);
 			if (!inactiveAgents.contains(agName)) {
-				inactiveAgents.put(agName);
+				inactiveAgents.add(agName);
 			}
 		}
 		somethinghaschanged = true;
@@ -112,7 +107,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public void isActive(String a) {
 		if (!activeAgents.contains(a) && !donotSchedule.contains(a)) {
-			activeAgents.put(a);
+			activeAgents.add(a);
 		}
 		somethinghaschanged = true;
 	}
@@ -125,7 +120,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 		// System.err.println("Adding jobber " + a.getName());
 		agnames.put(a.getName(), a);
 		if (!donotSchedule.contains(a.getName())) {
-			activeAgents.put(a.getName());
+			activeAgents.add(a.getName());
 		}
 	}
 
@@ -167,8 +162,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	@Override
 	public List<MCAPLJobber> getActiveJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
-		for (int i = 0; i < activeAgents.size(); i++) {
-			ags.add(agnames.get(activeAgents.get(i)));
+		// CopyOnWriteArrayList is thread-safe for safe iteration
+		for (String agName : activeAgents) {
+			ags.add(agnames.get(agName));
 		}
 		return ags;
 	}
@@ -178,11 +174,13 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#doNotSchedule(java.lang.String)
 	 */
 	public void doNotSchedule(String a) {
-		donotSchedule.add(a);
-		if (activeAgents.contains(a)) {
-			activeAgents.remove(a);
+		if (!donotSchedule.contains(a)) {
+			donotSchedule.add(a);
+			if (activeAgents.contains(a)) {
+				activeAgents.remove(a);
+			}
+			somethinghaschanged = true;
 		}
-		somethinghaschanged = true;
 	}
 
 	/*

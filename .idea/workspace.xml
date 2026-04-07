@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12a91029-5b04-4528-95c0-1e2c1d68c29f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/junit3419880604816858428.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/junitvmwatcher1967830326367021118.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/3rdparty/antlr-4.7-complete.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/examples/gwendolen/refcase/RosEnv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/gwendolen/refcase/RosEnv.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/classes/ail/mas/DefaultEnvironmentRefCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/ail/mas/DefaultEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/ail/mas/DefaultEnvironment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +18,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/examples/gwendolen/refcase/RosEnv.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/classes/ail/mas/DefaultEnvironment.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/classes/ail/mas/DefaultEnvironmentwRandomness.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/examples/gwendolen/refcase/RosEnv.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/examples/gwendolen/refcase/remote-inspection.gwen" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -39,7 +41,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/r06781db/code/refcase/refcase_mcapl",
+    "last_opened_file_path": "/home/r06781db/code/refcase/refcase_mcapl/src/classes/ail/mas",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -48,9 +50,15 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/classes/ail/mas" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

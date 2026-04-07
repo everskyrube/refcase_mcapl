@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import gov.nasa.jpf.annotation.FilterField;
 import ail.util.AILexception;
@@ -72,7 +73,7 @@ public class DefaultEnvironment implements AILEnv {
 	/**
 	 * List of things that all agents can perceive
 	 */
-	protected VerifySet<Predicate> percepts = new VerifySet<Predicate>();
+	protected List<Predicate> percepts = new CopyOnWriteArrayList<Predicate>();
 	/**
 	 * List of things only some agents can percieve indexed by agent.
 	 */
@@ -411,12 +412,12 @@ public class DefaultEnvironment implements AILEnv {
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
 
-    	if (! percepts.isEmpty()) { // has global perception?
+		if (! percepts.isEmpty()) { // has global perception?
     		for (Predicate per: percepts) {
     			p.add((Predicate) per.clone());
     		}
-    	}
-
+    	}		
+    	
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);
     	}
@@ -481,10 +482,10 @@ public class DefaultEnvironment implements AILEnv {
      */
   	public void addPercept(Predicate per) {
   		if (per != null) {
-  			if (! percepts.contains(per)) {
-  				percepts.add(per);
-  				uptodateAgs.clear();
-  			}
+			if (! percepts.contains(per)) {
+				percepts.add(per);
+				uptodateAgs.clear();
+			}
   		}
 		notifyListeners();
 	}
@@ -506,10 +507,10 @@ public class DefaultEnvironment implements AILEnv {
   	 */
   	public boolean removePercept(Predicate per) {
   		if (per != null) {
-  			uptodateAgs.clear();
-  			boolean b =  percepts.remove(per);
-  			notifyListeners();
-  			return b;
+			uptodateAgs.clear();
+			boolean b = percepts.remove(per);
+			notifyListeners();
+			return b;
   		}
   		return false;
 	}
@@ -669,10 +670,10 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	public String toString() {
 			StringBuilder s = new StringBuilder("General Percepts:");
-			for (Predicate l : percepts) {
-				s.append(l.toString()).append(", ");
-			}
-			percepts.toString();
+
+		for (Predicate l : percepts) {
+			s.append(l.toString()).append(", ");
+		}
 
 			for (String sAg : agPercepts.keySet()) {
 				s.append("\n").append(sAg).append(":");
