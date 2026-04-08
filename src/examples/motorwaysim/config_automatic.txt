@@ -1,3 +1,0 @@
-num_cars = 2
-random_cars = 50
-car1.control = simulator

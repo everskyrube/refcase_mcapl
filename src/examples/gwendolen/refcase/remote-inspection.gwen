@@ -7,6 +7,7 @@ GWENDOLEN
 :Initial Goals:
 
 :Plans:
+
 +geofence_violation: {True} <-
     +.lock,
     entry_stop,
@@ -14,6 +15,7 @@ GWENDOLEN
     -.lock;
 
 +safe_halt_req: {True} <-
+    publish_wait_for_halt,
     +!wait_for_halt[perform];
 
 +!wait_for_halt[perform]: {~B halt_observed, ~B tick, ~B geofence_violation} <-
@@ -22,7 +24,8 @@ GWENDOLEN
     +!wait_for_halt[perform];
 
 +!wait_for_halt[perform]: {B halt_observed} <-
-    +safe_halt_active;
+    +safe_halt_active,
+    publish_safe_halt_active;
 
 +!wait_for_halt[perform]: {~B halt_observed, B tick} <-
     entry_stop,
@@ -30,8 +33,11 @@ GWENDOLEN
 
 +move: {B safe_halt_active} <-
     entry_stop,
+    publish_move_percept,
     -safe_halt_active,
     +enforced_stop;
+
+
 
 
 
