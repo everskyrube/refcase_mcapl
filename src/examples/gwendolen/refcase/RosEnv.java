@@ -42,7 +42,11 @@ public class RosEnv extends DefaultEnvironment {
 	
 	private static final String SCAN_TOPIC = "/scan";
 	private static final String SCAN_TYPE = "sensor_msgs/LaserScan";
-	private static final double SAFE_DISTANCE_THRESHOLD = 0.45;
+	private static final double SAFE_DISTANCE_THRESHOLD = 0.20;
+	
+	// AgileX Scout Mini physical dimensions (in meters)
+	private static final double ROBOT_LENGTH = 0.612;  // Length (front to back)
+	private static final double ROBOT_WIDTH = 0.580;   // Width (left to right)
 
 	private static final String HALT_TOPIC = "/safehalt_request";
 	private static final String HALT_TYPE = "std_msgs/Bool";
@@ -223,18 +227,25 @@ public class RosEnv extends DefaultEnvironment {
 
 
 	private void handleLaserScanData(JsonNode data) {
-		JsonNode ranges= data.get("msg").path("ranges");
+		JsonNode msgNode = data.get("msg");
+		if (msgNode == null) return;
+		
+		JsonNode ranges = msgNode.path("ranges");
+		double angleMin = msgNode.path("angle_min").asDouble(0.0);
+		double angleIncrement = msgNode.path("angle_increment").asDouble(0.0);
+		double rangeMin = msgNode.path("range_min").asDouble(0.0);
+		double rangeMax = msgNode.path("range_max").asDouble(0.0);
 
-		double minRange = extractMinRange(ranges);
+		double minTrueDist = calculateMinTrueDistance(ranges, angleMin, angleIncrement, rangeMin, rangeMax);
 
 		// Track minimum observed distance for metrics
-		if (minRange < minDistanceObserved) {
-			minDistanceObserved = minRange;
+		if (minTrueDist < minDistanceObserved) {
+			minDistanceObserved = minTrueDist;
 		}
 
-		//System.out.printf("LidarValue: %f%n", minRange);
+		//System.out.printf("Minimum True Distance: %f%n", minTrueDist);
 
-		if (minRange < SAFE_DISTANCE_THRESHOLD && !geofenceViolationActive) {
+		if (minTrueDist < SAFE_DISTANCE_THRESHOLD && !geofenceViolationActive) {
 
 			// Update metrics
 			geofenceViolationOccurred = true;
@@ -254,7 +265,7 @@ public class RosEnv extends DefaultEnvironment {
 			geofenceViolationActive = true;
 			System.out.println("Percept generated and published: geofence_violation");
 
-		} else if (minRange >= SAFE_DISTANCE_THRESHOLD && geofenceViolationActive) {
+		} else if (minTrueDist >= SAFE_DISTANCE_THRESHOLD && geofenceViolationActive) {
 			// Distance back to normal, reset
 			removePercept(new Literal("geofence_violation"));
 			geofenceViolationActive = false;
@@ -262,18 +273,53 @@ public class RosEnv extends DefaultEnvironment {
 		}
 	}
 
-	private double extractMinRange(JsonNode ranges) {
-		double minValue = Double.MAX_VALUE;
+	private double calculateMinTrueDistance(JsonNode ranges, double angleMin, double angleIncrement, 
+										   double rangeMin, double rangeMax) {
+		double minTrueDist = Double.MAX_VALUE;
 
-		for (JsonNode valueNode : ranges){
-			if (valueNode.isNumber()){
-				double value = valueNode.asDouble();
-				if (value < minValue){
-					minValue = value;
+		int i = 0;
+		for (JsonNode valueNode : ranges) {
+			if (valueNode.isNumber()) {
+				double r = valueNode.asDouble();
+
+				// Check if the reading is valid based on sensor limits
+				if (rangeMin < r && r < rangeMax && !Double.isInfinite(r)) {
+
+					// 1. Calculate the specific angle (theta) of this ray
+					double theta = angleMin + (i * angleIncrement);
+
+					// 2. Prevent division by zero for rays exactly at 0, 90, 180, 270 degrees
+					double cosTheta = Math.cos(theta);
+					double sinTheta = Math.sin(theta);
+					
+					if (Math.abs(cosTheta) < 1e-6) {
+						cosTheta = 1e-6;
+					}
+					if (Math.abs(sinTheta) < 1e-6) {
+						sinTheta = 1e-6;
+					}
+
+					// 3. Calculate the distance from the LiDAR to the robot's edge at this angle
+					double rOffset = Math.min(Math.abs((ROBOT_LENGTH / 2.0) / cosTheta), 
+									 Math.abs((ROBOT_WIDTH / 2.0) / sinTheta));
+
+					// 4. Subtract the offset to get the distance from the bumper
+					double trueDist = r - rOffset;
+
+					// 5. Track the absolute closest point
+					if (trueDist < minTrueDist) {
+						minTrueDist = trueDist;
+					}
 				}
 			}
+			i++;
 		}
-		return minValue;
+
+		// Floor the distance at 0.0 in case an object penetrates the mathematical footprint
+		if (minTrueDist == Double.MAX_VALUE) {
+			return Double.MAX_VALUE;
+		}
+		return Math.max(0.0, minTrueDist);
 	}
 
 
